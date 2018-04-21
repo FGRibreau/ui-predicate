@@ -1,0 +1,15 @@
+{
+  "source": {
+    "include": ["src", "package.json", "../../README.md"]
+  },
+  "opts": {
+    "template": "node_modules/hotdoc/template",
+    "destination": "../../docs/api",
+    "recurse": true
+  },
+  "hotdoc": {
+    "github": "https://github.com/ui-predicate/immutadot",
+    "home": "ui-predicate",
+    "customOverrides": "../../docs/hotdoc-overrides.scss"
+  }
+}
