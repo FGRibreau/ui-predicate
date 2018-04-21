@@ -1,0 +1,23 @@
+{
+  "name": "ui-predicate-hyperHTML",
+  "version": "0.0.2",
+  "description": "Finally a predicate UI component for the Web, for VueJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build:dev": "parcel watch src/core.js",
+    "build": "parcel src/core.js",
+    "docs": "jsdoc -c ../../jsdoc.json",
+    "docs:private": "jsdoc -c ../../jsdoc.json -p"
+  },
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^22.4.2",
+    "jsdoc": "^3.5.5",
+    "parcel-bundler": "^1.7.0"
+  },
+  "dependencies": {
+    "ui-predicate-core": "^1.0.0"
+  }
+}

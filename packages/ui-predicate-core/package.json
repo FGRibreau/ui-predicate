@@ -1,0 +1,26 @@
+{
+  "name": "ui-predicate-core",
+  "version": "0.0.2",
+  "description": "Finally a predicate UI component for the Web",
+  "main": "./src/core.js",
+  "scripts": {
+    "test": "jest",
+    "build:dev": "parcel watch src/core.js",
+    "build": "parcel build -t browser --detailed-report src/core.js",
+    "docs": "jsdoc -c ../../jsdoc.json",
+    "docs:private": "jsdoc -c ../../jsdoc.json -p"
+  },
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-stage-3": "^6.24.1",
+    "jest": "^22.4.2",
+    "jsdoc": "^3.5.5",
+    "parcel-bundler": "^1.7.0"
+  },
+  "dependencies": {
+    "error-ex": "^1.3.1",
+    "option": "^0.2.4",
+    "ramda": "^0.25.0"
+  }
+}
