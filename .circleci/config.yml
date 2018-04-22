@@ -1,12 +1,10 @@
 version: 2
 
-
 workflows:
   version: 2
   validate:
     jobs:
       - test
-
 
 jobs:
   test:
