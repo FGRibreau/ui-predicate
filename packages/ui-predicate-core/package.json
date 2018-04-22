@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Finally a predicate UI component for the Web",
   "main": "src/index.js",
   "scripts": {
@@ -12,9 +12,10 @@
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"
   },
-  "files": ["dist"],
-  "author":
-    "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "files": [
+    "dist"
+  ],
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
     "jest": "^22.4.3",

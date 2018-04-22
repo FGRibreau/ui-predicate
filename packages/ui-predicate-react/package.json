@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Finally a predicate UI component for the Web, for React",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,7 @@
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"
   },
-  "author":
-    "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
     "jest": "^22.4.2",
@@ -20,6 +19,6 @@
     "parcel-bundler": "^1.7.0"
   },
   "dependencies": {
-    "ui-predicate-core": "0.0.2"
+    "ui-predicate-core": "^0.0.3"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-vue",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Finally a predicate UI component for the Web, for VueJS",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,7 @@
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"
   },
-  "author":
-    "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
     "@vue/component-compiler-utils": "^1.0.0",
@@ -30,7 +29,7 @@
     "vue-template-compiler": "^2.5.16"
   },
   "dependencies": {
-    "ui-predicate-core": "0.0.2",
+    "ui-predicate-core": "^0.0.3",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0"
   }
