@@ -1,29 +1,18 @@
 version: 2
 
-jobs:
-
-  test:
-    docker:
-      - image: circleci/node:9
-    steps:
-      - checkout
-      - restore_cache:
-          key: node_modules-{{ checksum "package-lock.json" }}
-      - run: npm install
-      - save_cache:
-          key: node_modules-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-      - run: npm run test:coverage
 
 workflows:
   version: 2
   validate:
     jobs:
-      - lockfile
-      - lint:
-          requires:
-            - lockfile
-      - test:
-          requires:
-            - lockfile
+      - test
+
+
+jobs:
+  test:
+    docker:
+      - image: circleci/node:9
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test:coverage
