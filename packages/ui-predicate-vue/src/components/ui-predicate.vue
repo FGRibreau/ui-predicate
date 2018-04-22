@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="ui-predicate main">
-      <ui-predicate-compound v-bind:compound="root" v-bind:level="0"></ui-predicate-compound>
+      <ui-predicate-compound v-bind:compound="root"></ui-predicate-compound>
     </div>
   </div>
 </template>

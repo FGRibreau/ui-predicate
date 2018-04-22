@@ -1,8 +1,7 @@
 <template>
   <div class="ui-predicate ui-predicate-options">
-    {{ isInAddCompoundMode }}
-      <button type="button" name="button" v-on:click="remove(predicate)">-</button>
-      <button type="button" name="button" v-on:click="add(predicate)">{{ isInAddCompoundMode ? '…' : '+'  }}</button>
+    <button type="button" name="button" v-on:click="remove(predicate)">-</button>
+    <button type="button" name="button" v-on:click="add(predicate)">{{ isInAddCompoundMode ? '…' : '+'  }}</button>
   </div>
 </template>
 

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
-
+    <h1>Simple ui-predicate usage</h1>
     <ui-predicate v-bind:columns="columns"></ui-predicate>
   </div>
 </template>
