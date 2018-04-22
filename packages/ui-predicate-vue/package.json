@@ -4,9 +4,12 @@
   "description": "Finally a predicate UI component for the Web, for VueJS",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
     "build:examples": " parcel build examples/simple.html",
     "build:examples:watch": " parcel examples/simple.html",
+    "test": "jest",
+    "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
+    "test:watch": "jest  --coverage --watch",
+    "test:coverage": "true",
     "lint": "eslint --fix examples src",
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"

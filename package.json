@@ -6,6 +6,8 @@
     "postinstall": "lerna bootstrap",
     "test": "lerna run --stream test",
     "lint": "lerna run --stream lint",
+    "test:coverage":
+      "lerna run --stream test:coverage && codecov --disable=gcov",
     "publish:canary": "lerna publish --conventional-commits -c",
     "publish": "lerna publish --conventional-commits",
     "docs": "lerna run --stream docs",
@@ -15,6 +17,7 @@
     "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
+    "codecov": "^3.0.0",
     "hotdoc": "^0.7.2",
     "jsdoc": "^3.5.5",
     "lerna": "^2.10.2",

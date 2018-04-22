@@ -1,12 +1,13 @@
 {
   "name": "ui-predicate-react",
   "version": "0.0.2",
-  "description": "Finally a predicate UI component for the Web, for VueJS",
+  "description": "Finally a predicate UI component for the Web, for React",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build:dev": "parcel watch src/core.js",
     "build": "parcel src/core.js",
+    "test:coverage": "true",
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"
   },

@@ -1,11 +1,12 @@
 {
   "name": "ui-predicate-angular",
   "version": "0.0.2",
-  "description": "Finally a predicate UI component for the Web, for VueJS",
+  "description": "Finally a predicate UI component for the Web for Angular",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "true",
     "build:dev": "parcel watch src/core.js",
+    "test:coverage": "true",
     "build": "parcel src/core.js",
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"

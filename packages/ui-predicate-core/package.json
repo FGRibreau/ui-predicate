@@ -4,9 +4,10 @@
   "description": "Finally a predicate UI component for the Web",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
     "test:watch": "jest  --coverage --watch",
+    "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
     "lint": "eslint src",
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"
