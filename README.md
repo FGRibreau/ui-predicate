@@ -2,7 +2,7 @@
 
 [![Codecov branch](https://img.shields.io/codecov/c/github/fgribreau/ui-predicate/master.svg)](https://codecov.io/gh/fgribreau/ui-predicate) [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://fgribreau.github.io/ui-predicate/api/) [![CircleCI branch](https://img.shields.io/circleci/project/github/FGRibreau/ui-predicate/master.svg)](https://circleci.com/gh/FGRibreau/ui-predicate)
 
-Finally a f*ck*n Predicates UI component for the Web.
+Finally a f\*ck\*n Predicates UI component for the Web.
 
 # Packages
 
@@ -21,7 +21,7 @@ Packages | description | badges
 - [ ] build size: treeshaking support
 - [ ]
 
-## Notes
+## The story
 
 UI-Predicate is the result of years of implementation from scratch of the same UI component, again and again and again.
 
