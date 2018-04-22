@@ -19,7 +19,9 @@ Packages | description | badges
 
 - [ ] quality: eslint support
 - [ ] build size: treeshaking support
-- [ ]
+- [ ] ui-predicate-react
+- [ ] ui-predicate-angular
+- [ ] ui-predicate-hyperHTML
 
 ## The story
 
