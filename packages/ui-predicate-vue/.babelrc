@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "stage-3",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["> 2%", "ie 11", "safari >= 9"]
+        }
+      }
+    ]
+  ]
+}

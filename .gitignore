@@ -1,3 +1,5 @@
 .cache
 docs/api/ui-predicate-core
 old
+dist/
+coverage/

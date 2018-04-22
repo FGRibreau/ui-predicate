@@ -4,13 +4,15 @@
   "description": "Finally a predicate UI component for the Web, for VueJS",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build:examples": " parcel build examples/simple.html",
-    "lint": "eslint --fix examples/*",
+    "build:examples:watch": " parcel examples/simple.html",
+    "lint": "eslint --fix examples src",
     "docs": "jsdoc -c ../../jsdoc.json",
     "docs:private": "jsdoc -c ../../jsdoc.json -p"
   },
-  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "author":
+    "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
     "@vue/component-compiler-utils": "^1.0.0",
@@ -25,7 +27,7 @@
     "vue-template-compiler": "^2.5.16"
   },
   "dependencies": {
-    "ui-predicate-core": "^1.0.0",
+    "ui-predicate-core": "0.0.2",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0"
   }

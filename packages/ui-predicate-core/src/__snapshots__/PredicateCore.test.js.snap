@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`core.component constructor default state (without passed data) should have one predicate, selected automatically 1`] = `
+Object {
+  "$_type": "CompoundPredicate",
+  "logic": "and",
+  "predicates": Array [
+    Object {
+      "$_type": "ComparisonPredicate",
+      "arguments": Array [],
+      "operator": Object {
+        "$_type": "Operator",
+        "label": "Est",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "$_type": "Target",
+        "$type": Object {
+          "$_type": "Type",
+          "$operators": Array [
+            Object {
+              "$_type": "Operator",
+              "label": "Est",
+              "operator_id": "is",
+            },
+            Object {
+              "$_type": "Operator",
+              "label": "Contient",
+              "operator_id": "contains",
+            },
+          ],
+          "operator_ids": Array [
+            "is",
+            "contains",
+          ],
+          "type_id": "string",
+        },
+        "label": "Titre article",
+        "target_id": "article.title",
+        "type_id": "string",
+      },
+    },
+  ],
+}
+`;
+
+exports[`core.component ctrl.setPredicateTarget_id work if we set a predicate to an exist target_id 1`] = `
+Object {
+  "$_type": "ComparisonPredicate",
+  "arguments": Array [],
+  "operator": Object {
+    "$_type": "Operator",
+    "label": "<",
+    "operator_id": "isLowerThan",
+  },
+  "target": Object {
+    "$_type": "Target",
+    "$type": Object {
+      "$_type": "Type",
+      "$operators": Array [
+        Object {
+          "$_type": "Operator",
+          "label": "<",
+          "operator_id": "isLowerThan",
+        },
+        Object {
+          "$_type": "Operator",
+          "label": "=",
+          "operator_id": "isEqualTo",
+        },
+        Object {
+          "$_type": "Operator",
+          "label": ">",
+          "operator_id": "isHigherThan",
+        },
+      ],
+      "operator_ids": Array [
+        "isLowerThan",
+        "isEqualTo",
+        "isHigherThan",
+      ],
+      "type_id": "int",
+    },
+    "label": "Nombre de vidéo",
+    "target_id": "videoCount",
+    "type_id": "int",
+  },
+}
+`;

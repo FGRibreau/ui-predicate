@@ -5,6 +5,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test": "lerna run --stream test",
+    "lint": "lerna run --stream lint",
     "publish:canary": "lerna publish --conventional-commits -c",
     "publish": "lerna publish --conventional-commits",
     "docs": "lerna run --stream docs",
