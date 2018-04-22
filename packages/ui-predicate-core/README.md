@@ -81,9 +81,3 @@ If you are interested in contributing to ui-predicate, please read our [contribu
 ## License
 
 ui-predicate is [MIT licensed](https://github.com/fgribreau/ui-predicate/blob/master/LICENSE.md).
-
-## Notes
-
-UI-Predicate is the result of years of implementation from scratch of the same UI component, again and again and again.
-
-It started in 2011 for my first startup: Bringr. Then I had to reimplement if for [Redsmin](https://redsmin.com) alerting system part, then at [iAdvize](https://www.iadvize.com) and now at [Ouest-France](https://ouest-france.fr).

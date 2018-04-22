@@ -2,7 +2,7 @@
 
 [![Codecov branch](https://img.shields.io/codecov/c/github/fgribreau/ui-predicate/master.svg)](https://codecov.io/gh/fgribreau/ui-predicate) [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://fgribreau.github.io/ui-predicate/api/) [![CircleCI branch](https://img.shields.io/circleci/project/github/FGRibreau/ui-predicate/master.svg)](https://circleci.com/gh/FGRibreau/ui-predicate)
 
-Finally a predicate UI component for the Web.
+Finally a f*ck*n Predicates UI component for the Web.
 
 # Packages
 
@@ -20,3 +20,11 @@ Packages | description | badges
 - [ ] quality: eslint support
 - [ ] build size: treeshaking support
 - [ ]
+
+## Notes
+
+UI-Predicate is the result of years of implementation from scratch of the same UI component, again and again and again.
+
+It started in 2011, I had to build a filtering system for my first startup Bringr so our customers could build their own filters from our social media data stream, at that time the first version was in jQuery. Then I had to reimplement it in BackboneJS for [Redsmin](https://redsmin.com) for the alerting part, then at [iAdvize](https://www.iadvize.com) where I build the first version of their customer targeting engine and now at [Ouest-France](https://ouest-france.fr) a french newspaper where I want to give this awesome power to our internal users so they can build they own filter above our knowledge graph.
+
+Each time the front library was different, I think we should all build low-level, agnostic, libraries of our components and then build upon them adapters for major front library (e.g. React, Vue)... At least that's what I'm doing for ui-predicate 😋
