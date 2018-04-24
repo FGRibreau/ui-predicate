@@ -16,8 +16,9 @@ module.exports = ({ invariants }) => {
 
   // type Predicate = ComparisonPredicate | CompoundPredicate;
   function Predicate(type) {
-    invariants.PredicateTypeMustBeValid(type.name, Predicate.Types);
-    return $_type(type.name);
+    return invariants
+      .PredicateTypeMustBeValid(type.name, Predicate.Types)
+      .then(() => $_type(type.name));
   }
 
   Predicate.Types = {
@@ -30,31 +31,39 @@ module.exports = ({ invariants }) => {
    * @param       {Target} target   [description]
    * @param       {Operator} operator [description]
    * @param       {Object[]} args [description]
+   * @return {Promise[ComparisonPredicate]} yield a ComparisonPredicate or a rejected promise
    * @memberof dataclasses
    */
   function ComparisonPredicate(target, operator, args) {
-    return merge(Predicate(ComparisonPredicate), {
-      target: target,
-      operator: operator,
-      arguments: args,
-    });
+    return Predicate(ComparisonPredicate).then(predicate =>
+      merge(predicate, {
+        target: target,
+        operator: operator,
+        arguments: args,
+      })
+    );
   }
 
   /**
    * A specialized predicate that evaluates logical combinations of other predicates.
    * @param       {LogicalType} logic The predicate logic
    * @param       {Array<Predicate>} predicates predicates
+   * @return {Promise[CompoundPredicate]} yield a CompoundPredicate or a CompoundPredicateMustHaveAtLeastOneSubPredicate rejected promise
    * @memberof dataclasses
    */
   function CompoundPredicate(logic, predicates) {
-    invariants.CompoundPredicateMustHaveAtLeastOneSubPredicate(
-      predicates,
-      CompoundPredicate
-    );
-    return merge(Predicate(CompoundPredicate), {
-      logic: logic,
-      predicates: predicates,
-    });
+    return invariants
+      .CompoundPredicateMustHaveAtLeastOneSubPredicate(
+        predicates,
+        CompoundPredicate
+      )
+      .then(() => Predicate(CompoundPredicate))
+      .then(predicate =>
+        merge(predicate, {
+          logic: logic,
+          predicates: predicates,
+        })
+      );
   }
 
   ComparisonPredicate.is = el =>

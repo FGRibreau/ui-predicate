@@ -70,12 +70,16 @@ module.exports = function({ dataclasses, invariants }) {
   });
 
   const _set$typeToTarget = curry((columns, target) => {
-    const type = _getTypeById(columns.types, target.type_id);
-    invariants.TargetMustReferToADefinedType(type, target);
-    target.$type = type.value();
-    return target;
+    const typeOption = _getTypeById(columns.types, target.type_id);
+    return invariants
+      .TargetMustReferToADefinedType(typeOption, target)
+      .then(type => {
+        target.$type = type;
+        return target;
+      });
   });
 
+  // columns => Promise[columns]
   const initializeColumns = columns => {
     // at first I used lenses, but the code was way harder to read so it's better that way :)
 
@@ -88,182 +92,233 @@ module.exports = function({ dataclasses, invariants }) {
 
     // wrap targets and set `$type` attribut on each target
     const wrapTarget = pipe(dataclasses.Target, _set$typeToTarget(columns));
-    columns.targets = map(wrapTarget, columns.targets);
-
-    return columns;
+    return Promise.all(map(wrapTarget, columns.targets)).then(targets => {
+      columns.targets = targets;
+      return columns;
+    });
   };
 
+  /**
+   * Create a new PrediateCore
+   * @param       {[type]} data    [description]
+   * @param       {[type]} columns [description]
+   * @param       {[type]} options [description]
+   * @return {Promise[PredicateCoreAPI]}
+   */
   function PredicateCore({ data, columns, options } = {}) {
-    let _root;
+    return initializeColumns(columns || PredicateCore.defaults.columns).then(
+      _columns => {
+        let _root;
+        const _options = merge(PredicateCore.defaults.options, options);
 
-    const _columns = initializeColumns(
-      columns || PredicateCore.defaults.columns
-    );
+        /**
+         * Set PredicateCore data
+         * @param {CompoundPredicate} root CompoundPredicate
+         * @return {Promise} resolved promise yield nothing, rejected promise yield RootPredicateMustBeACompoundPredicate error
+         * @since 1.0.0
+         */
+        function setData(root) {
+          return invariants
+            .RootPredicateMustBeACompoundPredicate(root)
+            .then(() => {
+              _root = root;
+            });
+        }
 
-    const _options = merge(PredicateCore.defaults.options, options);
+        /**
+         * Add a ComparisonPredicate or CompoundPredicate
+         * @param  {Object} options (http://jsonpatch.com/)
+         * @param  {Predicate} options.type what type of Predicate to add
+         * @param  {string} options.how should we insert it before, after or instead of? (currently only after is supported)
+         * @param  {Object} options.where current element
+         * @return {Promise[Predicate]} inserted predicate
+         * @since 1.0.0
+         */
+        function add({ where, how = 'after', type }) {
+          // currently only after is supported
+          return (
+            Promise.resolve()
+              .then(() => invariants.AddOnlySupportsAfter(how))
+              .then(() =>
+                invariants.PredicateTypeMustBeValid(type, Predicate.Types)
+              )
+              // generate the Predicates
+              .then(() => _options[`getDefault${type}`](_columns, _options))
+              // then add it
+              .then(predicate => {
+                if (ComparisonPredicate.is(where)) {
+                  // first find predicates array that contains the element
+                  const path = _find(where);
+                  // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
+                  const [compoundpredicate, [_, index]] = takeLast(2, path);
+                  compoundpredicate.predicates = insert(
+                    index + 1,
+                    predicate,
+                    compoundpredicate.predicates
+                  );
+                  return predicate;
+                }
 
-    /**
-     * Set PredicateCore data
-     *
-     * @since 1.0.0
-     */
-    function setData(data) {
-      invariants.RootPredicateMustBeACompoundPredicate(data);
-      _root = data;
-    }
+                if (CompoundPredicate.is(where)) {
+                  // we want to add a CompoundPredicate after a compound predicate
+                  // so we need to add it as its first .predicates entry
+                  where.predicates.unshift(predicate);
+                  return predicate;
+                }
 
-    /**
-     * Add a ComparisonPredicate or CompoundPredicate
-     * @param  {Object} options (http://jsonpatch.com/)
-     * @param  {Predicate} options.type what type of Predicate to add
-     * @param  {string} options.how should we insert it before, after or instead of? (currently only after is supported)
-     * @param  {Object} options.where current element
-     * @return {Predicate} inserted predicate
-     * @todo yield an Either instead of throwing errors
-     * @since 1.0.0
-     */
-    function add({ where, how = 'after', type }) {
-      // currently only after is supported
-      invariants.AddOnlySupportsAfter(how);
-      invariants.PredicateTypeMustBeValid(type, Predicate.Types);
+                return Promise.reject(
+                  Error(
+                    `Can't add after something else than a CompoundPredicate or a ComparisonPredicate, got: ${JSON.stringify(
+                      where
+                    )}`
+                  )
+                );
+              })
+          );
+        }
 
-      // generate the Predicates
-      const predicate = _options[`getDefault${type}`](_columns, _options);
 
-      // easiest scenario
-      if (ComparisonPredicate.is(where)) {
-        // first find predicates array that contains the element
-        const path = _find(where);
-        // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
-        const [compoundpredicate, [_, index]] = takeLast(2, path);
-        compoundpredicate.predicates = insert(
-          index + 1,
-          predicate,
-          compoundpredicate.predicates
+        /**
+         * Change a predicate's target
+         * @param {ComparisonPredicate} predicate
+         * @param {string} newTarget_id        [description]
+         * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @since 1.0.0
+         */
+        function setPredicateTarget_id(predicate, newTarget_id) {
+          return Promise.resolve()
+            .then(() =>
+              invariants.PredicateMustBeAComparisonPredicate(predicate)
+            )
+            .then(() => {
+              // first change the target
+              return _getTargetById(_columns.targets, newTarget_id);
+            })
+            .then(targetOption =>
+              invariants.Target_idMustReferToADefinedTarget(targetOption)
+            )
+            .then(targetOption => {
+              predicate.target = targetOption.value(); // safe
+
+              // then change the operator to the first operator for this target
+              return setPredicateOperator_id(
+                predicate,
+                head(predicate.target.$type.$operators).operator_id
+              );
+            });
+        }
+
+        /**
+         * Change a predicate's operator
+         * @param {ComparisonPredicate} predicate
+         * @param {string} newTarget_id        [description]
+         * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @since 1.0.0
+         */
+        function setPredicateOperator_id(predicate, newOperator_id) {
+          return (
+            Promise.resolve()
+              // find operator
+              .then(() =>
+                option.fromNullable(
+                  predicate.target.$type.$operators.find(
+                    operator => operator.operator_id === newOperator_id
+                  )
+                )
+              )
+
+              .then(operatorOption =>
+                invariants.Operator_idMustReferToADefinedOperator(
+                  operatorOption
+                )
+              )
+              // change the operator
+              .then(operatorOption => {
+                predicate.operator = operatorOption.value(); // safe
+
+                // then reset arguments to array
+                predicate.arguments = [];
+              })
+          );
+        }
+
+        /**
+         * Compute the JSON pointer path the element
+         * @param  {Object} element (http://jsonpatch.com/)
+         * @return {?Array} null if not found
+         * @since 1.0.0
+         */
+        function _find(element) {
+          return _reduce(
+            _root,
+            (acc, predicate, parents) => {
+              return element === predicate ? parents : acc;
+            },
+            null
+          );
+        }
+
+        /**
+         * Walk through the predicates tree
+         * @param       {CompoundPredicate} compoundPredicate starter node
+         * @param       {function} f                 accumulation function
+         * @param       {T} acc               accumulator
+         * @param       {Array}  [parents=[]]      path to the node, array of parents
+         * @return      {T} yield the accumulator
+         */
+        function _reduce(compoundPredicate, f, acc, parents = []) {
+          acc = f(acc, compoundPredicate, parents);
+          return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
+            const _parents = parents.concat([
+              compoundPredicate,
+              [predicate, i],
+            ]);
+            return CompoundPredicate.is(predicate)
+              ? _reduce(predicate, f, _acc, _parents)
+              : f(_acc, predicate, _parents);
+          }, acc);
+        }
+
+        // get data for initialization
+        return (
+          (data
+            ? Promise.resolve(data)
+            : _options.getDefaultData(_columns, _options)
+          )
+            // setup PredicateCore data
+            .then(setData)
+            // yield public API
+            .then(() => ({
+              setData,
+              add,
+              remove,
+              setPredicateTarget_id,
+              setPredicateOperator_id,
+
+              /**
+               * Get root CompoundPredicate
+               * @return {CompoundPredicate}
+               */
+              get root() {
+                return _root;
+              },
+              toJSON() {
+                return _root;
+              },
+
+              // used for testing
+              get columns() {
+                return _columns;
+              },
+
+              // used for testing
+              get options() {
+                return _options;
+              },
+            }))
         );
-        return predicate;
-      } else if (CompoundPredicate.is(where)) {
-        // we want to add a CompoundPredicate after a compound predicate
-        // so we need to add it as its first .predicates entry
-        where.predicates.unshift(predicate);
-        return predicate;
       }
-
-      throw new Error(
-        `Can't add after something else than a CompoundPredicate or a ComparisonPredicate, got: ${JSON.stringify(
-          where
-        )}`
-      );
-    }
-
-    /**
-     * Change a predicate's target
-     * @param {ComparisonPredicate} predicate
-     * @param {string} newTarget_id        [description]
-     * @since 1.0.0
-     */
-    function setPredicateTarget_id(predicate, newTarget_id) {
-      invariants.PredicateMustBeAComparisonPredicate(predicate);
-
-      // first change the target
-      const targetOption = _getTargetById(_columns.targets, newTarget_id);
-      invariants.Target_idMustReferToADefinedTarget(targetOption);
-      predicate.target = targetOption.value();
-
-      // then change the operator to the first operator for this target
-      setPredicateOperator_id(
-        predicate,
-        head(predicate.target.$type.$operators).operator_id
-      );
-    }
-
-    /**
-     * Change a predicate's operator
-     * @param {ComparisonPredicate} predicate
-     * @param {string} newTarget_id        [description]
-     * @since 1.0.0
-     */
-    function setPredicateOperator_id(predicate, newOperator_id) {
-      // change the operator
-      const operatorOption = option.fromNullable(
-        predicate.target.$type.$operators.find(
-          operator => operator.operator_id === newOperator_id
-        )
-      );
-
-      invariants.Operator_idMustReferToADefinedOperator(operatorOption);
-
-      predicate.operator = operatorOption.value();
-
-      // then reset arguments to array
-      predicate.arguments = [];
-    }
-
-    /**
-     * Compute the JSON pointer path the element
-     * @param  {Object} element (http://jsonpatch.com/)
-     * @return {?Array} null if not found
-     * @since 1.0.0
-     */
-    function _find(element) {
-      return _reduce(
-        _root,
-        (acc, predicate, parents) => {
-          return element === predicate ? parents : acc;
-        },
-        null
-      );
-    }
-
-    /**
-     * Walk through the predicates tree
-     * @param       {CompoundPredicate} compoundPredicate starter node
-     * @param       {function} f                 accumulation function
-     * @param       {T} acc               accumulator
-     * @param       {Array}  [parents=[]]      path to the node, array of parents
-     * @return      {T} yield the accumulator
-     */
-    function _reduce(compoundPredicate, f, acc, parents = []) {
-      acc = f(acc, compoundPredicate, parents);
-      return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
-        const _parents = parents.concat([compoundPredicate, [predicate, i]]);
-        return CompoundPredicate.is(predicate)
-          ? _reduce(predicate, f, _acc, _parents)
-          : f(_acc, predicate, _parents);
-      }, acc);
-    }
-
-    // setup PredicateCore
-    setData(data || _options.getDefaultData(_columns, _options));
-
-    // yield public API
-    return {
-      setData,
-      add,
-      setPredicateTarget_id,
-      setPredicateOperator_id,
-
-      /**
-       * Get root CompoundPredicate
-       * @return {CompoundPredicate}
-       */
-      get root() {
-        return _root;
-      },
-      toJSON() {
-        return _root;
-      },
-
-      // used for testing
-      get columns() {
-        return _columns;
-      },
-
-      // used for testing
-      get options() {
-        return _options;
-      },
-    };
+    );
   }
 
   PredicateCore.defaults = {
@@ -273,13 +328,17 @@ module.exports = function({ dataclasses, invariants }) {
        * @param  {Object} dataclasses every necessary data class
        * @param  {Object} columns every necessary data class
        * @param  {Object} options PredicateCore available options
-       * @return {CompoundPredicate}  root CompoundPredicate
+       * @return {Promise[CompoundPredicate]}  root CompoundPredicate
        * @since 1.0.0
        */
       getDefaultData(columns, options) {
-        return options.getDefaultCompoundPredicate(columns, options, [
-          options.getDefaultComparisonPredicate(columns, options),
-        ]);
+        return options
+          .getDefaultComparisonPredicate(columns, options)
+          .then(comparisonPredicate => {
+            return options.getDefaultCompoundPredicate(columns, options, [
+              comparisonPredicate,
+            ]);
+          });
       },
 
       /**
@@ -289,16 +348,16 @@ module.exports = function({ dataclasses, invariants }) {
        * @param  {Array} predicates
        * @param  {Object} columns specified columns
        * @param  {Object} options PredicateCore available options
-       * @return {CompoundPredicate} a CompoundPredicate
+       * @return {Promise[CompoundPredicate]} a CompoundPredicate
        * @since 1.0.0
        */
       getDefaultCompoundPredicate(columns, options, predicates) {
-        if (!Array.isArray(predicates) || predicates.length === 0) {
-          predicates = [
-            options.getDefaultComparisonPredicate(columns, options),
-          ];
-        }
-        return CompoundPredicate(LogicalType.and, predicates);
+        return (!Array.isArray(predicates) || predicates.length === 0
+          ? options
+              .getDefaultComparisonPredicate(columns, options)
+              .then(comparisonPredicate => [comparisonPredicate])
+          : Promise.resolve(predicates)
+        ).then(predicates => CompoundPredicate(LogicalType.and, predicates));
       },
 
       /**
@@ -307,7 +366,7 @@ module.exports = function({ dataclasses, invariants }) {
        * This function is called whenever a new ComparisonPredicate is added to the UIPredicate
        * @param  {Object} columns specified columns
        * @param  {Object} options PredicateCore available options
-       * @return {ComparisonPredicate} a Comparison
+       * @return {Promise[ComparisonPredicate]} a Comparison
        * @since 1.0.0
        */
       getDefaultComparisonPredicate(columns, options) {

@@ -16,264 +16,331 @@ const { prop } = require('ramda');
 
 describe('core.component', () => {
   describe('constructor', () => {
-    it('throws an error if data does not start with a ComparisonPredicate', () => {
-      expect(() => new PredicateCore({ data: [] })).toThrow();
+    it('rejects an error if data does not start with a ComparisonPredicate', () => {
+      expect.assertions(1);
+      return expect(PredicateCore({ data: [] })).rejects.toMatchSnapshot();
     });
 
     it('default state (without passed data) should have one predicate, selected automatically', () => {
-      const ctrl = new PredicateCore();
-      expect(ctrl.root.predicates[0].target.$type).toBeDefined();
-      expect(ctrl.root.predicates[0].target.$type.$operators).toBeDefined();
-      expect(ctrl.toJSON()).toMatchSnapshot();
+      expect.assertions(3);
+      return PredicateCore().then(ctrl => {
+        expect(ctrl.root.predicates[0].target.$type).toBeDefined();
+        expect(ctrl.root.predicates[0].target.$type.$operators).toBeDefined();
+        expect(ctrl.toJSON()).toMatchSnapshot();
+      });
     });
 
     it('check that every targets refer to a defined type', () => {
-      expect(
-        () =>
-          new PredicateCore({
-            columns: {
-              // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
-              operators: [],
-              types: [],
-              targets: [
-                {
-                  target_id: 'article.title',
-                  label: 'Titre article',
-                  type_id: 'string',
-                },
-              ],
-            },
-          })
-      ).toThrow(errors.TargetMustReferToADefinedType);
+      expect.assertions(1);
+      return expect(
+        PredicateCore({
+          columns: {
+            // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
+            operators: [],
+            types: [],
+            targets: [
+              {
+                target_id: 'article.title',
+                label: 'Titre article',
+                type_id: 'string',
+              },
+            ],
+          },
+        })
+      ).rejects.toMatchSnapshot();
     });
   });
 
   describe('ctrl.add', () => {
-    it('throws if Predicate type is invalid', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      expect(() =>
-        ctrl.add({
-          where: firstPredicate,
-          type: 'Blablabla',
-        })
-      ).toThrow(errors.InvalidPredicateType);
+    it('rejects if Predicate type is invalid', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl =>
+        expect(
+          ctrl.add({
+            where: ctrl.root.predicates[0],
+            type: 'blablabla',
+          })
+        ).rejects.toMatchSnapshot()
+      );
     });
 
-    it('throws if `how` is unsupported', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      expect(() =>
-        ctrl.add({
-          where: firstPredicate,
-          how: 'insteadof',
-          type: 'CompoundPredicate',
-        })
-      ).toThrow(errors.AddOnlySupportsAfter);
+    it('rejects if `how` is unsupported', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl =>
+        expect(
+          ctrl.add({
+            where: ctrl.root.predicates[0],
+            how: 'insteadof',
+            type: 'CompoundPredicate',
+          })
+        ).rejects.toMatchSnapshot()
+      );
     });
 
-    it('throws if where is unsupported', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      expect(() =>
-        ctrl.add({
-          where: {},
-          how: 'after',
-          type: 'CompoundPredicate',
-        })
-      ).toThrowErrorMatchingSnapshot();
+    it('rejects if where is unsupported', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl =>
+        expect(
+          ctrl.add({
+            where: {},
+            how: 'after',
+            type: 'CompoundPredicate',
+          })
+        ).rejects.toMatchSnapshot()
+      );
     });
 
     it('adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      ctrl.add({ where: firstPredicate, type: 'ComparisonPredicate' });
-      expect(ctrl.toJSON()).toMatchSnapshot();
+      expect.assertions(1);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              type: 'ComparisonPredicate',
+            })
+            .then(compoundPredicate => ctrl)
+        )
+        .then(ctrl => expect(ctrl.toJSON()).toMatchSnapshot());
     });
 
     it('adds a Predicate (a CompoundPredicate) after the first predicate to the root CompoundPredicate - without how parameter', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      ctrl.add({
-        where: firstPredicate,
-        type: 'CompoundPredicate',
-      });
-
-      expect(ctrl.root.predicates.length).toEqual(2);
-      expect(CompoundPredicate.is(ctrl.root.predicates[1])).toBe(true);
+      expect.assertions(3);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              type: 'CompoundPredicate',
+            })
+            .then(compoundPredicate => [ctrl, compoundPredicate])
+        )
+        .then(([ctrl, compoundPredicate]) => {
+          expect(ctrl.root.predicates.length).toEqual(2);
+          expect(CompoundPredicate.is(compoundPredicate)).toBe(true);
+          expect(CompoundPredicate.is(ctrl.root.predicates[1])).toBe(true);
+        });
     });
 
     it('adds a Predicate (a CompoundPredicate) after the first predicate of the root CompoundPredicate', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      const predicate = ctrl.add({
-        where: firstPredicate,
-        how: 'after',
-        type: 'CompoundPredicate',
-      });
-
-      expect(ctrl.root.predicates.length).toEqual(2);
-      expect(CompoundPredicate.is(predicate)).toBe(true);
-      expect(CompoundPredicate.is(ctrl.root.predicates[1])).toBe(true);
+      expect.assertions(3);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              how: 'after',
+              type: 'CompoundPredicate',
+            })
+            .then(compoundPredicate => [ctrl, compoundPredicate])
+        )
+        .then(([ctrl, compoundPredicate]) => {
+          expect(ctrl.root.predicates.length).toEqual(2);
+          expect(CompoundPredicate.is(compoundPredicate)).toBe(true);
+          expect(CompoundPredicate.is(ctrl.root.predicates[1])).toBe(true);
+        });
     });
 
     it('adds a Predicate (a ComparisonPredicate) after the first predicate of the root CompoundPredicate', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      ctrl.add({
-        where: firstPredicate,
-        how: 'after',
-        type: 'ComparisonPredicate',
-      });
-
-      expect(ctrl.root.predicates.length).toEqual(2);
-      expect(ComparisonPredicate.is(ctrl.root.predicates[1])).toBe(true);
+      expect.assertions(2);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              how: 'after',
+              type: 'ComparisonPredicate',
+            })
+            .then(comparisonPredicate => [ctrl, comparisonPredicate])
+        )
+        .then(([ctrl, comparisonPredicate]) => {
+          expect(ctrl.root.predicates.length).toEqual(2);
+          expect(ComparisonPredicate.is(ctrl.root.predicates[1])).toBe(true);
+        });
     });
 
     it('Add a Predicate (a ComparisonPredicate) after a CompoundPredicate', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      const compoundPredicate = ctrl.add({
-        where: firstPredicate,
-        type: 'CompoundPredicate',
-      });
+      expect.assertions(3);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              type: 'CompoundPredicate',
+            })
+            .then(compoundPredicate => [ctrl, compoundPredicate])
+        )
+        .then(([ctrl, compoundPredicate]) => {
+          expect(compoundPredicate.predicates.length).toEqual(1);
 
-      expect(compoundPredicate.predicates.length).toEqual(1);
-
-      const predicate = ctrl.add({
-        where: compoundPredicate,
-        type: 'ComparisonPredicate',
-      });
-
-      ComparisonPredicate.is(predicate);
-      expect(compoundPredicate.predicates.length).toEqual(2);
+          return ctrl
+            .add({
+              where: compoundPredicate,
+              type: 'ComparisonPredicate',
+            })
+            .then(predicate => [ctrl, predicate, compoundPredicate]);
+        })
+        .then(([ctrl, predicate, compoundPredicate]) => {
+          expect(ComparisonPredicate.is(predicate)).toBe(true);
+          expect(compoundPredicate.predicates.length).toEqual(2);
+        });
     });
 
     it('Add a Predicate (a CompoundPredicate) after a ComparisonPredicate', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      const compoundPredicate = ctrl.add({
-        where: firstPredicate,
-        type: 'CompoundPredicate',
-      });
+      expect.assertions(3);
+      return PredicateCore()
+        .then(ctrl => {
+          const firstPredicate = ctrl.root.predicates[0];
+          return ctrl
+            .add({
+              where: firstPredicate,
+              type: 'CompoundPredicate',
+            })
+            .then(compoundPredicate => [ctrl, compoundPredicate]);
+        })
+        .then(([ctrl, compoundPredicate]) => {
+          expect(compoundPredicate.predicates.length).toEqual(1);
 
-      expect(compoundPredicate.predicates.length).toEqual(1);
+          return ctrl
+            .add({
+              where: compoundPredicate,
+              type: 'CompoundPredicate',
+            })
+            .then(() => [ctrl, compoundPredicate], console.log);
+        })
+        .then(([ctrl, compoundPredicate]) => {
+          expect(CompoundPredicate.is(compoundPredicate.predicates[0])).toBe(
+            true
+          );
 
-      const predicate = ctrl.add({
-        where: compoundPredicate,
-        type: 'CompoundPredicate',
-      });
-
-      ComparisonPredicate.is(compoundPredicate.predicates[0]);
-      const comparisonPredicate = ctrl.add({
-        where: compoundPredicate.predicates[1],
-        type: 'ComparisonPredicate',
-      });
-
-      ComparisonPredicate.is(compoundPredicate);
+          return ctrl
+            .add({
+              where: compoundPredicate.predicates[1],
+              type: 'ComparisonPredicate',
+            })
+            .then(comparisonPredicate =>
+              expect(ComparisonPredicate.is(comparisonPredicate)).toBe(true)
+            );
+        });
     });
   });
 
   describe('ctrl.setPredicateTarget_id', () => {
-    it('throws when predicate refers to a invalid predicate', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      expect(() =>
-        ctrl.setPredicateTarget_id(null, ctrl.columns.targets[1].target_id)
-      ).toThrow(errors.PredicateMustBeAComparisonPredicate);
+    it('rejects when predicate refers to a invalid predicate', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl => {
+        expect(
+          ctrl.setPredicateTarget_id(null, ctrl.columns.targets[1].target_id)
+        ).rejects.toMatchSnapshot();
+      });
     });
 
-    it('throws when target_id refers to a not defined target', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      expect(() =>
-        ctrl.setPredicateTarget_id(firstPredicate, 'blablablabla')
-      ).toThrow(errors.Target_idMustReferToADefinedTarget);
+    it('rejects when target_id refers to a not defined target', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl =>
+        expect(
+          ctrl.setPredicateTarget_id(ctrl.root.predicates[0], 'blablablabla')
+        ).rejects.toMatchSnapshot()
+      );
     });
 
     it('work if we set a predicate to an exist target_id', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
+      expect.assertions(6);
+      return PredicateCore().then(ctrl => {
+        const firstPredicate = ctrl.root.predicates[0];
 
-      expect(firstPredicate.target.target_id).not.toBe(
-        ctrl.columns.targets[1].target_id
-      );
+        expect(firstPredicate.target.target_id).not.toBe(
+          ctrl.columns.targets[1].target_id
+        );
 
-      expect(firstPredicate.operator.operator_id).not.toBe(
-        ctrl.columns.targets[1].$type.$operators[0].operator_id
-      );
+        expect(firstPredicate.operator.operator_id).not.toBe(
+          ctrl.columns.targets[1].$type.$operators[0].operator_id
+        );
 
-      ctrl.setPredicateTarget_id(
-        firstPredicate,
-        ctrl.columns.targets[1].target_id
-      );
+        return ctrl
+          .setPredicateTarget_id(
+            firstPredicate,
+            ctrl.columns.targets[1].target_id
+          )
+          .then(() => {
+            // should update target
+            expect(firstPredicate.target.target_id).toBe(
+              ctrl.columns.targets[1].target_id
+            );
+            // should update operator as well
+            console.log(firstPredicate.operator.operator_id);
 
-      // should update target
-      expect(firstPredicate.target.target_id).toBe(
-        ctrl.columns.targets[1].target_id
-      );
+            expect(firstPredicate.operator.operator_id).toBe(
+              ctrl.columns.targets[1].$type.$operators[0].operator_id
+            );
 
-      // should update operator as well
-      expect(firstPredicate.operator.operator_id).toBe(
-        ctrl.columns.targets[1].$type.$operators[0].operator_id
-      );
-
-      expect(firstPredicate.arguments).toEqual([]);
-      expect(firstPredicate).toMatchSnapshot();
+            expect(firstPredicate.arguments).toEqual([]);
+            expect(firstPredicate).toMatchSnapshot();
+          });
+      });
     });
   });
 
   describe('ctrl.setPredicateOperator_id', () => {
-    it('throws an error if operator_id cannot be found', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      expect(() =>
-        ctrl.setPredicateOperator_id(firstPredicate, 'lool')
-      ).toThrow(errors.Operator_idMustReferToADefinedOperator);
+    it('rejects an error if operator_id cannot be found', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl => {
+        const firstPredicate = ctrl.root.predicates[0];
+        return expect(
+          ctrl.setPredicateOperator_id(firstPredicate, 'lool')
+        ).rejects.toMatchSnapshot();
+      });
     });
 
     it('work if we set a predicate to an existing operator_id', () => {
-      const ctrl = new PredicateCore();
-      const firstPredicate = ctrl.root.predicates[0];
-      const target_idBefore = firstPredicate.target.target_id;
+      expect.assertions(3);
+      return PredicateCore().then(ctrl => {
+        const firstPredicate = ctrl.root.predicates[0];
+        const target_idBefore = firstPredicate.target.target_id;
 
-      expect(firstPredicate.operator.operator_id).not.toBe(
-        firstPredicate.target.$type.$operators[1].operator_id
-      );
+        expect(firstPredicate.operator.operator_id).not.toBe(
+          firstPredicate.target.$type.$operators[1].operator_id
+        );
 
-      ctrl.setPredicateOperator_id(
-        firstPredicate,
-        firstPredicate.target.$type.$operators[1].operator_id
-      );
+        return ctrl
+          .setPredicateOperator_id(
+            firstPredicate,
+            firstPredicate.target.$type.$operators[1].operator_id
+          )
+          .then(() => {
+            // should not update target
+            expect(firstPredicate.target.target_id).toBe(target_idBefore);
 
-      // should not update target
-      expect(firstPredicate.target.target_id).toBe(target_idBefore);
-
-      // should only update operator
-      expect(firstPredicate.operator.operator_id).toBe(
-        firstPredicate.target.$type.$operators[1].operator_id
-      );
+            // should only update operator
+            expect(firstPredicate.operator.operator_id).toBe(
+              firstPredicate.target.$type.$operators[1].operator_id
+            );
+          });
+      });
     });
   });
 
   describe('ctrl.options', () => {
     it('expose computed options', () => {
-      const ctrl = new PredicateCore();
-      expect(Object.keys(ctrl.options)).toEqual([
-        'getDefaultData',
-        'getDefaultCompoundPredicate',
-        'getDefaultComparisonPredicate',
-      ]);
+      expect.assertions(1);
+      return PredicateCore().then(ctrl => {
+        expect(Object.keys(ctrl.options)).toEqual([
+          'getDefaultData',
+          'getDefaultCompoundPredicate',
+          'getDefaultComparisonPredicate',
+        ]);
+      });
     });
   });
 
-  // describe('ctrl.addCompoundPredicate({after:Predicate})', () => {}
-
   // describe('ctrl.remove(predicate)', () => {
   //   it('forbids to remove the last predicate of the root CompoundPredicate', () => {
-  //     const ctrl = new PredicateCore();
-  //     const firstPredicate = ctrl.root.predicates[0];
-  //     ctrl.remove(firstPredicate);
+  //     expect.assertions(1);
+  //     return PredicateCore().then(ctrl => {
+  //       const firstPredicate = ctrl.root.predicates[0];
+  //       expect(ctrl.remove(firstPredicate), false);
+  //     });
+  //
   //   });
   // });
 });
@@ -282,7 +349,9 @@ describe('core.data', () => {
   describe('CompoundPredicate', () => {
     describe('constructor', () => {
       it(`can't be constructed with at least one subpredicate`, () => {
-        expect(() => CompoundPredicate(LogicalType.and, [])).toThrow();
+        return expect(
+          CompoundPredicate(LogicalType.and, [])
+        ).rejects.toMatchSnapshot();
       });
     });
   });

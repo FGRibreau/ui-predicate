@@ -9,8 +9,11 @@ const { is } = require('ramda');
 module.exports = ({ errors }) => ({
   CompoundPredicateMustHaveAtLeastOneSubPredicate: predicates => {
     if (!Array.isArray(predicates) || predicates.length === 0) {
-      throw new errors.CompoundPredicateMustHaveAtLeastOneSubPredicate();
+      return Promise.reject(
+        new errors.CompoundPredicateMustHaveAtLeastOneSubPredicate()
+      );
     }
+    return Promise.resolve();
   },
 
   /**
@@ -20,49 +23,62 @@ module.exports = ({ errors }) => ({
    */
   PredicateTypeMustBeValid: (type, acceptedTypes) => {
     if (!Object.keys(acceptedTypes).includes(type)) {
-      throw new errors.InvalidPredicateType();
+      return Promise.reject(new errors.InvalidPredicateType());
     }
+
+    return Promise.resolve();
   },
 
   RootPredicateMustBeACompoundPredicate: root => {
     if (root.$_type !== 'CompoundPredicate') {
       // @todo use CompoundPredicate.is instead
-      throw new errors.RootPredicateMustBeACompoundPredicate();
+      return Promise.reject(new errors.RootPredicateMustBeACompoundPredicate());
     }
+    return Promise.resolve(root);
   },
 
   PredicateMustBeAComparisonPredicate: root => {
     if (!is(Object, root) || root.$_type !== 'ComparisonPredicate') {
       // @todo use ComparisonPredicate.is instead
-      throw new errors.PredicateMustBeAComparisonPredicate();
+      return Promise.reject(new errors.PredicateMustBeAComparisonPredicate());
     }
+    return Promise.resolve();
   },
 
   AddOnlySupportsAfter: how => {
     if (how !== 'after') {
-      throw new errors.AddCurrentlyOnlySupportAfterInsertion();
+      return Promise.reject(new errors.AddCurrentlyOnlySupportAfterInsertion());
     }
+
+    return Promise.resolve();
   },
 
   TargetMustReferToADefinedType: (type, target) => {
     if (type.isNone()) {
-      throw new errors.TargetMustReferToADefinedType(
-        `target ${JSON.stringify(
-          target.target_id
-        )} does not refer to a defined type, target.type_id=${JSON.stringify(
-          target.type_id
-        )}`
+      return Promise.reject(
+        new errors.TargetMustReferToADefinedType(
+          `target ${JSON.stringify(
+            target.target_id
+          )} does not refer to a defined type, target.type_id=${JSON.stringify(
+            target.type_id
+          )}`
+        )
       );
     }
+    return Promise.resolve(type.value());
   },
   Target_idMustReferToADefinedTarget: target => {
     if (target.isNone()) {
-      throw new errors.Target_idMustReferToADefinedTarget();
+      return Promise.reject(new errors.Target_idMustReferToADefinedTarget());
     }
+    return Promise.resolve(target);
   },
   Operator_idMustReferToADefinedOperator: operator => {
     if (operator.isNone()) {
-      throw new errors.Operator_idMustReferToADefinedOperator();
+      return Promise.reject(
+        new errors.Operator_idMustReferToADefinedOperator()
+      );
     }
+    return Promise.resolve(operator);
   },
 });
