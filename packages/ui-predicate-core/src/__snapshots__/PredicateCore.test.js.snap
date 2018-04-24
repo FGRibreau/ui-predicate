@@ -44,6 +44,87 @@ Object {
 }
 `;
 
+exports[`core.component ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
+Object {
+  "$_type": "CompoundPredicate",
+  "logic": "and",
+  "predicates": Array [
+    Object {
+      "$_type": "ComparisonPredicate",
+      "arguments": Array [],
+      "operator": Object {
+        "$_type": "Operator",
+        "label": "Est",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "$_type": "Target",
+        "$type": Object {
+          "$_type": "Type",
+          "$operators": Array [
+            Object {
+              "$_type": "Operator",
+              "label": "Est",
+              "operator_id": "is",
+            },
+            Object {
+              "$_type": "Operator",
+              "label": "Contient",
+              "operator_id": "contains",
+            },
+          ],
+          "operator_ids": Array [
+            "is",
+            "contains",
+          ],
+          "type_id": "string",
+        },
+        "label": "Titre article",
+        "target_id": "article.title",
+        "type_id": "string",
+      },
+    },
+    Object {
+      "$_type": "ComparisonPredicate",
+      "arguments": Array [],
+      "operator": Object {
+        "$_type": "Operator",
+        "label": "Est",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "$_type": "Target",
+        "$type": Object {
+          "$_type": "Type",
+          "$operators": Array [
+            Object {
+              "$_type": "Operator",
+              "label": "Est",
+              "operator_id": "is",
+            },
+            Object {
+              "$_type": "Operator",
+              "label": "Contient",
+              "operator_id": "contains",
+            },
+          ],
+          "operator_ids": Array [
+            "is",
+            "contains",
+          ],
+          "type_id": "string",
+        },
+        "label": "Titre article",
+        "target_id": "article.title",
+        "type_id": "string",
+      },
+    },
+  ],
+}
+`;
+
+exports[`core.component ctrl.add throws if where is unsupported 1`] = `"Can't add after something else than a CompoundPredicate or a ComparisonPredicate, got: {}"`;
+
 exports[`core.component ctrl.setPredicateTarget_id work if we set a predicate to an exist target_id 1`] = `
 Object {
   "$_type": "ComparisonPredicate",

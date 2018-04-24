@@ -60,7 +60,7 @@ describe('core.component', () => {
       ).toThrow(errors.InvalidPredicateType);
     });
 
-    it('throws if how is unsupported', () => {
+    it('throws if `how` is unsupported', () => {
       const ctrl = new PredicateCore();
       const firstPredicate = ctrl.root.predicates[0];
       expect(() =>
@@ -70,6 +70,25 @@ describe('core.component', () => {
           type: 'CompoundPredicate',
         })
       ).toThrow(errors.AddOnlySupportsAfter);
+    });
+
+    it('throws if where is unsupported', () => {
+      const ctrl = new PredicateCore();
+      const firstPredicate = ctrl.root.predicates[0];
+      expect(() =>
+        ctrl.add({
+          where: {},
+          how: 'after',
+          type: 'CompoundPredicate',
+        })
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+    it('adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate', () => {
+      const ctrl = new PredicateCore();
+      const firstPredicate = ctrl.root.predicates[0];
+      ctrl.add({ where: firstPredicate, type: 'ComparisonPredicate' });
+      expect(ctrl.toJSON()).toMatchSnapshot();
     });
 
     it('adds a Predicate (a CompoundPredicate) after the first predicate to the root CompoundPredicate - without how parameter', () => {
@@ -87,13 +106,14 @@ describe('core.component', () => {
     it('adds a Predicate (a CompoundPredicate) after the first predicate of the root CompoundPredicate', () => {
       const ctrl = new PredicateCore();
       const firstPredicate = ctrl.root.predicates[0];
-      ctrl.add({
+      const predicate = ctrl.add({
         where: firstPredicate,
         how: 'after',
         type: 'CompoundPredicate',
       });
 
       expect(ctrl.root.predicates.length).toEqual(2);
+      expect(CompoundPredicate.is(predicate)).toBe(true);
       expect(CompoundPredicate.is(ctrl.root.predicates[1])).toBe(true);
     });
 
@@ -110,32 +130,48 @@ describe('core.component', () => {
       expect(ComparisonPredicate.is(ctrl.root.predicates[1])).toBe(true);
     });
 
-    it('(currently unsupported) add a Predicate (a ComparisonPredicate) after the CompoundPredicate', () => {
+    it('Add a Predicate (a ComparisonPredicate) after a CompoundPredicate', () => {
       const ctrl = new PredicateCore();
       const firstPredicate = ctrl.root.predicates[0];
       const compoundPredicate = ctrl.add({
         where: firstPredicate,
-        how: 'after',
         type: 'CompoundPredicate',
       });
 
-      expect(CompoundPredicate.is(compoundPredicate)).toBe(true);
+      expect(compoundPredicate.predicates.length).toEqual(1);
 
-      expect(() =>
-        ctrl.add({
-          where: compoundPredicate,
-          how: 'after',
-          type: 'ComparisonPredicate',
-        })
-      ).toThrow('unsupported');
+      const predicate = ctrl.add({
+        where: compoundPredicate,
+        type: 'ComparisonPredicate',
+      });
+
+      ComparisonPredicate.is(predicate);
+      expect(compoundPredicate.predicates.length).toEqual(2);
     });
 
-    // it('adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate', () => {
-    //   const ctrl = new PredicateCore();
-    //   const firstPredicate = ctrl.root.predicates[0];
-    //   ctrl.add({ after: firstPredicate });
-    //   expect(ctrl.toJSON()).toMatchSnapshot();
-    // });
+    it('Add a Predicate (a CompoundPredicate) after a ComparisonPredicate', () => {
+      const ctrl = new PredicateCore();
+      const firstPredicate = ctrl.root.predicates[0];
+      const compoundPredicate = ctrl.add({
+        where: firstPredicate,
+        type: 'CompoundPredicate',
+      });
+
+      expect(compoundPredicate.predicates.length).toEqual(1);
+
+      const predicate = ctrl.add({
+        where: compoundPredicate,
+        type: 'CompoundPredicate',
+      });
+
+      ComparisonPredicate.is(compoundPredicate.predicates[0]);
+      const comparisonPredicate = ctrl.add({
+        where: compoundPredicate.predicates[1],
+        type: 'ComparisonPredicate',
+      });
+
+      ComparisonPredicate.is(compoundPredicate);
+    });
   });
 
   describe('ctrl.setPredicateTarget_id', () => {

@@ -127,23 +127,33 @@ module.exports = function({ dataclasses, invariants }) {
       invariants.AddOnlySupportsAfter(how);
       invariants.PredicateTypeMustBeValid(type, Predicate.Types);
 
-      // first find predicates array that contains the element
-      const path = _find(where);
+      // generate the Predicates
+      const predicate = _options[`getDefault${type}`](_columns, _options);
 
       // easiest scenario
-      // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
       if (ComparisonPredicate.is(where)) {
+        // first find predicates array that contains the element
+        const path = _find(where);
+        // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
         const [compoundpredicate, [_, index]] = takeLast(2, path);
-        const predicate = _options[`getDefault${type}`](_columns, _options);
         compoundpredicate.predicates = insert(
           index + 1,
           predicate,
           compoundpredicate.predicates
         );
         return predicate;
+      } else if (CompoundPredicate.is(where)) {
+        // we want to add a CompoundPredicate after a compound predicate
+        // so we need to add it as its first .predicates entry
+        where.predicates.unshift(predicate);
+        return predicate;
       }
 
-      throw new Error('unsupported');
+      throw new Error(
+        `Can't add after something else than a CompoundPredicate or a ComparisonPredicate, got: ${JSON.stringify(
+          where
+        )}`
+      );
     }
 
     /**
@@ -205,10 +215,18 @@ module.exports = function({ dataclasses, invariants }) {
       );
     }
 
-    function _reduce(root, f, acc, parents = []) {
-      acc = f(acc, root, parents);
-      return root.predicates.reduce((_acc, predicate, i) => {
-        const _parents = parents.concat([root, [predicate, i]]);
+    /**
+     * Walk through the predicates tree
+     * @param       {CompoundPredicate} compoundPredicate starter node
+     * @param       {function} f                 accumulation function
+     * @param       {T} acc               accumulator
+     * @param       {Array}  [parents=[]]      path to the node, array of parents
+     * @return      {T} yield the accumulator
+     */
+    function _reduce(compoundPredicate, f, acc, parents = []) {
+      acc = f(acc, compoundPredicate, parents);
+      return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
+        const _parents = parents.concat([compoundPredicate, [predicate, i]]);
         return CompoundPredicate.is(predicate)
           ? _reduce(predicate, f, _acc, _parents)
           : f(_acc, predicate, _parents);

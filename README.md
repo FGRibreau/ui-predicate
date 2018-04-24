@@ -4,19 +4,22 @@
 
 Finally a f\*ck\*n Predicates UI component for the Web.
 
-# Packages
+# High level packages
 
-Packages | description | badges
------------- | ------------- | -------------
-**[ui-predicate-core](packages/ui-predicate-core)** | low-level agnostic library | [![npm version](https://img.shields.io/npm/v/ui-predicate-core.svg)](https://www.npmjs.com/package/ui-predicate-core) ![npm](https://img.shields.io/npm/dm/ui-predicate-core.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-core/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-core)
 **[ui-predicate-vue](packages/ui-predicate-vue)** | ui-predicate for VueJS | [![npm version](https://img.shields.io/npm/v/ui-predicate-core.svg)](https://www.npmjs.com/package/ui-predicate-core) ![npm](https://img.shields.io/npm/dm/ui-predicate-vue.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-core/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-core)
 **[ui-predicate-react](packages/ui-predicate-react)** | ui-predicate for React | [![npm version](https://img.shields.io/npm/v/ui-predicate-react.svg)](https://www.npmjs.com/package/ui-predicate-react) ![npm](https://img.shields.io/npm/dm/ui-predicate-react.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-react/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-react)
 **[ui-predicate-angular](packages/ui-predicate-angular)** | ui-predicate for Angular | [![npm version](https://img.shields.io/npm/v/ui-predicate-angular.svg)](https://www.npmjs.com/package/ui-predicate-angular) ![npm](https://img.shields.io/npm/dm/ui-predicate-angular.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-angular/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-angular)
 **[ui-predicate-hyperhtml](packages/ui-predicate-hyperhtml)** | ui-predicate for HyperHTML | [![npm version](https://img.shields.io/npm/v/ui-predicate-hyperhtml.svg)](https://www.npmjs.com/package/ui-predicate-hyperhtml) ![npm](https://img.shields.io/npm/dm/ui-predicate-hyperhtml.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-hyperhtml/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-hyperhtml)
 
+# Low-level packages
+
+Packages | description | badges
+------------ | ------------- | -------------
+**[ui-predicate-core](packages/ui-predicate-core)** | low-level agnostic library | [![npm version](https://img.shields.io/npm/v/ui-predicate-core.svg)](https://www.npmjs.com/package/ui-predicate-core) ![npm](https://img.shields.io/npm/dm/ui-predicate-core.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-core/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-core)
 
 # Todo (will accept a PR for it)
 
+- [ ] ui-predicate-traverse
 - [ ] quality: eslint support
 - [ ] build size: treeshaking support
 - [ ] ui-predicate-react
