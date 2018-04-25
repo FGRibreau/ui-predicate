@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-predicate ui-predicate-options">
+  <div class="ui-predicate--col">
     <button type="button" name="button" v-on:click="remove(predicate)">-</button>
     <button type="button" name="button" v-on:click="add(predicate)">{{ isInAddCompoundMode ? '…' : '+'  }}</button>
   </div>
@@ -33,6 +33,3 @@ module.exports = {
   },
 };
 </script>
-
-<style scoped>
-</style>

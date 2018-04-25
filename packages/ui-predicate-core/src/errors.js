@@ -65,6 +65,7 @@ module.exports = mergeAll([
    * @since 1.0.0
    */
   err('Target_idMustReferToADefinedTarget'),
+
   /**
    * Thrown when a user asked for a operator change on a predicate
    * but the operator_id was invalid because it referred
@@ -74,4 +75,36 @@ module.exports = mergeAll([
    * @since 1.0.0
    */
   err('Operator_idMustReferToADefinedOperator'),
+
+  /**
+   * Thrown when remove is called on root CompoundPredicate
+   * @type {Error}
+   * @memberof Errors
+   * @since 1.0.0
+   */
+  err('ForbiddenCannotRemoveRootCompoundPredicate'),
+
+  /**
+   * Thrown when remove is called on root CompoundPredicate
+   * @type {Error}
+   * @memberof Errors
+   * @since 1.0.0
+   */
+  err('ForbiddenCannotRemoveLastComparisonPredicate'),
+
+  /**
+   * Thrown when remove is called with an invalid type of predicate
+   * @type {Error}
+   * @memberof Errors
+   * @since 1.0.0
+   */
+  err('CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate'),
+
+  /**
+   * Thrown when add is called with an invalid type of predicate
+   * @type {Error}
+   * @memberof Errors
+   * @since 1.0.0
+   */
+  err('CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate'),
 ]);

@@ -66,6 +66,24 @@ module.exports = ({ invariants }) => {
       );
   }
 
+  /**
+   * Walk through the predicates tree
+   * @param       {CompoundPredicate} compoundPredicate starter node
+   * @param       {function} f                 accumulation function
+   * @param       {T} acc               accumulator
+   * @param       {Array}  [parents=[]]      path to the node, array of parents
+   * @return      {T} yield the accumulator
+   */
+  CompoundPredicate.reduce = (compoundPredicate, f, acc, parents = []) => {
+    acc = f(acc, compoundPredicate, parents);
+    return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
+      const _parents = parents.concat([compoundPredicate, [predicate, i]]);
+      return CompoundPredicate.is(predicate)
+        ? CompoundPredicate.reduce(predicate, f, _acc, _parents)
+        : f(_acc, predicate, _parents);
+    }, acc);
+  };
+
   ComparisonPredicate.is = el =>
     el.$_type === Predicate.Types.ComparisonPredicate;
   CompoundPredicate.is = el => el.$_type === Predicate.Types.CompoundPredicate;

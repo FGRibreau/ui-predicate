@@ -206,7 +206,7 @@ describe('core.component', () => {
               where: compoundPredicate,
               type: 'CompoundPredicate',
             })
-            .then(() => [ctrl, compoundPredicate], console.log);
+            .then(() => [ctrl, compoundPredicate]);
         })
         .then(([ctrl, compoundPredicate]) => {
           expect(CompoundPredicate.is(compoundPredicate.predicates[0])).toBe(
@@ -267,9 +267,8 @@ describe('core.component', () => {
             expect(firstPredicate.target.target_id).toBe(
               ctrl.columns.targets[1].target_id
             );
-            // should update operator as well
-            console.log(firstPredicate.operator.operator_id);
 
+            // should update operator as well
             expect(firstPredicate.operator.operator_id).toBe(
               ctrl.columns.targets[1].$type.$operators[0].operator_id
             );
@@ -333,16 +332,82 @@ describe('core.component', () => {
     });
   });
 
-  // describe('ctrl.remove(predicate)', () => {
-  //   it('forbids to remove the last predicate of the root CompoundPredicate', () => {
-  //     expect.assertions(1);
-  //     return PredicateCore().then(ctrl => {
-  //       const firstPredicate = ctrl.root.predicates[0];
-  //       expect(ctrl.remove(firstPredicate), false);
-  //     });
-  //
-  //   });
-  // });
+  describe('ctrl.remove(predicate)', () => {
+    it('forbids to remove the root CompoundPredicate', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl =>
+        expect(ctrl.remove(ctrl.root)).rejects.toMatchSnapshot()
+      );
+    });
+
+    it('forbids to remove the last predicate of the root CompoundPredicate', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl =>
+        expect(ctrl.remove(ctrl.root.predicates[0])).rejects.toMatchSnapshot()
+      );
+    });
+
+    it('forbids to remove an unknown type of predicate', () => {
+      expect.assertions(1);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              how: 'after',
+              type: 'ComparisonPredicate',
+            })
+            .then(comparisonPredicate => [ctrl, comparisonPredicate])
+        )
+        .then(([ctrl, comparisonPredicate]) =>
+          expect(ctrl.remove({})).rejects.toMatchSnapshot()
+        );
+    });
+
+    it('allow to remove a compoundpredicate', () => {
+      expect.assertions(2);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              how: 'after',
+              type: 'CompoundPredicate',
+            })
+            .then(compoundPredicate => [ctrl, compoundPredicate])
+        )
+        .then(([ctrl, compoundPredicate]) =>
+          ctrl
+            .remove(compoundPredicate)
+            .then(removedPredicate => [
+              ctrl,
+              compoundPredicate,
+              removedPredicate,
+            ])
+        )
+        .then(([ctrl, compoundPredicate, removedPredicate]) => {
+          expect(removedPredicate).toMatchSnapshot();
+          expect(ctrl.root.predicates.length).toBe(1);
+        });
+    });
+
+    it('allow to remove a comparisonPredicate', () => {
+      expect.assertions(1);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              how: 'after',
+              type: 'ComparisonPredicate',
+            })
+            .then(comparisonPredicate => [ctrl, comparisonPredicate])
+        )
+        .then(([ctrl, comparisonPredicate]) =>
+          expect(ctrl.remove(comparisonPredicate)).resolves.toMatchSnapshot()
+        );
+    });
+  });
 });
 
 describe('core.data', () => {

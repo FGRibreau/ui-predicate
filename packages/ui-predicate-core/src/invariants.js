@@ -81,4 +81,32 @@ module.exports = ({ errors }) => ({
     }
     return Promise.resolve(operator);
   },
+
+  RemovePredicateMustDiferFromRootPredicate: (root, predicateToRemove) => {
+    if (root === predicateToRemove) {
+      return Promise.reject(
+        new errors.ForbiddenCannotRemoveRootCompoundPredicate()
+      );
+    }
+    return Promise.resolve(predicateToRemove);
+  },
+
+  RemovePredicateCannotBeTheLastComparisonPredicate: (
+    root,
+    CompoundPredicate,
+    ComparisonPredicate
+  ) => {
+    const comparisonPredicateCount = CompoundPredicate.reduce(
+      root,
+      (acc, el) => (ComparisonPredicate.is(el) ? acc + 1 : acc),
+      0
+    );
+
+    if (comparisonPredicateCount === 1) {
+      return Promise.reject(
+        new errors.ForbiddenCannotRemoveLastComparisonPredicate()
+      );
+    }
+    return Promise.resolve();
+  },
 });

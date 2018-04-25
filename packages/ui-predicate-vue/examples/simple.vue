@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <h1>Simple ui-predicate usage</h1>
-    <ui-predicate v-bind:columns="columns"></ui-predicate>
+    <ui-predicate v-bind:config="config"></ui-predicate>
+    <p>Tips: Use "alt + click" to create a sub-group.</p>
   </div>
 </template>
 
@@ -11,7 +12,7 @@ export default {
   data() {
     return {
       msg: 'Welcome to Your Vue.js App!',
-      columns: {
+      config: {
         // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
         operators: [
           {

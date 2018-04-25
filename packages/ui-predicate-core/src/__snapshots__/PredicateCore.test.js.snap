@@ -131,7 +131,95 @@ exports[`core.component ctrl.add rejects if \`how\` is unsupported 1`] = `[AddCu
 
 exports[`core.component ctrl.add rejects if Predicate type is invalid 1`] = `[InvalidPredicateType]`;
 
-exports[`core.component ctrl.add rejects if where is unsupported 1`] = `[Error: Can't add after something else than a CompoundPredicate or a ComparisonPredicate, got: {}]`;
+exports[`core.component ctrl.add rejects if where is unsupported 1`] = `[CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate]`;
+
+exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredicate 1`] = `
+Object {
+  "$_type": "ComparisonPredicate",
+  "arguments": Array [],
+  "operator": Object {
+    "$_type": "Operator",
+    "label": "Est",
+    "operator_id": "is",
+  },
+  "target": Object {
+    "$_type": "Target",
+    "$type": Object {
+      "$_type": "Type",
+      "$operators": Array [
+        Object {
+          "$_type": "Operator",
+          "label": "Est",
+          "operator_id": "is",
+        },
+        Object {
+          "$_type": "Operator",
+          "label": "Contient",
+          "operator_id": "contains",
+        },
+      ],
+      "operator_ids": Array [
+        "is",
+        "contains",
+      ],
+      "type_id": "string",
+    },
+    "label": "Titre article",
+    "target_id": "article.title",
+    "type_id": "string",
+  },
+}
+`;
+
+exports[`core.component ctrl.remove(predicate) allow to remove a compoundpredicate 1`] = `
+Object {
+  "$_type": "CompoundPredicate",
+  "logic": "and",
+  "predicates": Array [
+    Object {
+      "$_type": "ComparisonPredicate",
+      "arguments": Array [],
+      "operator": Object {
+        "$_type": "Operator",
+        "label": "Est",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "$_type": "Target",
+        "$type": Object {
+          "$_type": "Type",
+          "$operators": Array [
+            Object {
+              "$_type": "Operator",
+              "label": "Est",
+              "operator_id": "is",
+            },
+            Object {
+              "$_type": "Operator",
+              "label": "Contient",
+              "operator_id": "contains",
+            },
+          ],
+          "operator_ids": Array [
+            "is",
+            "contains",
+          ],
+          "type_id": "string",
+        },
+        "label": "Titre article",
+        "target_id": "article.title",
+        "type_id": "string",
+      },
+    },
+  ],
+}
+`;
+
+exports[`core.component ctrl.remove(predicate) forbids to remove an unknown type of predicate 1`] = `[CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate]`;
+
+exports[`core.component ctrl.remove(predicate) forbids to remove the last predicate of the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveLastComparisonPredicate]`;
+
+exports[`core.component ctrl.remove(predicate) forbids to remove the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveRootCompoundPredicate]`;
 
 exports[`core.component ctrl.setPredicateOperator_id rejects an error if operator_id cannot be found 1`] = `[Operator_idMustReferToADefinedOperator]`;
 

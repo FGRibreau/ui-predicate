@@ -12,6 +12,7 @@ const {
   lensPath,
   takeLast,
   set,
+  differenceWith,
   lensProp,
   insert,
 } = require('ramda');
@@ -22,7 +23,7 @@ function head(list) {
   return option.fromNullable(list[0]).value();
 }
 
-module.exports = function({ dataclasses, invariants }) {
+module.exports = function({ dataclasses, invariants, errors }) {
   const {
     CompoundPredicate,
     ComparisonPredicate,
@@ -167,16 +168,52 @@ module.exports = function({ dataclasses, invariants }) {
                 }
 
                 return Promise.reject(
-                  Error(
-                    `Can't add after something else than a CompoundPredicate or a ComparisonPredicate, got: ${JSON.stringify(
-                      where
-                    )}`
-                  )
+                  new errors.CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate()
                 );
               })
           );
         }
 
+        /**
+         * Remove a ComparisonPredicate or CompoundPredicate
+         * @param  {Object} predicate ComparisonPredicate or CompoundPredicate to remove
+         * @return {Promise[Predicate]} yield the removed predicate, will reject the promise if remove was called with the root CompoundPredicate or the last ComparisonPredicate of the root CompoundPredicate
+         * @since 1.0.0
+         */
+        function remove(predicate) {
+          return Promise.resolve()
+            .then(() =>
+              invariants.RemovePredicateMustDiferFromRootPredicate(
+                _root,
+                predicate
+              )
+            )
+            .then(() =>
+              invariants.RemovePredicateCannotBeTheLastComparisonPredicate(
+                _root,
+                CompoundPredicate,
+                ComparisonPredicate
+              )
+            )
+            .then(() => {
+              if (
+                CompoundPredicate.is(predicate) ||
+                ComparisonPredicate.is(predicate)
+              ) {
+                const path = _find(predicate);
+                // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
+                const [parentCompoundpredicate, [_, index]] = takeLast(2, path);
+                parentCompoundpredicate.predicates = parentCompoundpredicate.predicates.filter(
+                  predicateItem => predicateItem !== predicate
+                );
+                return predicate;
+              }
+
+              return Promise.reject(
+                new errors.CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate()
+              );
+            });
+        }
 
         /**
          * Change a predicate's target
@@ -186,10 +223,8 @@ module.exports = function({ dataclasses, invariants }) {
          * @since 1.0.0
          */
         function setPredicateTarget_id(predicate, newTarget_id) {
-          return Promise.resolve()
-            .then(() =>
-              invariants.PredicateMustBeAComparisonPredicate(predicate)
-            )
+          return invariants
+            .PredicateMustBeAComparisonPredicate(predicate)
             .then(() => {
               // first change the target
               return _getTargetById(_columns.targets, newTarget_id);
@@ -249,34 +284,13 @@ module.exports = function({ dataclasses, invariants }) {
          * @since 1.0.0
          */
         function _find(element) {
-          return _reduce(
+          return CompoundPredicate.reduce(
             _root,
             (acc, predicate, parents) => {
               return element === predicate ? parents : acc;
             },
             null
           );
-        }
-
-        /**
-         * Walk through the predicates tree
-         * @param       {CompoundPredicate} compoundPredicate starter node
-         * @param       {function} f                 accumulation function
-         * @param       {T} acc               accumulator
-         * @param       {Array}  [parents=[]]      path to the node, array of parents
-         * @return      {T} yield the accumulator
-         */
-        function _reduce(compoundPredicate, f, acc, parents = []) {
-          acc = f(acc, compoundPredicate, parents);
-          return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
-            const _parents = parents.concat([
-              compoundPredicate,
-              [predicate, i],
-            ]);
-            return CompoundPredicate.is(predicate)
-              ? _reduce(predicate, f, _acc, _parents)
-              : f(_acc, predicate, _parents);
-          }, acc);
         }
 
         // get data for initialization

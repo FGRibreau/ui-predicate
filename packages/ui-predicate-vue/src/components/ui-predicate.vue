@@ -1,20 +1,18 @@
 <template>
   <div class="">
     <div class="ui-predicate main">
-      <ui-predicate-compound v-bind:compound="root"></ui-predicate-compound>
+      <ui-predicate-compound v-bind:compound="root" v-bind:columns="columns"></ui-predicate-compound>
     </div>
   </div>
 </template>
 
 <script>
-const { PredicateCore } = require('ui-predicate-core');
-
 module.exports = {
   name: 'ui-predicate',
   props: {
-    columns: {
+    config: {
       type: Object,
-      required: false,
+      required: true,
     },
     data: {
       type: Object,
@@ -22,26 +20,20 @@ module.exports = {
     },
   },
   data: function() {
-    this.core = new PredicateCore({
-      data: this.data,
-      columns: this.columns,
-    });
     return {
-      root: this.core.root,
+      root: {},
+      columns: {},
       isInAddCompoundMode: false,
     };
   },
   provide: function() {
     const vm = this;
-    const core = vm.core;
     return {
-      columns: this.columns,
-      core: this.core,
       getAddCompoundMode: function() {
         return vm.isInAddCompoundMode;
       },
       add: function(predicate) {
-        core.add({
+        return vm.ctrl.add({
           where: predicate,
           how: 'after',
           type: vm.isInAddCompoundMode
@@ -50,13 +42,13 @@ module.exports = {
         });
       },
       remove: function(predicate) {
-        // noop
+        return vm.ctrl.remove(predicate);
       },
       setPredicateTarget_id: function(predicate, target_id) {
-        core.setPredicateTarget_id(predicate, target_id);
+        return vm.ctrl.setPredicateTarget_id(predicate, target_id);
       },
       setPredicateOperator_id: function(predicate, operator_id) {
-        core.setPredicateOperator_id(predicate, operator_id);
+        return vm.ctrl.setPredicateOperator_id(predicate, operator_id);
       },
     };
   },
@@ -79,6 +71,18 @@ module.exports = {
     },
   },
   mounted() {
+    const vm = this;
+    const { PredicateCore } = require('ui-predicate-core');
+
+    PredicateCore({
+      data: this.data,
+      columns: this.config,
+    }).then(ctrl => {
+      vm.ctrl = ctrl;
+      vm.root = ctrl.root;
+      vm.columns = ctrl.columns;
+    });
+
     window.addEventListener('keyup', this.onAltReleased);
     window.addEventListener('keydown', this.onAltPressed);
   },
@@ -89,8 +93,15 @@ module.exports = {
 };
 </script>
 
-<style scoped>
+<style>
 .ui-predicate.main {
-  border: 1px solid red;
+  display: flex;
+}
+
+.ui-predicate--row {
+  flex-direction: row;
+}
+.ui-predicate--col {
+  display: inline-block;
 }
 </style>

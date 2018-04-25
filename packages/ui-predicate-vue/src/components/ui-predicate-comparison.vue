@@ -1,22 +1,20 @@
 <template>
-  <div class="ui-predicate comparison">
-    <div>
-      <p>
+  <div class="ui-predicate--row comparison">
+      <div class="ui-predicate--col">
         <select v-bind:value="predicate.target.target_id" @change="changeTarget">
           <option v-for="target in columns.targets" v-bind:value="target.target_id">{{target.label}}</option>
         </select>
-      </p>
-      <p>
+      </div>
+      <div class="ui-predicate--col">
         <select v-bind:value="predicate.operator.operator_id" @change="changeOperator">
           <option v-for="operator in predicate.target.$type.$operators" v-bind:value="operator.operator_id">{{operator.label}}</option>
         </select>
-      </p>
-      <p>
+      </div>
+      <div class="ui-predicate--col">
         <input type="text" v-bind:value="predicate.arguments"></input>
-      </p>
+      </div>
       <ui-predicate-options v-bind:predicate="predicate"></ui-predicate-options>
     </div>
-  </div>
 </template>
 
 <script>
@@ -27,13 +25,12 @@ module.exports = {
       type: Object,
       required: true,
     },
+    columns: {
+      type: Object,
+      required: true,
+    },
   },
-  inject: [
-    'columns',
-    'add',
-    'setPredicateTarget_id',
-    'setPredicateOperator_id',
-  ],
+  inject: ['add', 'setPredicateTarget_id', 'setPredicateOperator_id'],
   methods: {
     changeTarget: function({ target: { value: target_id } }) {
       this.setPredicateTarget_id(this.predicate, target_id);
@@ -52,13 +49,3 @@ module.exports = {
   },
 };
 </script>
-
-<style scoped>
-.ui-predicate.comparison {
-  border: 1px solid black;
-}
-
-.ui-predicate.comparison p {
-  display: inline-block;
-}
-</style>
