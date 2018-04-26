@@ -392,7 +392,7 @@ describe('core.component', () => {
     });
 
     it('allow to remove a comparisonPredicate', () => {
-      expect.assertions(1);
+      expect.assertions(2);
       return PredicateCore()
         .then(ctrl =>
           ctrl
@@ -403,9 +403,10 @@ describe('core.component', () => {
             })
             .then(comparisonPredicate => [ctrl, comparisonPredicate])
         )
-        .then(([ctrl, comparisonPredicate]) =>
-          expect(ctrl.remove(comparisonPredicate)).resolves.toMatchSnapshot()
-        );
+        .then(([ctrl, comparisonPredicate]) => {
+          expect(ctrl.remove(comparisonPredicate)).resolves.toMatchSnapshot();
+          expect(ctrl.root.predicates.length).toBe(1);
+        });
     });
   });
 });
