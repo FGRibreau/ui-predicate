@@ -371,7 +371,6 @@ describe('core.component', () => {
           ctrl
             .add({
               where: ctrl.root.predicates[0],
-              how: 'after',
               type: 'CompoundPredicate',
             })
             .then(compoundPredicate => [ctrl, compoundPredicate])

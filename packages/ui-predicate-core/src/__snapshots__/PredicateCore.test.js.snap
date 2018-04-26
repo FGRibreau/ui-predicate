@@ -5,10 +5,12 @@ exports[`core.component constructor check that every targets refer to a defined 
 exports[`core.component constructor default state (without passed data) should have one predicate, selected automatically 1`] = `
 Object {
   "$_type": "CompoundPredicate",
+  "$canBeRemoved": false,
   "logic": "and",
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
+      "$canBeRemoved": false,
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
@@ -51,10 +53,12 @@ exports[`core.component constructor rejects an error if data does not start with
 exports[`core.component ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
+  "$canBeRemoved": false,
   "logic": "and",
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
+      "$canBeRemoved": true,
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
@@ -90,6 +94,7 @@ Object {
     },
     Object {
       "$_type": "ComparisonPredicate",
+      "$canBeRemoved": true,
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
@@ -136,10 +141,12 @@ exports[`core.component ctrl.add rejects if where is unsupported 1`] = `[CannotA
 exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
+  "$canBeRemoved": false,
   "logic": "and",
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
+      "$canBeRemoved": false,
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
@@ -180,10 +187,12 @@ Object {
 exports[`core.component ctrl.remove(predicate) allow to remove a compoundpredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
+  "$canBeRemoved": true,
   "logic": "and",
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
+      "$canBeRemoved": true,
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
@@ -236,6 +245,7 @@ exports[`core.component ctrl.setPredicateTarget_id rejects when target_id refers
 exports[`core.component ctrl.setPredicateTarget_id work if we set a predicate to an exist target_id 1`] = `
 Object {
   "$_type": "ComparisonPredicate",
+  "$canBeRemoved": false,
   "arguments": Array [],
   "operator": Object {
     "$_type": "Operator",

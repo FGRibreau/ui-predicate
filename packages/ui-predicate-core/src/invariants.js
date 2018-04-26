@@ -2,6 +2,7 @@
  * Invariants
  * @namespace invariants
  * @since 1.0.0
+ * @note invariants are 100% tested from PredicateCore.test.js
  */
 
 const { is } = require('ramda');

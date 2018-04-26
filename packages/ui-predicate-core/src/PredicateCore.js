@@ -80,6 +80,23 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
       });
   });
 
+  const tapPromise = f => {
+    return function(promise) {
+      return promise.then(result => {
+        f();
+        return result;
+      });
+    };
+  };
+
+  /**
+   * Run `fAfter()` (without any arguments) after `fBefore`, it will yield the promise yield from fBefore
+   * @param  {Function} fBefore
+   * @param  {Function} fAfter
+   * @return {Promise} promise from fBefore
+   */
+  const afterPromise = (fBefore, fAfter) => pipe(fBefore, tapPromise(fAfter));
+
   // columns => Promise[columns]
   const initializeColumns = columns => {
     // at first I used lenses, but the code was way harder to read so it's better that way :)
@@ -111,6 +128,25 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
       _columns => {
         let _root;
         const _options = merge(PredicateCore.defaults.options, options);
+
+        /**
+         * [_apply$flags description]
+         * @param  {[type]} f [description]
+         * @return {[type]}   [description]
+         */
+        function _apply$flags() {
+          const canRemoveAnyPredicate = !rules.predicateToRemoveIsTheLastComparisonPredicate(
+            _root,
+            CompoundPredicate,
+            ComparisonPredicate
+          );
+
+          CompoundPredicate.forEach(_root, function(predicate) {
+            predicate.$canBeRemoved =
+              canRemoveAnyPredicate &&
+              !rules.predicateToRemoveIsRootPredicate(_root, predicate);
+          });
+        }
 
         /**
          * Set PredicateCore data
@@ -147,23 +183,28 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
               .then(() => _options[`getDefault${type}`](_columns, _options))
               // then add it
               .then(predicate => {
-                if (ComparisonPredicate.is(where)) {
-                  // first find predicates array that contains the element
-                  const path = _find(where);
-                  // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
-                  const [compoundpredicate, [_, index]] = takeLast(2, path);
-                  compoundpredicate.predicates = insert(
-                    index + 1,
-                    predicate,
-                    compoundpredicate.predicates
-                  );
-                  return predicate;
-                }
+                const isComparisonPredicate = ComparisonPredicate.is(where);
 
-                if (CompoundPredicate.is(where)) {
-                  // we want to add a CompoundPredicate after a compound predicate
-                  // so we need to add it as its first .predicates entry
-                  where.predicates.unshift(predicate);
+                if (isComparisonPredicate || CompoundPredicate.is(where)) {
+                  if (isComparisonPredicate) {
+                    // it's a comparisonpredicate
+                    // first find predicates array that contains the element
+                    const path = _find(where);
+                    // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
+                    const [compoundpredicate, [_, index]] = takeLast(2, path);
+                    compoundpredicate.predicates = insert(
+                      index + 1,
+                      predicate,
+                      compoundpredicate.predicates
+                    );
+                  } else {
+                    // it's a compoundpredicate
+                    // we want to add a CompoundPredicate after a compound predicate
+                    // so we need to add it as its first .predicates entry
+                    where.predicates.unshift(predicate);
+                    return predicate;
+                  }
+
                   return predicate;
                 }
 
@@ -206,6 +247,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                 parentCompoundpredicate.predicates = parentCompoundpredicate.predicates.filter(
                   predicateItem => predicateItem !== predicate
                 );
+
                 return predicate;
               }
 
@@ -281,6 +323,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * Compute the JSON pointer path the element
          * @param  {Object} element (http://jsonpatch.com/)
          * @return {?Array} null if not found
+         * @readonly
          * @since 1.0.0
          */
         function _find(element) {
@@ -300,15 +343,20 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
             : _options.getDefaultData(_columns, _options)
           )
             // setup PredicateCore data
-            .then(setData)
-            // yield public API
+            .then(afterPromise(setData, _apply$flags))
+            // expose public API
             .then(() => ({
-              setData,
-              add,
-              remove,
-              setPredicateTarget_id,
-              setPredicateOperator_id,
-
+              setData: afterPromise(setData, _apply$flags),
+              add: afterPromise(add, _apply$flags),
+              remove: afterPromise(remove, _apply$flags),
+              setPredicateTarget_id: afterPromise(
+                setPredicateTarget_id,
+                _apply$flags
+              ),
+              setPredicateOperator_id: afterPromise(
+                setPredicateOperator_id,
+                _apply$flags
+              ),
               /**
                * Get root CompoundPredicate
                * @return {CompoundPredicate}
@@ -316,6 +364,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
               get root() {
                 return _root;
               },
+
               toJSON() {
                 return _root;
               },

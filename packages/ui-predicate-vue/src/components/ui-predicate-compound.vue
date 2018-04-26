@@ -41,9 +41,7 @@ module.exports = {
     },
   },
   inject: ['add'],
-  mounted() {
-    console.log('compound', this.compound);
-  },
+  mounted() {},
   destroyed() {
     console.log('destroyed');
   },

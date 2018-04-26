@@ -18,7 +18,15 @@ module.exports = ({ invariants }) => {
   function Predicate(type) {
     return invariants
       .PredicateTypeMustBeValid(type.name, Predicate.Types)
-      .then(() => $_type(type.name));
+      .then(() =>
+        merge($_type(type.name), {
+          /**
+           * $canBeRemoved specify if the predicate can be removed or not from the Predicates tree
+           * @type {Boolean} true if it can be removed
+           */
+          $canBeRemoved: true,
+        })
+      );
   }
 
   Predicate.Types = {
@@ -67,9 +75,9 @@ module.exports = ({ invariants }) => {
   }
 
   /**
-   * Walk through the predicates tree
+   * Reduce through the predicates tree
    * @param       {CompoundPredicate} compoundPredicate starter node
-   * @param       {function} f                 accumulation function
+   * @param       {function} f(acc, predicate, parents) accumulation function
    * @param       {T} acc               accumulator
    * @param       {Array}  [parents=[]]      path to the node, array of parents
    * @return      {T} yield the accumulator
@@ -82,6 +90,21 @@ module.exports = ({ invariants }) => {
         ? CompoundPredicate.reduce(predicate, f, _acc, _parents)
         : f(_acc, predicate, _parents);
     }, acc);
+  };
+
+  /**
+   * Walk through the predicates tree
+   * @param       {CompoundPredicate} compoundPredicate starter node
+   * @param       {Function} f(predicate) iterator function
+   */
+  CompoundPredicate.forEach = (compoundPredicate, f) => {
+    CompoundPredicate.reduce(
+      compoundPredicate,
+      (_, predicate, __) => {
+        f(predicate);
+      },
+      null
+    );
   };
 
   ComparisonPredicate.is = el =>

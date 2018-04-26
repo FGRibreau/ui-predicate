@@ -1,3 +1,10 @@
+/**
+ * Rules
+ * @namespace rules
+ * @since 1.0.0
+ * @note rules are 100% tested from PredicateCore.test.js
+ */
+
 module.exports = {
   /**
    * @param {CompoundPredicate} root      root predicate
