@@ -6,7 +6,7 @@
 
 const { is } = require('ramda');
 
-module.exports = ({ errors }) => ({
+module.exports = ({ errors, rules }) => ({
   CompoundPredicateMustHaveAtLeastOneSubPredicate: predicates => {
     if (!Array.isArray(predicates) || predicates.length === 0) {
       return Promise.reject(
@@ -82,12 +82,13 @@ module.exports = ({ errors }) => ({
     return Promise.resolve(operator);
   },
 
-  RemovePredicateMustDiferFromRootPredicate: (root, predicateToRemove) => {
-    if (root === predicateToRemove) {
+  RemovePredicateMustDifferFromRootPredicate: (root, predicateToRemove) => {
+    if (rules.predicateToRemoveIsRootPredicate(root, predicateToRemove)) {
       return Promise.reject(
         new errors.ForbiddenCannotRemoveRootCompoundPredicate()
       );
     }
+
     return Promise.resolve(predicateToRemove);
   },
 
@@ -96,17 +97,18 @@ module.exports = ({ errors }) => ({
     CompoundPredicate,
     ComparisonPredicate
   ) => {
-    const comparisonPredicateCount = CompoundPredicate.reduce(
-      root,
-      (acc, el) => (ComparisonPredicate.is(el) ? acc + 1 : acc),
-      0
-    );
-
-    if (comparisonPredicateCount === 1) {
+    if (
+      rules.predicateToRemoveIsTheLastComparisonPredicate(
+        root,
+        CompoundPredicate,
+        ComparisonPredicate
+      )
+    ) {
       return Promise.reject(
         new errors.ForbiddenCannotRemoveLastComparisonPredicate()
       );
     }
+
     return Promise.resolve();
   },
 });

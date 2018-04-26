@@ -135,39 +135,45 @@ exports[`core.component ctrl.add rejects if where is unsupported 1`] = `[CannotA
 
 exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredicate 1`] = `
 Object {
-  "$_type": "ComparisonPredicate",
-  "arguments": Array [],
-  "operator": Object {
-    "$_type": "Operator",
-    "label": "Est",
-    "operator_id": "is",
-  },
-  "target": Object {
-    "$_type": "Target",
-    "$type": Object {
-      "$_type": "Type",
-      "$operators": Array [
-        Object {
-          "$_type": "Operator",
-          "label": "Est",
-          "operator_id": "is",
+  "$_type": "CompoundPredicate",
+  "logic": "and",
+  "predicates": Array [
+    Object {
+      "$_type": "ComparisonPredicate",
+      "arguments": Array [],
+      "operator": Object {
+        "$_type": "Operator",
+        "label": "Est",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "$_type": "Target",
+        "$type": Object {
+          "$_type": "Type",
+          "$operators": Array [
+            Object {
+              "$_type": "Operator",
+              "label": "Est",
+              "operator_id": "is",
+            },
+            Object {
+              "$_type": "Operator",
+              "label": "Contient",
+              "operator_id": "contains",
+            },
+          ],
+          "operator_ids": Array [
+            "is",
+            "contains",
+          ],
+          "type_id": "string",
         },
-        Object {
-          "$_type": "Operator",
-          "label": "Contient",
-          "operator_id": "contains",
-        },
-      ],
-      "operator_ids": Array [
-        "is",
-        "contains",
-      ],
-      "type_id": "string",
+        "label": "Titre article",
+        "target_id": "article.title",
+        "type_id": "string",
+      },
     },
-    "label": "Titre article",
-    "target_id": "article.title",
-    "type_id": "string",
-  },
+  ],
 }
 `;
 

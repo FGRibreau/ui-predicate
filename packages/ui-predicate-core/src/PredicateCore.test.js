@@ -403,9 +403,18 @@ describe('core.component', () => {
             })
             .then(comparisonPredicate => [ctrl, comparisonPredicate])
         )
-        .then(([ctrl, comparisonPredicate]) => {
-          expect(ctrl.remove(comparisonPredicate)).resolves.toMatchSnapshot();
-          expect(ctrl.root.predicates.length).toBe(1);
+        .then(([ctrl, comparisonPredicate]) =>
+          ctrl
+            .remove(comparisonPredicate)
+            .then(removedPredicate => [
+              ctrl,
+              comparisonPredicate,
+              removedPredicate,
+            ])
+        )
+        .then(([ctrl, comparisonPredicate, removedPredicate]) => {
+          expect(ComparisonPredicate.is(removedPredicate)).toBe(true);
+          expect(ctrl.root).toMatchSnapshot();
         });
     });
   });

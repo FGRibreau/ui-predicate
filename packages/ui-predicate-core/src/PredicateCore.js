@@ -23,7 +23,7 @@ function head(list) {
   return option.fromNullable(list[0]).value();
 }
 
-module.exports = function({ dataclasses, invariants, errors }) {
+module.exports = function({ dataclasses, invariants, errors, rules }) {
   const {
     CompoundPredicate,
     ComparisonPredicate,
@@ -183,7 +183,7 @@ module.exports = function({ dataclasses, invariants, errors }) {
         function remove(predicate) {
           return Promise.resolve()
             .then(() =>
-              invariants.RemovePredicateMustDiferFromRootPredicate(
+              invariants.RemovePredicateMustDifferFromRootPredicate(
                 _root,
                 predicate
               )
