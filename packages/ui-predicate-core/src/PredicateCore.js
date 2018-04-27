@@ -63,6 +63,22 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
     option.fromNullable(find(target => target.target_id == target_id, targets));
 
   /**
+   * Get a logical type by its logicalType_id
+   * @param  {array} logicalTypes
+   * @param  {string} logicalType_id logicalType id name
+   * @return {?dataclasses.Target}
+   * @private
+   * @since 1.0.0
+   */
+  const _getLogicalTypeById = (logicalTypes, logicalType_id) =>
+    option.fromNullable(
+      find(
+        logicalType => logicalType.logicalType_id == logicalType_id,
+        logicalTypes
+      )
+    );
+
+  /**
    * _getOperatorsByIds
    * @param  {Object} columns
    * @param  {string[]} operator_ids
@@ -121,6 +137,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
     // wrap operators
     columns.operators = map(dataclasses.Operator, columns.operators);
+
+    // wrap logicalTypes
+    columns.logicalTypes = map(dataclasses.LogicalType, columns.logicalTypes);
 
     // wrap types and set `$operators` attribute on each type
     const wrapType = pipe(dataclasses.Type, _set$operatorsToType(columns));
@@ -284,6 +303,34 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
         }
 
         /**
+         * Change a CompoundPredicate logical
+         * @param {dataclasses.CompoundPredicate} predicate
+         * @param {string} newLogicalType_id
+         * @return {Promise<undefined, errors.PredicateMustBeACompoundPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeACompoundPredicate error
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function setPredicateLogicalType_id(predicate, newLogicalType_id) {
+          return invariants
+            .PredicateMustBeACompoundPredicate(predicate, CompoundPredicate)
+            .then(() => {
+              // first change the logical type
+              return _getLogicalTypeById(
+                _columns.logicalTypes,
+                newLogicalType_id
+              );
+            })
+            .then(logicalTypeOption =>
+              invariants.LogicalType_idMustReferToADefinedLogicalType(
+                logicalTypeOption
+              )
+            )
+            .then(logicalTypeOption => {
+              predicate.logic = logicalTypeOption.value(); // safe
+            });
+        }
+
+        /**
          * Change a predicate's target
          * @param {dataclasses.ComparisonPredicate} predicate
          * @param {string} newTarget_id
@@ -293,7 +340,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          */
         function setPredicateTarget_id(predicate, newTarget_id) {
           return invariants
-            .PredicateMustBeAComparisonPredicate(predicate)
+            .PredicateMustBeAComparisonPredicate(predicate, ComparisonPredicate)
             .then(() => {
               // first change the target
               return _getTargetById(_columns.targets, newTarget_id);
@@ -391,6 +438,10 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                   setPredicateOperator_id,
                   _apply$flags
                 ),
+                setPredicateLogicalType_id: _afterPromise(
+                  setPredicateLogicalType_id,
+                  _apply$flags
+                ),
 
                 /**
                  * Get root CompoundPredicate
@@ -464,7 +515,11 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
               .getDefaultComparisonPredicate(columns, options)
               .then(comparisonPredicate => [comparisonPredicate])
           : Promise.resolve(predicates)
-        ).then(predicates => CompoundPredicate(LogicalType.and, predicates));
+        ).then(predicates =>
+          options
+            .getDefaultLogicalType(predicates, columns, options)
+            .then(logicalType => CompoundPredicate(logicalType, predicates))
+        );
       },
 
       /**
@@ -472,7 +527,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        *
        * This function is called whenever a new ComparisonPredicate is added to the UIPredicate
        * @param  {Object} columns specified columns
-       * @param  {Object} options PredicateCore available options
+       * @param  {Object} [options=PredicateCore.defaults.options] PredicateCore available options
        * @return {Promise<dataclasses.ComparisonPredicate>} a Comparison
        * @since 1.0.0
        * @memberof core.defaults
@@ -484,6 +539,21 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
           head(firstTarget.$type.$operators),
           []
         );
+      },
+
+      /**
+       * Default logical type to use when a new comparison predicate is created
+       *
+       * This function is called whenever a new ComparisonPredicate is added to the UIPredicate
+       * @param  {Array<dataclasses.Predicate>} predicates specified columns
+       * @param  {Object} columns specified columns
+       * @param  {Object} [options=PredicateCore.defaults.options] PredicateCore available options
+       * @return {Promise<dataclasses.LogicalType>} a logical type
+       * @since 1.0.0
+       * @memberof core.defaults
+       */
+      getDefaultLogicalType(predicates, columns, options) {
+        return Promise.resolve(head(columns.logicalTypes));
       },
     },
     columns: {
@@ -543,6 +613,20 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
           target_id: 'publishingAt',
           label: 'Date de publication',
           type_id: 'datetime',
+        },
+      ],
+      logicalTypes: [
+        {
+          logicalType_id: 'any',
+          label: 'Any',
+        },
+        {
+          logicalType_id: 'all',
+          label: 'All',
+        },
+        {
+          logicalType_id: 'none',
+          label: 'None',
         },
       ],
     },

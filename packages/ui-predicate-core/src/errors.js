@@ -32,7 +32,7 @@ module.exports = mergeAll([
   err('CompoundPredicateMustHaveAtLeastOneSubPredicate'),
 
   /**
-   * Error when setData `data` parameter is called with something else than a CompoundPredicate
+   * Error when setData `data` parameter is called with something else than a  {@link dataclasses.CompoundPredicate}
    * @typedef {Error} RootPredicateMustBeACompoundPredicate
    * @memberof errors
    * @since 1.0.0
@@ -40,7 +40,15 @@ module.exports = mergeAll([
   err('RootPredicateMustBeACompoundPredicate'),
 
   /**
-   * Error when `predicate` parameter is called with something else than a ComparisonPredicate
+   * Error when a function was requiring a {@link dataclasses.CompoundPredicate} as a parameter
+   * @typedef {Error} RootPredicateMustBeACompoundPredicate
+   * @memberof errors
+   * @since 1.0.0
+   */
+  err('PredicateMustBeACompoundPredicate'),
+
+  /**
+   * Error when a function was requiring a {@link dataclasses.ComparisonPredicate} as a parameter
    * @typedef {Error} PredicateMustBeAComparisonPredicate
    * @memberof errors
    * @since 1.0.0
@@ -65,6 +73,15 @@ module.exports = mergeAll([
   err('TargetMustReferToADefinedType'),
 
   /**
+   * Thrown when a user asked for a logic change on a {@link dataclasses.CompoundPredicate}
+   * but the logicalType_id was invalid because it referred to no existing targets
+   * @typedef {Error} LogicalType_idMustReferToADefinedLogicalType
+   * @memberof errors
+   * @since 1.0.0
+   */
+  err('LogicalType_idMustReferToADefinedLogicalType'),
+
+  /**
    * Thrown when a user asked for a target change on a predicate
    * but the target_id was invalid because it referred to no existing targets
    * @typedef {Error} Target_idMustReferToADefinedTarget
@@ -84,7 +101,7 @@ module.exports = mergeAll([
   err('Operator_idMustReferToADefinedOperator'),
 
   /**
-   * Thrown when remove is called on root CompoundPredicate
+   * Thrown when remove is called on root {@link dataclasses.CompoundPredicate}
    * @typedef {Error} ForbiddenCannotRemoveRootCompoundPredicate
    * @memberof errors
    * @since 1.0.0

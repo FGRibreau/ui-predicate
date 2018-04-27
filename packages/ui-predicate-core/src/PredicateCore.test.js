@@ -38,6 +38,7 @@ describe('core.component', () => {
             // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
             operators: [],
             types: [],
+            logicalTypes: [],
             targets: [
               {
                 target_id: 'article.title',
@@ -48,6 +49,13 @@ describe('core.component', () => {
           },
         })
       ).rejects.toMatchSnapshot();
+    });
+
+    it('expose computed options', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl => {
+        expect(Object.keys(ctrl)).toMatchSnapshot();
+      });
     });
   });
 
@@ -319,6 +327,37 @@ describe('core.component', () => {
     });
   });
 
+  describe('ctrl.setPredicateLogicalType_id', () => {
+    it('rejects an error if logicalType_id cannot be found', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl => {
+        return expect(
+          ctrl.setPredicateLogicalType_id(ctrl.root, 'laaaol')
+        ).rejects.toMatchSnapshot();
+      });
+    });
+
+    it('work if we set a predicate to an existing logicalType_id', () => {
+      expect.assertions(2);
+      return PredicateCore().then(ctrl => {
+        expect(ctrl.root.logic.logicalType_id).toBe(
+          ctrl.columns.logicalTypes[0].logicalType_id
+        );
+
+        return ctrl
+          .setPredicateLogicalType_id(
+            ctrl.root,
+            ctrl.columns.logicalTypes[1].logicalType_id
+          )
+          .then(() => {
+            expect(ctrl.root.logic.logicalType_id).toBe(
+              ctrl.columns.logicalTypes[1].logicalType_id
+            );
+          });
+      });
+    });
+  });
+
   describe('ctrl.options', () => {
     it('expose computed options', () => {
       expect.assertions(1);
@@ -327,6 +366,7 @@ describe('core.component', () => {
           'getDefaultData',
           'getDefaultCompoundPredicate',
           'getDefaultComparisonPredicate',
+          'getDefaultLogicalType',
         ]);
       });
     });

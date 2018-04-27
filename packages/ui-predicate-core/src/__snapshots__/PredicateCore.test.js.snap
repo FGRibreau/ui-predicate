@@ -6,7 +6,11 @@ exports[`core.component constructor default state (without passed data) should h
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": false,
-  "logic": "and",
+  "logic": Object {
+    "$_type": "LogicalType",
+    "label": "Any",
+    "logicalType_id": "any",
+  },
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
@@ -48,13 +52,32 @@ Object {
 }
 `;
 
+exports[`core.component constructor expose computed options 1`] = `
+Array [
+  "setData",
+  "add",
+  "remove",
+  "setPredicateTarget_id",
+  "setPredicateOperator_id",
+  "setPredicateLogicalType_id",
+  "root",
+  "toJSON",
+  "columns",
+  "options",
+]
+`;
+
 exports[`core.component constructor rejects an error if data does not start with a ComparisonPredicate 1`] = `[RootPredicateMustBeACompoundPredicate]`;
 
 exports[`core.component ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": false,
-  "logic": "and",
+  "logic": Object {
+    "$_type": "LogicalType",
+    "label": "Any",
+    "logicalType_id": "any",
+  },
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
@@ -142,7 +165,11 @@ exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredi
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": false,
-  "logic": "and",
+  "logic": Object {
+    "$_type": "LogicalType",
+    "label": "Any",
+    "logicalType_id": "any",
+  },
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
@@ -188,7 +215,11 @@ exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredi
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": false,
-  "logic": "and",
+  "logic": Object {
+    "$_type": "LogicalType",
+    "label": "Any",
+    "logicalType_id": "any",
+  },
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
@@ -234,7 +265,11 @@ exports[`core.component ctrl.remove(predicate) allow to remove a compoundpredica
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": true,
-  "logic": "and",
+  "logic": Object {
+    "$_type": "LogicalType",
+    "label": "Any",
+    "logicalType_id": "any",
+  },
   "predicates": Array [
     Object {
       "$_type": "ComparisonPredicate",
@@ -281,6 +316,8 @@ exports[`core.component ctrl.remove(predicate) forbids to remove an unknown type
 exports[`core.component ctrl.remove(predicate) forbids to remove the last predicate of the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveLastComparisonPredicate]`;
 
 exports[`core.component ctrl.remove(predicate) forbids to remove the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveRootCompoundPredicate]`;
+
+exports[`core.component ctrl.setPredicateLogicalType_id rejects an error if logicalType_id cannot be found 1`] = `[LogicalType_idMustReferToADefinedLogicalType]`;
 
 exports[`core.component ctrl.setPredicateOperator_id rejects an error if operator_id cannot be found 1`] = `[Operator_idMustReferToADefinedOperator]`;
 

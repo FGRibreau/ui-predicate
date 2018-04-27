@@ -67,8 +67,11 @@ module.exports = ({ invariants }) => {
    * @return {Boolean}
    * @memberof dataclasses
    */
-  ComparisonPredicate.is = predicate =>
-    predicate.$_type === Predicate.Types.ComparisonPredicate;
+  ComparisonPredicate.is = predicate => {
+    return (
+      predicate && predicate.$_type === Predicate.Types.ComparisonPredicate
+    );
+  };
 
   /**
    * A specialized predicate that evaluates logical combinations of other predicates.
@@ -128,27 +131,15 @@ module.exports = ({ invariants }) => {
   };
 
   /**
-   * LogicalType.not | LogicalType.and | LogicalType.or
-   * @typedef {Object}
-   * @memberof dataclasses
-   */
-  const LogicalType = {
-    not: 'not',
-    and: 'and',
-    or: 'or',
-  };
-
-  /**
    * Yield true if `predicate` is a CompoundPredicate
    * @param  {dataclasses.Predicate}  predicate
    * @return {Boolean}
    * @memberof dataclasses
    */
   CompoundPredicate.is = predicate =>
-    predicate.$_type === Predicate.Types.CompoundPredicate;
+    predicate && predicate.$_type === Predicate.Types.CompoundPredicate;
 
   return {
-    LogicalType,
     Predicate,
     ComparisonPredicate,
     CompoundPredicate,

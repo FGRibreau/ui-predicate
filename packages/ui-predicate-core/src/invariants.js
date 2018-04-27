@@ -15,15 +15,12 @@ module.exports = ({ errors, rules }) => ({
    * @memberof invariants
    * @since 1.0.0
    */
-  CompoundPredicateMustHaveAtLeastOneSubPredicate: predicates => {
-    if (!Array.isArray(predicates) || predicates.length === 0) {
-      return Promise.reject(
-        new errors.CompoundPredicateMustHaveAtLeastOneSubPredicate()
-      );
-    }
-    return Promise.resolve();
-  },
-
+  CompoundPredicateMustHaveAtLeastOneSubPredicate: predicates =>
+    !Array.isArray(predicates) || predicates.length === 0
+      ? Promise.reject(
+          new errors.CompoundPredicateMustHaveAtLeastOneSubPredicate()
+        )
+      : Promise.resolve(),
   /**
    * @param {String} type Predicate type
    * @param {Object} acceptedTypes list of accepted types
@@ -31,55 +28,52 @@ module.exports = ({ errors, rules }) => ({
    * @memberof invariants
    * @since 1.0.0
    */
-  PredicateTypeMustBeValid: (type, acceptedTypes) => {
-    if (!Object.keys(acceptedTypes).includes(type)) {
-      return Promise.reject(new errors.InvalidPredicateType());
-    }
-
-    return Promise.resolve();
-  },
-
+  PredicateTypeMustBeValid: (type, acceptedTypes) =>
+    !Object.keys(acceptedTypes).includes(type)
+      ? Promise.reject(new errors.InvalidPredicateType())
+      : Promise.resolve(),
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @return {Promise<dataclasses.CompoundPredicate, errors.RootPredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `RootPredicateMustBeACompoundPredicate` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
-  RootPredicateMustBeACompoundPredicate: (root, CompoundPredicate) => {
-    if (!CompoundPredicate.is(root)) {
-      return Promise.reject(new errors.RootPredicateMustBeACompoundPredicate());
-    }
-    return Promise.resolve(root);
-  },
-
+  RootPredicateMustBeACompoundPredicate: (root, CompoundPredicate) =>
+    !CompoundPredicate.is(root)
+      ? Promise.reject(new errors.RootPredicateMustBeACompoundPredicate())
+      : Promise.resolve(root),
   /**
-   * @param {dataclasses.CompoundPredicate} root root
+   * @param {dataclasses.Predicate} predicate predicate
+   * @param {dataclasses.ComparisonPredicate} ComparisonPredicate ComparisonPredicate constructor
    * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} resolve the promise if the invariant pass or yield a `PredicateMustBeAComparisonPredicate` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
-  PredicateMustBeAComparisonPredicate: root => {
-    if (!is(Object, root) || root.$_type !== 'ComparisonPredicate') {
-      // @todo use ComparisonPredicate.is instead
-      return Promise.reject(new errors.PredicateMustBeAComparisonPredicate());
-    }
-    return Promise.resolve();
-  },
-
+  PredicateMustBeAComparisonPredicate: (predicate, ComparisonPredicate) =>
+    !ComparisonPredicate.is(predicate)
+      ? Promise.reject(new errors.PredicateMustBeAComparisonPredicate())
+      : Promise.resolve(),
+  /**
+   * @param {dataclasses.Predicate} predicate
+   * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate constructor
+   * @return {Promise<undefined, errors.PredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `PredicateMustBeACompoundPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  PredicateMustBeACompoundPredicate: (predicate, CompoundPredicate) =>
+    !CompoundPredicate.is(predicate)
+      ? Promise.reject(new errors.PredicateMustBeACompoundPredicate())
+      : Promise.resolve(),
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @return {Promise<undefined, errors.AddCurrentlyOnlySupportAfterInsertion>} resolve the promise if the invariant pass or yield a `AddCurrentlyOnlySupportAfterInsertion` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
-  AddOnlySupportsAfter: how => {
-    if (how !== 'after') {
-      return Promise.reject(new errors.AddCurrentlyOnlySupportAfterInsertion());
-    }
-
-    return Promise.resolve();
-  },
-
+  AddOnlySupportsAfter: how =>
+    how !== 'after'
+      ? Promise.reject(new errors.AddCurrentlyOnlySupportAfterInsertion())
+      : Promise.resolve(),
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @return {Promise<dataclasses.Type, errors.TargetMustReferToADefinedType>} resolve the promise if the invariant pass or yield a `TargetMustReferToADefinedType` error otherwise
@@ -102,33 +96,37 @@ module.exports = ({ errors, rules }) => ({
   },
 
   /**
+   * @param {Option<dataclasses.LogicalType>} logicalType logicalType
+   * @return {Promise<dataclasses.LogicalType, errors.LogicalType_idMustReferToADefinedLogicalType>} resolve the promise if the invariant pass or yield a `LogicalType_idMustReferToADefinedLogicalType` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  LogicalType_idMustReferToADefinedLogicalType: logicalType =>
+    logicalType.isNone()
+      ? Promise.reject(
+          new errors.LogicalType_idMustReferToADefinedLogicalType()
+        )
+      : Promise.resolve(logicalType),
+  /**
    * @param {Option<dataclasses.Target>} target target
    * @return {Promise<dataclasses.Target, errors.Target_idMustReferToADefinedTarget>} resolve the promise if the invariant pass or yield a `Target_idMustReferToADefinedTarget` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
-  Target_idMustReferToADefinedTarget: target => {
-    if (target.isNone()) {
-      return Promise.reject(new errors.Target_idMustReferToADefinedTarget());
-    }
-    return Promise.resolve(target);
-  },
-
+  Target_idMustReferToADefinedTarget: target =>
+    target.isNone()
+      ? Promise.reject(new errors.Target_idMustReferToADefinedTarget())
+      : Promise.resolve(target),
   /**
    * @param {Option<dataclasses.Operator>} operator
    * @return {Promise<dataclasses.Operator, errors.Operator_idMustReferToADefinedOperator>} resolve the promise if the invariant pass or yield a `Operator_idMustReferToADefinedOperator` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
-  Operator_idMustReferToADefinedOperator: operator => {
-    if (operator.isNone()) {
-      return Promise.reject(
-        new errors.Operator_idMustReferToADefinedOperator()
-      );
-    }
-    return Promise.resolve(operator);
-  },
-
+  Operator_idMustReferToADefinedOperator: operator =>
+    operator.isNone()
+      ? Promise.reject(new errors.Operator_idMustReferToADefinedOperator())
+      : Promise.resolve(operator),
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @param {dataclasses.Predicate} predicateToRemove predicateToRemove
@@ -136,16 +134,10 @@ module.exports = ({ errors, rules }) => ({
    * @memberof invariants
    * @since 1.0.0
    */
-  RemovePredicateMustDifferFromRootPredicate: (root, predicateToRemove) => {
-    if (rules.predicateToRemoveIsRootPredicate(root, predicateToRemove)) {
-      return Promise.reject(
-        new errors.ForbiddenCannotRemoveRootCompoundPredicate()
-      );
-    }
-
-    return Promise.resolve(predicateToRemove);
-  },
-
+  RemovePredicateMustDifferFromRootPredicate: (root, predicateToRemove) =>
+    rules.predicateToRemoveIsRootPredicate(root, predicateToRemove)
+      ? Promise.reject(new errors.ForbiddenCannotRemoveRootCompoundPredicate())
+      : Promise.resolve(predicateToRemove),
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @param {dataclasses.Predicate} predicateToRemove
@@ -160,20 +152,15 @@ module.exports = ({ errors, rules }) => ({
     predicateToRemove,
     CompoundPredicate,
     ComparisonPredicate
-  ) => {
-    if (
-      ComparisonPredicate.is(predicateToRemove) &&
-      rules.predicateToRemoveIsTheLastComparisonPredicate(
-        root,
-        CompoundPredicate,
-        ComparisonPredicate
-      )
-    ) {
-      return Promise.reject(
-        new errors.ForbiddenCannotRemoveLastComparisonPredicate()
-      );
-    }
-
-    return Promise.resolve();
-  },
+  ) =>
+    ComparisonPredicate.is(predicateToRemove) &&
+    rules.predicateToRemoveIsTheLastComparisonPredicate(
+      root,
+      CompoundPredicate,
+      ComparisonPredicate
+    )
+      ? Promise.reject(
+          new errors.ForbiddenCannotRemoveLastComparisonPredicate()
+        )
+      : Promise.resolve(),
 });

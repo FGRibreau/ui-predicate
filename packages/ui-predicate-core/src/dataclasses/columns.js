@@ -76,4 +76,25 @@ function Type(type) {
   ]);
 }
 
-module.exports = { Type, Target, Operator };
+/**
+ * Create a new type logical type
+ * Logical types or used in CompoundPredicates
+ * @param {Object} logic The predicate logic
+ * @param {string} type.logicalType_id
+ * @param {string} type.label
+ * @memberof dataclasses
+ */
+function LogicalType(logicalType) {
+  // logicalType MUST at least have the attributes bellow
+  const { logicalType_id, label } = logicalType;
+  return mergeAll([
+    $_type('LogicalType'),
+    {
+      logicalType_id,
+      label,
+    },
+    logicalType,
+  ]);
+}
+
+module.exports = { Type, Target, Operator, LogicalType };
