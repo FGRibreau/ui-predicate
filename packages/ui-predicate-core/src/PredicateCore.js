@@ -202,7 +202,6 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                     // we want to add a CompoundPredicate after a compound predicate
                     // so we need to add it as its first .predicates entry
                     where.predicates.unshift(predicate);
-                    return predicate;
                   }
 
                   return predicate;
@@ -232,6 +231,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
             .then(() =>
               invariants.RemovePredicateCannotBeTheLastComparisonPredicate(
                 _root,
+                predicate,
                 CompoundPredicate,
                 ComparisonPredicate
               )
@@ -242,11 +242,16 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                 ComparisonPredicate.is(predicate)
               ) {
                 const path = _find(predicate);
-                // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
+                // we are starting from a ComparisonPredicate that always live
+                // inside a CompoundPredicate.predicates array
                 const [parentCompoundpredicate, [_, index]] = takeLast(2, path);
-                parentCompoundpredicate.predicates = parentCompoundpredicate.predicates.filter(
-                  predicateItem => predicateItem !== predicate
-                );
+                parentCompoundpredicate.predicates.splice(index, 1);
+
+                if (parentCompoundpredicate.predicates.length === 0) {
+                  // if there are not any more predicates
+                  // inside the parentCompoundpredicate, we should also remove it
+                  return remove(parentCompoundpredicate);
+                }
 
                 return predicate;
               }

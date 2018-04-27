@@ -95,10 +95,12 @@ module.exports = ({ errors, rules }) => ({
 
   RemovePredicateCannotBeTheLastComparisonPredicate: (
     root,
+    predicateToRemove,
     CompoundPredicate,
     ComparisonPredicate
   ) => {
     if (
+      ComparisonPredicate.is(predicateToRemove) &&
       rules.predicateToRemoveIsTheLastComparisonPredicate(
         root,
         CompoundPredicate,

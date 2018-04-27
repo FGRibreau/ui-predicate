@@ -391,7 +391,7 @@ describe('core.component', () => {
     });
 
     it('allow to remove a comparisonPredicate', () => {
-      expect.assertions(2);
+      expect.assertions(3);
       return PredicateCore()
         .then(ctrl =>
           ctrl
@@ -404,7 +404,7 @@ describe('core.component', () => {
         )
         .then(([ctrl, comparisonPredicate]) =>
           ctrl
-            .remove(comparisonPredicate)
+            .remove(ctrl.root.predicates[1])
             .then(removedPredicate => [
               ctrl,
               comparisonPredicate,
@@ -413,6 +413,35 @@ describe('core.component', () => {
         )
         .then(([ctrl, comparisonPredicate, removedPredicate]) => {
           expect(ComparisonPredicate.is(removedPredicate)).toBe(true);
+          expect(ctrl.root.predicates.length).toBe(1);
+          expect(ctrl.root).toMatchSnapshot();
+        });
+    });
+
+    it(`allow to remove a comparisonPredicate and its parent CompoundPredicate if it was the last comparisonPredicate`, () => {
+      expect.assertions(3);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              how: 'after',
+              type: 'CompoundPredicate',
+            })
+            .then(comparisonPredicate => [ctrl, comparisonPredicate])
+        )
+        .then(([ctrl, comparisonPredicate]) =>
+          ctrl
+            .remove(ctrl.root.predicates[1].predicates[0]) // remove the comparisonPredicate of the compoundPredicate we've just added
+            .then(removedPredicate => [
+              ctrl,
+              comparisonPredicate,
+              removedPredicate,
+            ])
+        )
+        .then(([ctrl, comparisonPredicate, removedPredicate]) => {
+          expect(CompoundPredicate.is(removedPredicate)).toBe(true);
+          expect(ctrl.root.predicates.length).toBe(1);
           expect(ctrl.root).toMatchSnapshot();
         });
     });

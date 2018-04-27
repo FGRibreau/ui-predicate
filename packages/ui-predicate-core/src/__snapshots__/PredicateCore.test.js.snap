@@ -184,6 +184,52 @@ Object {
 }
 `;
 
+exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredicate and its parent CompoundPredicate if it was the last comparisonPredicate 1`] = `
+Object {
+  "$_type": "CompoundPredicate",
+  "$canBeRemoved": false,
+  "logic": "and",
+  "predicates": Array [
+    Object {
+      "$_type": "ComparisonPredicate",
+      "$canBeRemoved": false,
+      "arguments": Array [],
+      "operator": Object {
+        "$_type": "Operator",
+        "label": "Est",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "$_type": "Target",
+        "$type": Object {
+          "$_type": "Type",
+          "$operators": Array [
+            Object {
+              "$_type": "Operator",
+              "label": "Est",
+              "operator_id": "is",
+            },
+            Object {
+              "$_type": "Operator",
+              "label": "Contient",
+              "operator_id": "contains",
+            },
+          ],
+          "operator_ids": Array [
+            "is",
+            "contains",
+          ],
+          "type_id": "string",
+        },
+        "label": "Titre article",
+        "target_id": "article.title",
+        "type_id": "string",
+      },
+    },
+  ],
+}
+`;
+
 exports[`core.component ctrl.remove(predicate) allow to remove a compoundpredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
