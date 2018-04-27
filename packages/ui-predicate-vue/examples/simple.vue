@@ -72,6 +72,20 @@ export default {
             type_id: 'datetime',
           },
         ],
+        logicalTypes: [
+          {
+            logicalType_id: 'any',
+            label: 'Any',
+          },
+          {
+            logicalType_id: 'all',
+            label: 'All',
+          },
+          {
+            logicalType_id: 'none',
+            label: 'None',
+          },
+        ],
       },
     };
   },

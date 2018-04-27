@@ -45,6 +45,9 @@ module.exports = {
       remove: function(predicate) {
         return vm.ctrl.remove(predicate);
       },
+      setPredicateLogicalType_id: function(predicate, logicalType_id) {
+        return vm.ctrl.setPredicateLogicalType_id(predicate, logicalType_id);
+      },
       setPredicateTarget_id: function(predicate, target_id) {
         return vm.ctrl.setPredicateTarget_id(predicate, target_id);
       },
