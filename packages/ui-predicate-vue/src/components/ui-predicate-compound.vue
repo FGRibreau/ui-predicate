@@ -3,7 +3,7 @@
 
       <div class="ui-predicate ui-predicate--row">
         <div class="ui-predicate--col">
-          <select v-bind:value="compound.logic.logicalType_id" @change="changeLogic">
+          <select v-if="compound.logic" v-bind:value="compound.logic.logicalType_id"  @change="changeLogic">
             <option v-for="logicalType in columns.logicalTypes" v-bind:value="logicalType.logicalType_id">{{logicalType.label}}</option>
           </select>
         </div>
@@ -41,7 +41,6 @@ module.exports = {
     },
   },
   inject: ['add', 'setPredicateLogicalType_id'],
-  mounted() {},
   methods: {
     changeLogic: function({ target: { value: logicalType_id } }) {
       this.setPredicateLogicalType_id(this.compound, logicalType_id);
