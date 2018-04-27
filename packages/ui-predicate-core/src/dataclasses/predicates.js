@@ -11,7 +11,7 @@ module.exports = ({ invariants }) => {
   /**
    * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
    * @param {Function} type - Predicate subtype function constructor
-   * @return {Predicate}
+   * @return {dataclasses.Predicate}
    * @memberof dataclasses
    */
   function Predicate(type) {
@@ -45,10 +45,10 @@ module.exports = ({ invariants }) => {
 
   /**
    * A specialized predicate that you use to compare expressions.
-   * @param  {Target} target  {@link dataclasses.Target}
-   * @param  {Operator} operator {@link dataclasses.Operator}
-   * @param  {Object[]} args
-   * @return {Promise<ComparisonPredicate>} yield a {@link dataclasses.ComparisonPredicate} or a rejected promise
+   * @param  {dataclasses.Target} target
+   * @param  {dataclasses.Operator} operator
+   * @param  {Array<*>} args
+   * @return {Promise<dataclasses.ComparisonPredicate>} yield a ComparisonPredicate or a rejected promise
    * @memberof dataclasses
    */
   function ComparisonPredicate(target, operator, args) {
@@ -63,7 +63,7 @@ module.exports = ({ invariants }) => {
 
   /**
    * Yield true if `predicate` is a ComparisonPredicate
-   * @param  {Predicate}  predicate {@link dataclasses.Predicate}
+   * @param  {dataclasses.Predicate}  predicate {@link dataclasses.Predicate}
    * @return {Boolean}
    * @memberof dataclasses
    */
@@ -72,9 +72,9 @@ module.exports = ({ invariants }) => {
 
   /**
    * A specialized predicate that evaluates logical combinations of other predicates.
-   * @param {LogicalType} logic The predicate logic
-   * @param {Array<Predicate>} predicates predicates
-   * @return {Promise<CompoundPredicate>} yield a {@link dataclasses.CompoundPredicate} or a {@link errors.CompoundPredicateMustHaveAtLeastOneSubPredicate} rejected promise
+   * @param {dataclasses.LogicalType} logic The predicate logic
+   * @param {Array<dataclasses.Predicate>} predicates predicates
+   * @return {Promise<dataclasses.CompoundPredicate>} yield a {@link dataclasses.CompoundPredicate} or a {@link errors.CompoundPredicateMustHaveAtLeastOneSubPredicate} rejected promise
    * @memberof dataclasses
    */
   function CompoundPredicate(logic, predicates) {
@@ -94,7 +94,7 @@ module.exports = ({ invariants }) => {
 
   /**
    * Reduce through the predicates tree
-   * @param       {CompoundPredicate} compoundPredicate starter node
+   * @param       {dataclasses.CompoundPredicate} compoundPredicate starter node
    * @param       {function} f accumulation function, f(acc, predicate, parents)
    * @param       {T} acc               accumulator
    * @param       {Array}  [parents=[]]      path to the node, array of parents
@@ -113,7 +113,7 @@ module.exports = ({ invariants }) => {
 
   /**
    * Walk through the predicates tree
-   * @param       {CompoundPredicate} compoundPredicate starter node
+   * @param       {dataclasses.CompoundPredicate} compoundPredicate starter node
    * @param       {Function} f(predicate) iterator function
    * @memberof dataclasses
    */
@@ -137,9 +137,10 @@ module.exports = ({ invariants }) => {
     and: 'and',
     or: 'or',
   };
+
   /**
    * Yield true if `predicate` is a CompoundPredicate
-   * @param  {Predicate}  predicate
+   * @param  {dataclasses.Predicate}  predicate
    * @return {Boolean}
    * @memberof dataclasses
    */
