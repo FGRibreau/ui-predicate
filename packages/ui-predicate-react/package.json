@@ -4,14 +4,15 @@
   "description": "Finally a predicate UI component for the Web, for React",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "build:dev": "parcel watch src/core.js",
-    "build": "parcel src/core.js",
+    "test": "true",
+    "build:dev": "true",
     "test:coverage": "true",
-    "docs": "jsdoc -c ../../jsdoc.json",
-    "docs:private": "jsdoc -c ../../jsdoc.json -p"
+    "build": "true",
+    "docs": "true",
+    "docs:private": "true"
   },
-  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "author":
+    "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
     "jest": "^22.4.2",

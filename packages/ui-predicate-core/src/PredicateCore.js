@@ -1,3 +1,11 @@
+/**
+ * Rules
+ * @module core
+ * @namespace core
+ * @since 1.0.0
+ * @note rules are 100% tested from PredicateCore.test.js
+ */
+
 const {
   merge,
   find,
@@ -37,6 +45,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @param  {array} types
    * @param  {string} type_id   type id name
    * @return {?Type}  a Type
+   * @private
    * @since 1.0.0
    */
   const _getTypeById = (types, type_id) =>
@@ -44,9 +53,10 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   /**
    * Get a target by its target_id
-   * @param  {array} targets   [description]
+   * @param  {array} targets
    * @param  {string} target_id target id name
-   * @return {?Target}
+   * @return {?dataclasses.Target}
+   * @private
    * @since 1.0.0
    */
   const _getTargetById = (targets, target_id) =>
@@ -56,7 +66,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * _getOperatorsByIds
    * @param  {Object} columns
    * @param  {string[]} operator_ids
-   * @return {Operator[]}
+   * @return {Array<dataclasses.operator>}
+   * @private
    * @since 1.0.0
    */
   const _getOperatorsByIds = curry((operators, operator_ids) =>
@@ -80,7 +91,13 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
       });
   });
 
-  const tapPromise = f => {
+  /**
+   * Tap for Promise
+   * @param  {Function} f
+   * @return {Function}
+   * @private
+   */
+  const _tapPromise = f => {
     return function(promise) {
       return promise.then(result => {
         f();
@@ -94,8 +111,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @param  {Function} fBefore
    * @param  {Function} fAfter
    * @return {Promise} promise from fBefore
+   * @private
    */
-  const afterPromise = (fBefore, fAfter) => pipe(fBefore, tapPromise(fAfter));
+  const _afterPromise = (fBefore, fAfter) => pipe(fBefore, _tapPromise(fAfter));
 
   // columns => Promise[columns]
   const initializeColumns = columns => {
@@ -117,11 +135,12 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
   };
 
   /**
-   * Create a new PrediateCore
-   * @param       {[type]} data    [description]
-   * @param       {[type]} columns [description]
-   * @param       {[type]} options [description]
-   * @return {Promise[PredicateCoreAPI]}
+   * Create a new PredicateCore
+   * @param       {?dataclasses.CompoundPredicate} [data=PredicateCore.defaults.options.getDefaultData]
+   * @param       {Object} [columns=PredicateCore.defaults.columns]
+   * @param       {Object} [options=PredicateCore.defaults.options]
+   * @return {Promise<core.PredicateCoreAPI>}
+   * @memberof core
    */
   function PredicateCore({ data, columns, options } = {}) {
     return initializeColumns(columns || PredicateCore.defaults.columns).then(
@@ -130,9 +149,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
         const _options = merge(PredicateCore.defaults.options, options);
 
         /**
-         * [_apply$flags description]
-         * @param  {[type]} f [description]
-         * @return {[type]}   [description]
+         * Loop through the predicate tree and update flags (e.g. $canBeRemoved)
+         * @private
          */
         function _apply$flags() {
           const canRemoveAnyPredicate = !rules.predicateToRemoveIsTheLastComparisonPredicate(
@@ -150,13 +168,14 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Set PredicateCore data
-         * @param {CompoundPredicate} root CompoundPredicate
-         * @return {Promise} resolved promise yield nothing, rejected promise yield RootPredicateMustBeACompoundPredicate error
+         * @param {dataclasses.CompoundPredicate} root CompoundPredicate
+         * @return {Promise<undefined, errors.RootPredicateMustBeACompoundPredicate>} resolved promise yield nothing, rejected promise yield RootPredicateMustBeACompoundPredicate error
          * @since 1.0.0
+         * @memberof core.api
          */
         function setData(root) {
           return invariants
-            .RootPredicateMustBeACompoundPredicate(root)
+            .RootPredicateMustBeACompoundPredicate(root, CompoundPredicate)
             .then(() => {
               _root = root;
             });
@@ -164,12 +183,13 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Add a ComparisonPredicate or CompoundPredicate
-         * @param  {Object} options (http://jsonpatch.com/)
-         * @param  {Predicate} options.type what type of Predicate to add
-         * @param  {string} options.how should we insert it before, after or instead of? (currently only after is supported)
-         * @param  {Object} options.where current element
-         * @return {Promise[Predicate]} inserted predicate
+         * @param  {Object} option
+         * @param  {string} options.type what type of Predicate to add
+         * @param  {string} [options.how=after] should we insert it before, after or instead of? (currently only after is supported)
+         * @param  {dataclasses.Predicate} options.where current element
+         * @return {Promise<dataclasses.Predicate>} inserted predicate
          * @since 1.0.0
+         * @memberof core.api
          */
         function add({ where, how = 'after', type }) {
           // currently only after is supported
@@ -216,9 +236,10 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Remove a ComparisonPredicate or CompoundPredicate
-         * @param  {Object} predicate ComparisonPredicate or CompoundPredicate to remove
-         * @return {Promise[Predicate]} yield the removed predicate, will reject the promise if remove was called with the root CompoundPredicate or the last ComparisonPredicate of the root CompoundPredicate
+         * @param  {(dataclasses.ComparisonPredicate|dataclasses.CompoundPredicate)} predicate
+         * @return {Promise<dataclasses.Predicate>} yield the removed predicate, will reject the promise if remove was called with the root CompoundPredicate or the last ComparisonPredicate of the root CompoundPredicate
          * @since 1.0.0
+         * @memberof core.api
          */
         function remove(predicate) {
           return Promise.resolve()
@@ -264,10 +285,11 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Change a predicate's target
-         * @param {ComparisonPredicate} predicate
-         * @param {string} newTarget_id        [description]
+         * @param {dataclasses.ComparisonPredicate} predicate
+         * @param {string} newTarget_id
          * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
          * @since 1.0.0
+         * @memberof core.api
          */
         function setPredicateTarget_id(predicate, newTarget_id) {
           return invariants
@@ -292,10 +314,11 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Change a predicate's operator
-         * @param {ComparisonPredicate} predicate
-         * @param {string} newTarget_id        [description]
-         * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @param {dataclasses.ComparisonPredicate} predicate
+         * @param {string} newTarget_id
+         * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
          * @since 1.0.0
+         * @memberof core.api
          */
         function setPredicateOperator_id(predicate, newOperator_id) {
           return (
@@ -348,47 +371,61 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
             : _options.getDefaultData(_columns, _options)
           )
             // setup PredicateCore data
-            .then(afterPromise(setData, _apply$flags))
+            .then(_afterPromise(setData, _apply$flags))
             // expose public API
-            .then(() => ({
-              setData: afterPromise(setData, _apply$flags),
-              add: afterPromise(add, _apply$flags),
-              remove: afterPromise(remove, _apply$flags),
-              setPredicateTarget_id: afterPromise(
-                setPredicateTarget_id,
-                _apply$flags
-              ),
-              setPredicateOperator_id: afterPromise(
-                setPredicateOperator_id,
-                _apply$flags
-              ),
+            .then(() => {
               /**
-               * Get root CompoundPredicate
-               * @return {CompoundPredicate}
+               * ui-predicate core public API
+               * @typedef {object} PredicateCoreAPI
+               * @namespace core.api
                */
-              get root() {
-                return _root;
-              },
+              return {
+                setData: _afterPromise(setData, _apply$flags),
+                add: _afterPromise(add, _apply$flags),
+                remove: _afterPromise(remove, _apply$flags),
+                setPredicateTarget_id: _afterPromise(
+                  setPredicateTarget_id,
+                  _apply$flags
+                ),
+                setPredicateOperator_id: _afterPromise(
+                  setPredicateOperator_id,
+                  _apply$flags
+                ),
 
-              toJSON() {
-                return _root;
-              },
+                /**
+                 * Get root CompoundPredicate
+                 * @return {dataclasses.CompoundPredicate}
+                 * @memberof core.api
+                 */
+                get root() {
+                  return _root;
+                },
 
-              // used for testing
-              get columns() {
-                return _columns;
-              },
+                toJSON() {
+                  return _root;
+                },
 
-              // used for testing
-              get options() {
-                return _options;
-              },
-            }))
+                // used for testing
+                get columns() {
+                  return _columns;
+                },
+
+                // used for testing
+                get options() {
+                  return _options;
+                },
+              };
+            })
         );
       }
     );
   }
 
+  /**
+   * Defaults configuration of PredicateCore
+   * @type {Object}
+   * @namespace core.defaults
+   */
   PredicateCore.defaults = {
     options: {
       /**
@@ -396,8 +433,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * @param  {Object} dataclasses every necessary data class
        * @param  {Object} columns every necessary data class
        * @param  {Object} options PredicateCore available options
-       * @return {Promise[CompoundPredicate]}  root CompoundPredicate
+       * @return {Promise<dataclasses.CompoundPredicate>}  root CompoundPredicate
        * @since 1.0.0
+       * @memberof core.defaults
        */
       getDefaultData(columns, options) {
         return options
@@ -413,11 +451,12 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * Default compount predicate to use
        *
        * This function is called whenever a new CompoundPredicate is added to the UIPredicate
-       * @param  {Array} predicates
+       * @param  {Array<dataclasses.Predicate>} predicates
        * @param  {Object} columns specified columns
        * @param  {Object} options PredicateCore available options
-       * @return {Promise[CompoundPredicate]} a CompoundPredicate
+       * @return {Promise<dataclasses.CompoundPredicate>} a CompoundPredicate
        * @since 1.0.0
+       * @memberof core.defaults
        */
       getDefaultCompoundPredicate(columns, options, predicates) {
         return (!Array.isArray(predicates) || predicates.length === 0
@@ -434,8 +473,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * This function is called whenever a new ComparisonPredicate is added to the UIPredicate
        * @param  {Object} columns specified columns
        * @param  {Object} options PredicateCore available options
-       * @return {Promise[ComparisonPredicate]} a Comparison
+       * @return {Promise<dataclasses.ComparisonPredicate>} a Comparison
        * @since 1.0.0
+       * @memberof core.defaults
        */
       getDefaultComparisonPredicate(columns, options) {
         const firstTarget = head(columns.targets);

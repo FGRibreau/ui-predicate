@@ -481,15 +481,4 @@ describe('core.data', () => {
   //     expect(JSON.stringify(root, null, 2)).toMatchSnapshot();
   //   });
   // });
-
-  // describe(`Root CompoundPredicate can't have less (and it child) than 1 Predicate`, () => {
-  //   it('works', () => {
-  //     const sub1 = ComparisonPredicate(Target(), Operator(), []);
-  //     const sub2 = ComparisonPredicate(Target(), Operator(), []);
-  //     const root = CompoundPredicate(LogicalType.and, [sub1, sub2]);
-  //
-  //     root.remove(sub2);
-  //     return sub2.remove().then(() => sub.remove());
-  //   });
-  // });
 });

@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "true",
-    "build:dev": "parcel watch src/core.js",
+    "build:dev": "true",
     "test:coverage": "true",
-    "build": "parcel src/core.js",
-    "docs": "jsdoc -c ../../jsdoc.json",
-    "docs:private": "jsdoc -c ../../jsdoc.json -p"
+    "build": "true",
+    "docs": "true",
+    "docs:private": "true"
   },
-  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "author":
+    "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
     "jest": "^22.4.2",

@@ -2,19 +2,18 @@ const { merge } = require('ramda');
 const $_type = require('./$_type');
 
 module.exports = ({ invariants }) => {
-  // LogicalType = not | and | or
   /**
-   * [LogicalType description]
-   * @type {Object}
+   * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+   * @typedef {object} Predicate
    * @memberof dataclasses
    */
-  const LogicalType = {
-    not: 'not',
-    and: 'and',
-    or: 'or',
-  };
 
-  // type Predicate = ComparisonPredicate | CompoundPredicate;
+  /**
+   * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+   * @param {Function} type - Predicate subtype function constructor
+   * @return {Predicate}
+   * @memberof dataclasses
+   */
   function Predicate(type) {
     return invariants
       .PredicateTypeMustBeValid(type.name, Predicate.Types)
@@ -22,7 +21,8 @@ module.exports = ({ invariants }) => {
         merge($_type(type.name), {
           /**
            * $canBeRemoved specify if the predicate can be removed or not from the Predicates tree
-           * @type {Boolean} true if it can be removed
+           * @type {Boolean}
+           *  @memberof Predicate
            */
           $canBeRemoved: true,
         })
@@ -35,11 +35,20 @@ module.exports = ({ invariants }) => {
   };
 
   /**
+   * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+   * @typedef {object} ComparisonPredicate
+   * @param {string} target - unique id for this target
+   * @param {string} operator - label that will be displayed for this target
+   * @param {string} arguments - the type_id name this target has
+   * @memberof dataclasses
+   */
+
+  /**
    * A specialized predicate that you use to compare expressions.
-   * @param       {Target} target   [description]
-   * @param       {Operator} operator [description]
-   * @param       {Object[]} args [description]
-   * @return {Promise[ComparisonPredicate]} yield a ComparisonPredicate or a rejected promise
+   * @param  {Target} target  {@link dataclasses.Target}
+   * @param  {Operator} operator {@link dataclasses.Operator}
+   * @param  {Object[]} args
+   * @return {Promise<ComparisonPredicate>} yield a {@link dataclasses.ComparisonPredicate} or a rejected promise
    * @memberof dataclasses
    */
   function ComparisonPredicate(target, operator, args) {
@@ -53,10 +62,19 @@ module.exports = ({ invariants }) => {
   }
 
   /**
+   * Yield true if `predicate` is a ComparisonPredicate
+   * @param  {Predicate}  predicate {@link dataclasses.Predicate}
+   * @return {Boolean}
+   * @memberof dataclasses
+   */
+  ComparisonPredicate.is = predicate =>
+    predicate.$_type === Predicate.Types.ComparisonPredicate;
+
+  /**
    * A specialized predicate that evaluates logical combinations of other predicates.
-   * @param       {LogicalType} logic The predicate logic
-   * @param       {Array<Predicate>} predicates predicates
-   * @return {Promise[CompoundPredicate]} yield a CompoundPredicate or a CompoundPredicateMustHaveAtLeastOneSubPredicate rejected promise
+   * @param {LogicalType} logic The predicate logic
+   * @param {Array<Predicate>} predicates predicates
+   * @return {Promise<CompoundPredicate>} yield a {@link dataclasses.CompoundPredicate} or a {@link errors.CompoundPredicateMustHaveAtLeastOneSubPredicate} rejected promise
    * @memberof dataclasses
    */
   function CompoundPredicate(logic, predicates) {
@@ -77,12 +95,13 @@ module.exports = ({ invariants }) => {
   /**
    * Reduce through the predicates tree
    * @param       {CompoundPredicate} compoundPredicate starter node
-   * @param       {function} f(acc, predicate, parents) accumulation function
+   * @param       {function} f accumulation function, f(acc, predicate, parents)
    * @param       {T} acc               accumulator
    * @param       {Array}  [parents=[]]      path to the node, array of parents
    * @return      {T} yield the accumulator
+   * @memberof dataclasses
    */
-  CompoundPredicate.reduce = (compoundPredicate, f, acc, parents = []) => {
+  CompoundPredicate.reduce = function(compoundPredicate, f, acc, parents = []) {
     acc = f(acc, compoundPredicate, parents);
     return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
       const _parents = parents.concat([compoundPredicate, [predicate, i]]);
@@ -96,6 +115,7 @@ module.exports = ({ invariants }) => {
    * Walk through the predicates tree
    * @param       {CompoundPredicate} compoundPredicate starter node
    * @param       {Function} f(predicate) iterator function
+   * @memberof dataclasses
    */
   CompoundPredicate.forEach = (compoundPredicate, f) => {
     CompoundPredicate.reduce(
@@ -107,9 +127,24 @@ module.exports = ({ invariants }) => {
     );
   };
 
-  ComparisonPredicate.is = el =>
-    el.$_type === Predicate.Types.ComparisonPredicate;
-  CompoundPredicate.is = el => el.$_type === Predicate.Types.CompoundPredicate;
+  /**
+   * LogicalType.not | LogicalType.and | LogicalType.or
+   * @typedef {Object}
+   * @memberof dataclasses
+   */
+  const LogicalType = {
+    not: 'not',
+    and: 'and',
+    or: 'or',
+  };
+  /**
+   * Yield true if `predicate` is a CompoundPredicate
+   * @param  {Predicate}  predicate
+   * @return {Boolean}
+   * @memberof dataclasses
+   */
+  CompoundPredicate.is = predicate =>
+    predicate.$_type === Predicate.Types.CompoundPredicate;
 
   return {
     LogicalType,

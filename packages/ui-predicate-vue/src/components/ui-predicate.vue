@@ -28,6 +28,7 @@ module.exports = {
   },
   provide: function() {
     const vm = this;
+    window.vm = vm;
     return {
       getAddCompoundMode: function() {
         return vm.isInAddCompoundMode;

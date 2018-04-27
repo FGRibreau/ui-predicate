@@ -10,6 +10,7 @@ module.exports = {
    * @param {CompoundPredicate} root      root predicate
    * @param {Predicate} predicateToRemove predicate to remove
    * @return {boolean} true if the predicate to remove is the root predicate
+   * @memberof rules
    */
   predicateToRemoveIsRootPredicate: (root, predicateToRemove) => {
     return root === predicateToRemove;
@@ -21,6 +22,7 @@ module.exports = {
    * @param {Function} CompoundPredicate CompoundPredicate constructor function
    * @param {Function} ComparisonPredicate ComparisonPredicate constructor function
    * @return {boolean} true if the predicate to remove is the last ComparisonPredicate
+   * @memberof rules
    */
   predicateToRemoveIsTheLastComparisonPredicate: (
     root,

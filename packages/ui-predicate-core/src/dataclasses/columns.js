@@ -2,11 +2,18 @@ const { mergeAll } = require('ramda');
 const $_type = require('./$_type');
 
 /**
- * A target
- * @param       {object} target
- * @param       {string} target.target_id [description]
- * @param       {string} target.label     [description]
- * @param       {string} target.type_id   [description]
+ * Target type definition
+ * @typedef {Object} Target
+ * @memberof dataclasses
+ */
+
+/**
+ * Create a new target
+ * @param {object} target
+ * @param {string} target.target_id - unique id for this target
+ * @param {string} target.label - label that will be displayed for this target
+ * @param {string} target.type_id - the type_id name this target has
+ * @return {Target} {@link dataclasses.Target}
  * @memberof dataclasses
  */
 function Target(target) {
@@ -17,9 +24,16 @@ function Target(target) {
 
 /**
  * A type operator
- * @param       {object} operator [description]
- * @param       {string} operator.operator_id [description]
- * @param       {string} operator.label       [description]
+ * @typedef Operator
+ * @memberof dataclasses
+ */
+
+/**
+ * Create a new operator
+ * @param {object} operator
+ * @param {string} operator.operator_id - unique id for this operator
+ * @param {string} operator.label - label that will be displayed for this operator
+ * @return {Operator} {@link dataclasses.Operator}
  * @memberof dataclasses
  */
 function Operator(operator) {
@@ -37,8 +51,16 @@ function Operator(operator) {
 
 /**
  * Defines a target type
- * @param       {string} type_id      [description]
- * @param       {string[]} operator_ids [description]
+ * @typedef Type
+ * @memberof dataclasses
+ */
+
+/**
+ * Create a new type
+ * @param {Object} type
+ * @param {string} type.type_id
+ * @param {string[]} type.operator_ids
+ * @return {Type} {@link dataclasses.Type}
  * @memberof dataclasses
  */
 function Type(type) {
