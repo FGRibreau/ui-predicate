@@ -86,6 +86,18 @@ export default {
             label: 'None',
           },
         ],
+        argumentTypes: [
+          {
+            // required by ui-predicate-core:
+            argumentType_id: 'int',
+
+            // required by ui-predicate-vue
+            composant: {
+              // render:
+            },
+          },
+          {},
+        ],
       },
     };
   },
@@ -96,4 +108,9 @@ export default {
   /* #app {
     color: #56b983;
   } */
+
+
+  .ui-predicate.compound {
+    margin-left: 10px;
+  }
 </style>

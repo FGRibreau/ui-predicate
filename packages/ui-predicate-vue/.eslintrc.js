@@ -113,7 +113,7 @@ module.exports = {
     'require-await': 'error',
     'rest-spread-spacing': 'error',
     semi: 'off',
-    'sort-imports': 'error',
+    'sort-imports': 'off',
     'space-before-blocks': 'error',
     'space-before-function-paren': [
       'error',

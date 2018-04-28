@@ -1,5 +1,5 @@
 .cache
-docs/api/ui-predicate-core
+docs/packages
 old
 dist/
 coverage/

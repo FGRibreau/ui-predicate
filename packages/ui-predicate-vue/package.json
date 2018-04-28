@@ -2,10 +2,10 @@
   "name": "ui-predicate-vue",
   "version": "0.1.0",
   "description": "Finally a predicate UI component for the Web, for VueJS",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "build:examples": " parcel build examples/simple.html",
-    "build:examples:watch": " parcel examples/simple.html",
+    "build:examples": "parcel build --no-cache examples",
+    "build:examples:watch": "parcel --no-cache examples",
     "test": "jest",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
     "test:watch": "jest  --coverage --watch",
