@@ -70,9 +70,9 @@ const createIndex = (dir, packages) => {
     <pre><ul><li><a href="${GITHUB}">Github</a></li>${packages
       .map(
         ([pkg, versions]) =>
-          `<li>${pkg} <a href="${GITHUB}/tree/master/packages/${pkg}">README</a></li><ul><li><a href="./latest.html">latest</a></li>${versions
+          `<li>${pkg} <a href="${GITHUB}/tree/master/packages/${pkg}">README</a></li><ul><li><a href="./${pkg}/latest.html">latest</a></li>${versions
             .sort(isHigherThan)
-            .map(v => `<li><a href="./${v}">${v}</a></li>`)}</ul>`
+            .map(v => `<li><a href="./${pkg}/${v}">${v}</a></li>`)}</ul>`
       )
       .join('\n')}</ul></pre>
   </body>
