@@ -11,7 +11,7 @@
     "publish": "lerna publish --conventional-commits",
     "build:website":"npm run --silent build:docs && npm run --silent build:examples",
     "build:docs": "lerna run --stream docs && node scripts/docs-build-index.js",
-    "build:examples":"npx lerna exec \"ROOT=../../docs/packages/\\$LERNA_PACKAGE_NAME/\\`node -e \\\"console.log(require('./package.json').version)\\\"\\`&& mkdir -v -p \\$ROOT/examples && parcel build examples/index.html --no-cache --no-minify -d \\$ROOT/examples/ -t browser --detailed-report\"",
+    "build:examples":"npx lerna exec \"ROOT=../../docs/packages/\\$LERNA_PACKAGE_NAME/\\`node -e \\\"console.log(require('./package.json').version)\\\"\\`&& mkdir -v -p ../../docs/packages/\\$ROOT/examples && parcel build examples/index.html --public-url ./ --no-cache --no-minify -d \\$ROOT/examples/  -t browser --detailed-report\"",
     "updtr": "lerna exec --concurrency 1 -- updtr",
     "docs:private": "lerna run --stream docs:private"
   },
