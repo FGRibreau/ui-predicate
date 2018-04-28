@@ -37,13 +37,12 @@ const lastVersion = versions =>
   );
 
 const createLatest = (dir, versions) => {
+  const redirect = `./${lastVersion(versions)}/index.html`;
   writeFileSync(
     resolve(dir, 'latest.html'),
-    `
-  <html><head><meta http-equiv="refresh" content="5; URL=./${lastVersion(
-    versions
-  )}/index.html"></head></html>
-  `,
+    `<html><head><meta http-equiv="refresh" content="5; URL="${redirect}">
+<script>location.href = '${redirect}'</script>
+</head></html>`,
     'utf8'
   );
 };
