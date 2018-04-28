@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-vue",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Finally a predicate UI component for the Web, for VueJS",
   "main": "src/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "vue-template-compiler": "^2.5.16"
   },
   "dependencies": {
-    "ui-predicate-core": "0.1.0",
+    "ui-predicate-core": "^0.1.1",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0"
   }

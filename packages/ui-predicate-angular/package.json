@@ -19,6 +19,6 @@
     "parcel-bundler": "^1.7.1"
   },
   "dependencies": {
-    "ui-predicate-core": "^0.1.0"
+    "ui-predicate-core": "^0.1.1"
   }
 }
