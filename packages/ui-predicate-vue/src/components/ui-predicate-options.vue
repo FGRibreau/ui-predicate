@@ -1,7 +1,7 @@
 <template>
-  <div class="ui-predicate--col">
-    <button type="button" name="button" v-on:click="remove(predicate)" :disabled="predicate.$canBeRemoved === false">-</button>
-    <button type="button" name="button" v-on:click="add(predicate)">{{ isInAddCompoundMode ? '…' : '+'  }}</button>
+  <div class="ui-predicate--col ui-predicate--option">
+    <button type="button" @click="remove(predicate)" :disabled="predicate.$canBeRemoved === false">-</button>
+    <button type="button" @click="add(predicate)">{{ isInAddCompoundMode ? '…' : '+'  }}</button>
   </div>
 </template>
 

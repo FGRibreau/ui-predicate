@@ -1,19 +1,19 @@
 <template>
   <div class="ui-predicate--row comparison">
       <div class="ui-predicate--col">
-        <select v-bind:value="predicate.target.target_id" @change="changeTarget">
-          <option v-for="target in columns.targets" v-bind:value="target.target_id">{{target.label}}</option>
+        <select :value="predicate.target.target_id" @change="changeTarget">
+          <option v-for="target in columns.targets" :value="target.target_id">{{target.label}}</option>
         </select>
       </div>
       <div class="ui-predicate--col">
-        <select v-bind:value="predicate.operator.operator_id" @change="changeOperator">
-          <option v-for="operator in predicate.target.$type.$operators" v-bind:value="operator.operator_id">{{operator.label}}</option>
+        <select :value="predicate.operator.operator_id" @change="changeOperator">
+          <option v-for="operator in predicate.target.$type.$operators" :value="operator.operator_id">{{operator.label}}</option>
         </select>
       </div>
       <div class="ui-predicate--col">
-        <input type="text" v-bind:value="predicate.arguments"></input>
+        <input type="text" :value="predicate.arguments"></input>
       </div>
-      <ui-predicate-options v-bind:predicate="predicate"></ui-predicate-options>
+      <ui-predicate-options :predicate="predicate"></ui-predicate-options>
     </div>
 </template>
 

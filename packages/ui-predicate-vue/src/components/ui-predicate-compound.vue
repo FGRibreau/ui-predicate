@@ -3,24 +3,24 @@
 
       <div class="ui-predicate ui-predicate--row">
         <div class="ui-predicate--col">
-          <select v-if="compound.logic" v-bind:value="compound.logic.logicalType_id"  @change="changeLogic">
-            <option v-for="logicalType in columns.logicalTypes" v-bind:value="logicalType.logicalType_id">{{logicalType.label}}</option>
+          <select v-if="compound.logic" :value="compound.logic.logicalType_id" @change="changeLogic">
+            <option v-for="logicalType in columns.logicalTypes" :value="logicalType.logicalType_id">{{logicalType.label}}</option>
           </select>
         </div>
-        <ui-predicate-options v-bind:predicate="compound"></ui-predicate-options>
+        <ui-predicate-options :predicate="compound"></ui-predicate-options>
       </div>
 
       <div class="ui-predicate predicates ui-predicate--row">
         <div class="ui-predicate predicate" v-for="(model, index) in compound.predicates">
           <ui-predicate-compound
             v-if="model.$_type === 'CompoundPredicate'"
-            v-bind:compound="model"
-            v-bind:columns="columns"
+            :compound="model"
+            :columns="columns"
           ></ui-predicate-compound>
           <ui-predicate-comparison
             v-if="model.$_type === 'ComparisonPredicate'"
-            v-bind:predicate="model"
-            v-bind:columns="columns"
+            :predicate="model"
+            :columns="columns"
           ></ui-predicate-comparison>
         </div>
       </div>
@@ -48,9 +48,3 @@ module.exports = {
   },
 };
 </script>
-
-<style scoped>
-.ui-predicate.compound {
-  margin-left: 10px;
-}
-</style>
