@@ -2,12 +2,11 @@ const { resolve } = require('path');
 const { readdirSync, writeFileSync } = require('fs');
 
 const readDir = dir => readdirSync(dir);
+const GITHUB = 'https://github.com/FGRibreau/ui-predicate';
 
 const root = resolve(__dirname, '../docs/packages');
 
-const packages = readDir(root).filter(pkg => pkg.startsWith('ui-'));
-
-const createIndex = (dir, versions) => {
+const createPackageIndex = (dir, versions) => {
   writeFileSync(
     resolve(dir, 'index.html'),
     `
@@ -47,11 +46,40 @@ const createLatest = (dir, versions) => {
   );
 };
 
-packages.forEach(pkg => {
-  const pkgDir = resolve(root, pkg);
-  const versions = readDir(resolve(root, pkg)).filter(
-    version => version.split('.').length >= 3
+const packages = readDir(root)
+  .filter(pkg => pkg.startsWith('ui-'))
+  .map(pkg => {
+    const pkgDir = resolve(root, pkg);
+    const versions = readDir(resolve(root, pkg)).filter(
+      version => version.split('.').length >= 3
+    );
+    createPackageIndex(pkgDir, versions);
+    createLatest(pkgDir, versions);
+
+    return [pkg, versions];
+  });
+
+const createIndex = (dir, packages) => {
+  writeFileSync(
+    resolve(dir, 'index.html'),
+    `
+  <html><head>
+    <title>ui-predicate</title>
+  </head>
+  <body>
+    <pre><ul><li><a href="${GITHUB}">Github</a></li>${packages
+      .map(
+        ([pkg, versions]) =>
+          `<li>${pkg} <a href="${GITHUB}/tree/master/packages/${pkg}">README</a></li><ul><li><a href="./latest.html">latest</a></li>${versions
+            .sort(isHigherThan)
+            .map(v => `<li><a href="./${v}">${v}</a></li>`)}</ul>`
+      )
+      .join('\n')}</ul></pre>
+  </body>
+  </html>
+    `,
+    'utf8'
   );
-  createIndex(pkgDir, versions);
-  createLatest(pkgDir, versions);
-});
+};
+
+createIndex(root, packages);

@@ -8,7 +8,7 @@
     "recurse": true
   },
   "hotdoc": {
-    "github": "https://github.com/ui-predicate/immutadot",
+    "github": "https://github.com/fgribreau/ui-predicate/",
     "home": "ui-predicate",
     "customOverrides": "../../docs/hotdoc-overrides.scss"
   }
