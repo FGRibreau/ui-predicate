@@ -72,6 +72,7 @@ const createIndex = (dir, packages) => {
         ([pkg, versions]) =>
           `<li>${pkg} <a href="${GITHUB}/tree/master/packages/${pkg}">README</a></li><ul><li><a href="./${pkg}/latest.html">latest</a></li>${versions
             .sort(isHigherThan)
+            .reverse()
             .map(v => `<li><a href="./${pkg}/${v}">${v}</a></li>`)
             .join('')}</ul>`
       )
