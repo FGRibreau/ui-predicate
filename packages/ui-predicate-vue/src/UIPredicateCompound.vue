@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import UIPredicateComparison from './UIPredicateComparison';
-import UIPredicateOptions from './UIPredicateOptions';
 module.exports = {
   name: 'UIPredicateCompound',
   props: {

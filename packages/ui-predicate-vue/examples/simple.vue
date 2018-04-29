@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Simple ui-predicate usage</h1>
-    <ui-predicate v-bind:config="config"></ui-predicate>
+    <UIPredicate v-bind:config="config"></UIPredicate>
     <p>Tips: Use "alt + click" to create a sub-group.</p>
   </div>
 </template>
@@ -13,12 +13,10 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App!',
       config: {
-        // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
         operators: [
           {
             operator_id: 'is',
             label: 'Est',
-            ploplop: [1, 2, 3],
           },
           {
             operator_id: 'contains',

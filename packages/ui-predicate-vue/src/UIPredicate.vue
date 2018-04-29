@@ -8,7 +8,6 @@
 
 <script>
 import { PredicateCore } from 'ui-predicate-core';
-import UIPredicateCompound from './UIPredicateCompound';
 
 module.exports = {
   name: 'UIPredicate',

@@ -328,11 +328,23 @@ describe('core.component', () => {
   });
 
   describe('ctrl.setPredicateLogicalType_id', () => {
-    it('rejects an error if logicalType_id cannot be found', () => {
+    it('yield a rejected promise if logicalType_id cannot be found', () => {
       expect.assertions(1);
       return PredicateCore().then(ctrl => {
         return expect(
           ctrl.setPredicateLogicalType_id(ctrl.root, 'laaaol')
+        ).rejects.toMatchSnapshot();
+      });
+    });
+
+    it('yield a rejected promise if predicate is not a CompoundPredicate', () => {
+      expect.assertions(1);
+      return PredicateCore().then(ctrl => {
+        return expect(
+          ctrl.setPredicateLogicalType_id(
+            ctrl.root.predicates[0],
+            ctrl.columns.logicalTypes[0].logicalType_id
+          )
         ).rejects.toMatchSnapshot();
       });
     });
