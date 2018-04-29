@@ -16,9 +16,9 @@ module.exports = ({ invariants }) => {
    */
   function Predicate(type) {
     return invariants
-      .PredicateTypeMustBeValid(type.name, Predicate.Types)
+      .PredicateTypeMustBeValid(type.$name, Predicate.Types)
       .then(() =>
-        merge($_type(type.name), {
+        merge($_type(type.$name), {
           /**
            * $canBeRemoved specify if the predicate can be removed or not from the Predicates tree
            * @type {Boolean}
@@ -61,6 +61,9 @@ module.exports = ({ invariants }) => {
     );
   }
 
+  // by pass var. mangling from minify
+  ComparisonPredicate.$name = Predicate.Types.ComparisonPredicate;
+
   /**
    * Yield true if `predicate` is a ComparisonPredicate
    * @param  {dataclasses.Predicate}  predicate {@link dataclasses.Predicate}
@@ -94,6 +97,9 @@ module.exports = ({ invariants }) => {
         })
       );
   }
+
+  // by pass var. mangling from minify
+  CompoundPredicate.$name = Predicate.Types.CompoundPredicate;
 
   /**
    * Reduce through the predicates tree

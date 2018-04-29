@@ -74,9 +74,9 @@ module.exports = {
         this.setIsInAddCompoundMode(false);
       }
     },
-    onChange(ctrl) {
-      // emit 'change' event
-      this.$emit('change', ctrl);
+    triggerChanged() {
+      // emit 'changed' event
+      this.$emit('changed', this.ctrl);
     },
   },
   mounted() {
@@ -90,9 +90,9 @@ module.exports = {
         vm.ctrl = ctrl;
         vm.root = ctrl.root;
         vm.columns = ctrl.columns;
-        // emit 'init' event
-        vm.$emit('init', ctrl);
-        ctrl.on('changed', vm.onChange);
+        // emit 'initialized' event
+        vm.$emit('initialized', ctrl);
+        ctrl.on('changed', vm.triggerChanged);
       },
       err => {
         console.error(err);
@@ -104,7 +104,9 @@ module.exports = {
     window.addEventListener('keydown', this.onAltPressed);
   },
   destroyed() {
-    this.ctrl.off();
+    if (this.ctrl) {
+      this.ctrl.off();
+    }
     window.removeEventListener('keyup', this.onAltReleased);
     window.removeEventListener('keydown', this.onAltPressed);
   },

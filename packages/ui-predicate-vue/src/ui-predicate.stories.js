@@ -64,14 +64,17 @@ storiesOf('ui-predicate', module)
     }
   )
   .add(
-    'events|@onChange',
+    'available events',
     () => ({
       template:
-        '<ui-predicate :config="config" @onChange="onChange"></ui-predicate>',
+        '<ui-predicate :config="config" @changed="onChange" @initialized="onInit"></ui-predicate>',
       data() {
         return { config: DEFAULT_CONFIG };
       },
-      methods: { onChange: action('onChange') },
+      methods: {
+        onChange: action('`changed` event'),
+        onInit: action('`initialized` event'),
+      },
     }),
     { notes: '' }
   );

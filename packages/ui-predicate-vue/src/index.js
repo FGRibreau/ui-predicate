@@ -18,7 +18,7 @@ const components = {
 const install = function(Vue) {
   Object.keys(components).forEach(name => {
     // console.log('Installing %s', name, components[name]);
-    Vue.component(name, components[name]);
+    Vue.component(name, components[name].default || components[name]);
   });
 };
 
