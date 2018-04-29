@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="ui-predicate main">
-      <UIPredicateCompound v-bind:compound="root" v-bind:columns="columns"></UIPredicateCompound>
+      <ui-predicate-compound v-bind:compound="root" v-bind:columns="columns"></ui-predicate-compound>
     </div>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import { PredicateCore } from 'ui-predicate-core';
 
 module.exports = {
-  name: 'UIPredicate',
+  name: 'ui-predicate',
   props: {
     config: {
       type: Object,

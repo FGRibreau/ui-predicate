@@ -7,21 +7,21 @@
             <option v-for="logicalType in columns.logicalTypes" :value="logicalType.logicalType_id">{{logicalType.label}}</option>
           </select>
         </div>
-        <UIPredicateOptions :predicate="compound"></UIPredicateOptions>
+        <ui-predicate-options :predicate="compound"></ui-predicate-options>
       </div>
 
       <div class="ui-predicate predicates ui-predicate--row">
         <div class="ui-predicate predicate" v-for="(model, index) in compound.predicates">
-          <UIPredicateCompound
+          <ui-predicate-compound
             v-if="model.$_type === 'CompoundPredicate'"
             :compound="model"
             :columns="columns"
-          ></UIPredicateCompound>
-          <UIPredicateComparison
+          ></ui-predicate-compound>
+          <ui-predicate-comparison
             v-if="model.$_type === 'ComparisonPredicate'"
             :predicate="model"
             :columns="columns"
-          ></UIPredicateComparison>
+          ></ui-predicate-comparison>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
 
 <script>
 module.exports = {
-  name: 'UIPredicateCompound',
+  name: 'ui-predicate-compound',
   props: {
     compound: {
       type: Object,

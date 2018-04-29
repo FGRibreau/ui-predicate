@@ -7,7 +7,7 @@
 
 <script>
 module.exports = {
-  name: 'UIPredicateOptions',
+  name: 'ui-predicate-options',
   props: {
     predicate: {
       type: Object,
