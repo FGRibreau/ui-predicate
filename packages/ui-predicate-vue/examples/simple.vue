@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Simple ui-predicate usage</h1>
-    <ui-predicate :config="config" @onChange="onChange"></ui-predicate>
+    <ui-predicate :config="config" @change="onChange" @init="onChange"></ui-predicate>
     <p>Tips: Use "alt + click" to create a sub-group.</p>
     <pre>{{ ast }}</pre>
   </div>
