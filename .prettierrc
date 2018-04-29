@@ -5,6 +5,5 @@
   "useTabs": false,
   "bracketSpacing": true,
   "arrowParens": "avoid",
-  "bracketSpacing": false,
   "trailingComma": "es5"
 }

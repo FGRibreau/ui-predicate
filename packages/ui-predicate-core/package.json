@@ -4,7 +4,7 @@
   "description": "Finally a predicate UI component for the Web",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest -c ../../jest.js --coverage",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
     "test:watch": "jest  --coverage --watch",
     "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
