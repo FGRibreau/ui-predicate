@@ -64,7 +64,7 @@ storiesOf('ui-predicate', module)
     }
   )
   .add(
-    'available events',
+    'events',
     () => ({
       template:
         '<ui-predicate :config="config" @changed="onChange" @initialized="onInit"></ui-predicate>',
@@ -74,6 +74,27 @@ storiesOf('ui-predicate', module)
       methods: {
         onChange: action('`changed` event'),
         onInit: action('`initialized` event'),
+      },
+    }),
+    { notes: '' }
+  )
+  .add(
+    'get data',
+    () => ({
+      template: `<div>
+        <ui-predicate :config="config" @changed="onChange" @initialized="onChange"></ui-predicate>
+        <textarea style="width:100%;height:30vh">{{ serialized }}</textarea>
+      </div>`,
+      data() {
+        return {
+          config: DEFAULT_CONFIG,
+          serialized: '',
+        };
+      },
+      methods: {
+        onChange(ctrl) {
+          this.serialized = ctrl.toJSON();
+        },
       },
     }),
     { notes: '' }
