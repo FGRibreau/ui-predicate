@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-react",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Finally a predicate UI component for the Web, for React",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "build": "true",
     "docs": "true",
     "docs:private": "true",
-    "examples:build":"true"
+    "examples:build": "true"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Finally a predicate UI component for the Web",
   "main": "src/index.js",
   "scripts": {
