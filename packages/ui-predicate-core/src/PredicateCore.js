@@ -19,21 +19,32 @@ const {
   lens,
   lensPath,
   takeLast,
+  clone,
+  keys,
+  startsWith,
   set,
   differenceWith,
+  partition,
   lensProp,
-  insert
+  insert,
 } = require('ramda');
 
 const option = require('option');
+
+const { EventEmitter } = require('events');
 
 function head(list) {
   return option.fromNullable(list[0]).value();
 }
 
 module.exports = function({ dataclasses, invariants, errors, rules }) {
-  const { CompoundPredicate, ComparisonPredicate, Predicate, Target, LogicalType } = dataclasses;
-
+  const {
+    CompoundPredicate,
+    ComparisonPredicate,
+    Predicate,
+    Target,
+    LogicalType,
+  } = dataclasses;
   /**
    * Get a type by its type_id
    * @param  {array} types
@@ -42,7 +53,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @private
    * @since 1.0.0
    */
-  const _getTypeById = (types, type_id) => option.fromNullable(find(type => type.type_id == type_id, types));
+  const _getTypeById = (types, type_id) =>
+    option.fromNullable(find(type => type.type_id == type_id, types));
 
   /**
    * Get a target by its target_id
@@ -64,7 +76,12 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @since 1.0.0
    */
   const _getLogicalTypeById = (logicalTypes, logicalType_id) =>
-    option.fromNullable(find(logicalType => logicalType.logicalType_id == logicalType_id, logicalTypes));
+    option.fromNullable(
+      find(
+        logicalType => logicalType.logicalType_id == logicalType_id,
+        logicalTypes
+      )
+    );
 
   /**
    * _getOperatorsByIds
@@ -75,7 +92,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @since 1.0.0
    */
   const _getOperatorsByIds = curry((operators, operator_ids) =>
-    pipe(filter(({ operator_id }) => operator_ids.includes(operator_id)))(operators)
+    pipe(filter(({ operator_id }) => operator_ids.includes(operator_id)))(
+      operators
+    )
   );
 
   const _set$operatorsToType = curry((columns, type) => {
@@ -85,10 +104,12 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   const _set$typeToTarget = curry((columns, target) => {
     const typeOption = _getTypeById(columns.types, target.type_id);
-    return invariants.TargetMustReferToADefinedType(typeOption, target).then(type => {
-      target.$type = type;
-      return target;
-    });
+    return invariants
+      .TargetMustReferToADefinedType(typeOption, target)
+      .then(type => {
+        target.$type = type;
+        return target;
+      });
   });
 
   /**
@@ -146,260 +167,411 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @memberof core
    */
   function PredicateCore({ data, columns, options } = {}) {
-    return initializeColumns(columns || PredicateCore.defaults.columns).then(_columns => {
-      let _root;
-      const _options = merge(PredicateCore.defaults.options, options);
+    return initializeColumns(columns || PredicateCore.defaults.columns).then(
+      _columns => {
+        let _root;
+        let _api;
+        const _events = new EventEmitter();
+        const _options = merge(PredicateCore.defaults.options, options);
 
-      /**
-       * Loop through the predicate tree and update flags (e.g. $canBeRemoved)
-       * @private
-       */
-      function _apply$flags() {
-        const canRemoveAnyPredicate = !rules.predicateToRemoveIsTheLastComparisonPredicate(
-          _root,
-          CompoundPredicate,
-          ComparisonPredicate
-        );
+        /**
+         * Loop through the predicate tree and update flags (e.g. $canBeRemoved)
+         * @private
+         */
+        function _apply$flags() {
+          const canRemoveAnyPredicate = !rules.predicateToRemoveIsTheLastComparisonPredicate(
+            _root,
+            CompoundPredicate,
+            ComparisonPredicate
+          );
 
-        CompoundPredicate.forEach(_root, function(predicate) {
-          predicate.$canBeRemoved = canRemoveAnyPredicate && !rules.predicateToRemoveIsRootPredicate(_root, predicate);
-        });
-      }
+          CompoundPredicate.forEach(_root, function(predicate) {
+            predicate.$canBeRemoved =
+              canRemoveAnyPredicate &&
+              !rules.predicateToRemoveIsRootPredicate(_root, predicate);
+          });
+        }
 
-      /**
-       * Set PredicateCore data
-       * @param {dataclasses.CompoundPredicate} root CompoundPredicate
-       * @return {Promise<undefined, errors.RootPredicateMustBeACompoundPredicate>} resolved promise yield nothing, rejected promise yield RootPredicateMustBeACompoundPredicate error
-       * @since 1.0.0
-       * @memberof core.api
-       */
-      function setData(root) {
-        return invariants.RootPredicateMustBeACompoundPredicate(root, CompoundPredicate).then(() => {
-          _root = root;
-        });
-      }
+        function _emitChangedEvent() {
+          _events.emit('changed', _api);
+        }
 
-      /**
-       * Add a ComparisonPredicate or CompoundPredicate
-       * @param  {Object} option
-       * @param  {string} options.type what type of Predicate to add
-       * @param  {string} [options.how=after] should we insert it before, after or instead of? (currently only after is supported)
-       * @param  {dataclasses.Predicate} options.where current element
-       * @return {Promise<dataclasses.Predicate>} inserted predicate
-       * @since 1.0.0
-       * @memberof core.api
-       */
-      function add({ where, how = 'after', type }) {
-        // currently only after is supported
-        return (
-          Promise.resolve()
-            .then(() => invariants.AddOnlySupportsAfter(how))
-            .then(() => invariants.PredicateTypeMustBeValid(type, Predicate.Types))
-            // generate the Predicates
-            .then(() => _options[`getDefault${type}`](_columns, _options))
-            // then add it
-            .then(predicate => {
-              const isComparisonPredicate = ComparisonPredicate.is(where);
+        const _afterWrite = pipe(_apply$flags, _emitChangedEvent);
 
-              if (isComparisonPredicate || CompoundPredicate.is(where)) {
-                if (isComparisonPredicate) {
-                  // it's a comparisonpredicate
-                  // first find predicates array that contains the element
-                  const path = _find(where);
-                  // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
-                  const [compoundpredicate, [_, index]] = takeLast(2, path);
-                  compoundpredicate.predicates = insert(index + 1, predicate, compoundpredicate.predicates);
-                } else {
-                  // it's a compoundpredicate
-                  // we want to add a CompoundPredicate after a compound predicate
-                  // so we need to add it as its first .predicates entry
-                  where.predicates.unshift(predicate);
+        /**
+         * Set PredicateCore data
+         * @param {dataclasses.CompoundPredicate} root CompoundPredicate
+         * @return {Promise<undefined, errors.RootPredicateMustBeACompoundPredicate>} resolved promise yield nothing, rejected promise yield RootPredicateMustBeACompoundPredicate error
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function setData(root) {
+          return invariants
+            .RootPredicateMustBeACompoundPredicate(root, CompoundPredicate)
+            .then(() => {
+              _root = root;
+            });
+        }
+
+        /**
+         * Add a ComparisonPredicate or CompoundPredicate
+         * @param  {Object} option
+         * @param  {string} options.type what type of Predicate to add
+         * @param  {string} [options.how=after] should we insert it before, after or instead of? (currently only after is supported)
+         * @param  {dataclasses.Predicate} options.where current element
+         * @return {Promise<dataclasses.Predicate>} inserted predicate
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function add({ where, how = 'after', type }) {
+          // currently only after is supported
+          return (
+            Promise.resolve()
+              .then(() => invariants.AddOnlySupportsAfter(how))
+              .then(() =>
+                invariants.PredicateTypeMustBeValid(type, Predicate.Types)
+              )
+              // generate the Predicates
+              .then(() => _options[`getDefault${type}`](_columns, _options))
+              // then add it
+              .then(predicate => {
+                const isComparisonPredicate = ComparisonPredicate.is(where);
+
+                if (isComparisonPredicate || CompoundPredicate.is(where)) {
+                  if (isComparisonPredicate) {
+                    // it's a comparisonpredicate
+                    // first find predicates array that contains the element
+                    const path = _find(where);
+                    // we are starting from a ComparisonPredicate that always live inside a CompoundPredicate.predicates array
+                    const [compoundpredicate, [_, index]] = takeLast(2, path);
+                    compoundpredicate.predicates = insert(
+                      index + 1,
+                      predicate,
+                      compoundpredicate.predicates
+                    );
+                  } else {
+                    // it's a compoundpredicate
+                    // we want to add a CompoundPredicate after a compound predicate
+                    // so we need to add it as its first .predicates entry
+                    where.predicates.unshift(predicate);
+                  }
+
+                  return predicate;
+                }
+
+                return Promise.reject(
+                  new errors.CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate()
+                );
+              })
+          );
+        }
+
+        /**
+         * Remove a ComparisonPredicate or CompoundPredicate
+         * @param  {(dataclasses.ComparisonPredicate|dataclasses.CompoundPredicate)} predicate
+         * @return {Promise<dataclasses.Predicate>} yield the removed predicate, will reject the promise if remove was called with the root CompoundPredicate or the last ComparisonPredicate of the root CompoundPredicate
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function remove(predicate) {
+          return Promise.resolve()
+            .then(() =>
+              invariants.RemovePredicateMustDifferFromRootPredicate(
+                _root,
+                predicate
+              )
+            )
+            .then(() =>
+              invariants.RemovePredicateCannotBeTheLastComparisonPredicate(
+                _root,
+                predicate,
+                CompoundPredicate,
+                ComparisonPredicate
+              )
+            )
+            .then(() => {
+              if (
+                CompoundPredicate.is(predicate) ||
+                ComparisonPredicate.is(predicate)
+              ) {
+                const path = _find(predicate);
+                // we are starting from a ComparisonPredicate that always live
+                // inside a CompoundPredicate.predicates array
+                const [parentCompoundpredicate, [_, index]] = takeLast(2, path);
+                parentCompoundpredicate.predicates.splice(index, 1);
+
+                if (parentCompoundpredicate.predicates.length === 0) {
+                  // if there are not any more predicates
+                  // inside the parentCompoundpredicate, we should also remove it
+                  return remove(parentCompoundpredicate);
                 }
 
                 return predicate;
               }
 
-              return Promise.reject(new errors.CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate());
+              return Promise.reject(
+                new errors.CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate()
+              );
+            });
+        }
+
+        /**
+         * Change a CompoundPredicate logical
+         * @param {dataclasses.CompoundPredicate} predicate
+         * @param {string} newLogicalType_id
+         * @return {Promise<undefined, errors.PredicateMustBeACompoundPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeACompoundPredicate error
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function setPredicateLogicalType_id(predicate, newLogicalType_id) {
+          return invariants
+            .PredicateMustBeACompoundPredicate(predicate, CompoundPredicate)
+            .then(() => {
+              // first change the logical type
+              return _getLogicalTypeById(
+                _columns.logicalTypes,
+                newLogicalType_id
+              );
             })
-        );
-      }
-
-      /**
-       * Remove a ComparisonPredicate or CompoundPredicate
-       * @param  {(dataclasses.ComparisonPredicate|dataclasses.CompoundPredicate)} predicate
-       * @return {Promise<dataclasses.Predicate>} yield the removed predicate, will reject the promise if remove was called with the root CompoundPredicate or the last ComparisonPredicate of the root CompoundPredicate
-       * @since 1.0.0
-       * @memberof core.api
-       */
-      function remove(predicate) {
-        return Promise.resolve()
-          .then(() => invariants.RemovePredicateMustDifferFromRootPredicate(_root, predicate))
-          .then(() =>
-            invariants.RemovePredicateCannotBeTheLastComparisonPredicate(
-              _root,
-              predicate,
-              CompoundPredicate,
-              ComparisonPredicate
-            )
-          )
-          .then(() => {
-            if (CompoundPredicate.is(predicate) || ComparisonPredicate.is(predicate)) {
-              const path = _find(predicate);
-              // we are starting from a ComparisonPredicate that always live
-              // inside a CompoundPredicate.predicates array
-              const [parentCompoundpredicate, [_, index]] = takeLast(2, path);
-              parentCompoundpredicate.predicates.splice(index, 1);
-
-              if (parentCompoundpredicate.predicates.length === 0) {
-                // if there are not any more predicates
-                // inside the parentCompoundpredicate, we should also remove it
-                return remove(parentCompoundpredicate);
-              }
-
-              return predicate;
-            }
-
-            return Promise.reject(new errors.CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate());
-          });
-      }
-
-      /**
-       * Change a CompoundPredicate logical
-       * @param {dataclasses.CompoundPredicate} predicate
-       * @param {string} newLogicalType_id
-       * @return {Promise<undefined, errors.PredicateMustBeACompoundPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeACompoundPredicate error
-       * @since 1.0.0
-       * @memberof core.api
-       */
-      function setPredicateLogicalType_id(predicate, newLogicalType_id) {
-        return invariants
-          .PredicateMustBeACompoundPredicate(predicate, CompoundPredicate)
-          .then(() => {
-            // first change the logical type
-            return _getLogicalTypeById(_columns.logicalTypes, newLogicalType_id);
-          })
-          .then(logicalTypeOption => invariants.LogicalType_idMustReferToADefinedLogicalType(logicalTypeOption))
-          .then(logicalTypeOption => {
-            predicate.logic = logicalTypeOption.value(); // safe
-          });
-      }
-
-      /**
-       * Change a predicate's target
-       * @param {dataclasses.ComparisonPredicate} predicate
-       * @param {string} newTarget_id
-       * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
-       * @since 1.0.0
-       * @memberof core.api
-       */
-      function setPredicateTarget_id(predicate, newTarget_id) {
-        return invariants
-          .PredicateMustBeAComparisonPredicate(predicate, ComparisonPredicate)
-          .then(() => {
-            // first change the target
-            return _getTargetById(_columns.targets, newTarget_id);
-          })
-          .then(targetOption => invariants.Target_idMustReferToADefinedTarget(targetOption))
-          .then(targetOption => {
-            predicate.target = targetOption.value(); // safe
-
-            // then change the operator to the first operator for this target
-            return setPredicateOperator_id(predicate, head(predicate.target.$type.$operators).operator_id);
-          });
-      }
-
-      /**
-       * Change a predicate's operator
-       * @param {dataclasses.ComparisonPredicate} predicate
-       * @param {string} newTarget_id
-       * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
-       * @since 1.0.0
-       * @memberof core.api
-       */
-      function setPredicateOperator_id(predicate, newOperator_id) {
-        return (
-          Promise.resolve()
-            // find operator
-            .then(() =>
-              option.fromNullable(
-                predicate.target.$type.$operators.find(operator => operator.operator_id === newOperator_id)
+            .then(logicalTypeOption =>
+              invariants.LogicalType_idMustReferToADefinedLogicalType(
+                logicalTypeOption
               )
             )
+            .then(logicalTypeOption => {
+              predicate.logic = logicalTypeOption.value(); // safe
+            });
+        }
 
-            .then(operatorOption => invariants.Operator_idMustReferToADefinedOperator(operatorOption))
-            // change the operator
-            .then(operatorOption => {
-              predicate.operator = operatorOption.value(); // safe
+        /**
+         * Change a predicate's target
+         * @param {dataclasses.ComparisonPredicate} predicate
+         * @param {string} newTarget_id
+         * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function setPredicateTarget_id(predicate, newTarget_id) {
+          return invariants
+            .PredicateMustBeAComparisonPredicate(predicate, ComparisonPredicate)
+            .then(() => {
+              // first change the target
+              return _getTargetById(_columns.targets, newTarget_id);
+            })
+            .then(targetOption =>
+              invariants.Target_idMustReferToADefinedTarget(targetOption)
+            )
+            .then(targetOption => {
+              predicate.target = targetOption.value(); // safe
 
-              // then reset arguments to array
-              predicate.arguments = [];
+              // then change the operator to the first operator for this target
+              return setPredicateOperator_id(
+                predicate,
+                head(predicate.target.$type.$operators).operator_id
+              );
+            });
+        }
+
+        /**
+         * Change a predicate's operator
+         * @param {dataclasses.ComparisonPredicate} predicate
+         * @param {string} newTarget_id
+         * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function setPredicateOperator_id(predicate, newOperator_id) {
+          return (
+            Promise.resolve()
+              // find operator
+              .then(() =>
+                option.fromNullable(
+                  predicate.target.$type.$operators.find(
+                    operator => operator.operator_id === newOperator_id
+                  )
+                )
+              )
+
+              .then(operatorOption =>
+                invariants.Operator_idMustReferToADefinedOperator(
+                  operatorOption
+                )
+              )
+              // change the operator
+              .then(operatorOption => {
+                predicate.operator = operatorOption.value(); // safe
+
+                // then reset arguments to array
+                predicate.arguments = [];
+              })
+          );
+        }
+
+        /**
+         * Compute the JSON pointer path the element
+         * @param  {Object} element (http://jsonpatch.com/)
+         * @return {?Array} null if not found
+         * @readonly
+         * @since 1.0.0
+         */
+        function _find(element) {
+          return CompoundPredicate.reduce(
+            _root,
+            (acc, predicate, parents) => {
+              return element === predicate ? parents : acc;
+            },
+            null
+          );
+        }
+
+        /**
+         * Yield a serializable object without internal flags ($xxx properties)
+         * @example console.log(JSON.stringify(ctrl, null, 2)); // will call ctrl.toJSON() underneath
+         * @return {Object} a serializable object
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function toJSON() {
+          const root = clone(_root);
+
+          const toString = Object.prototype.toString;
+          const isObject = mixed => toString.call(mixed) === '[object Object]';
+
+          // we just need to go one-level deep
+          function remove$flagsFromObj(obj, level = 1) {
+            /* istanbul ignore if */
+            if (level < 0) {
+              return;
+            }
+
+            keys(obj).forEach(key => {
+              if (key === 'predicates') {
+                return;
+              }
+
+              if (startsWith('$', key)) {
+                delete obj[key];
+              }
+
+              if (isObject(obj[key])) {
+                remove$flagsFromObj(obj[key], level - 1);
+              }
+            });
+          }
+
+          CompoundPredicate.forEach(root, remove$flagsFromObj);
+
+          return root;
+        }
+
+        /**
+         * Adds the `listener` function to the end of the listeners array for the event named `eventName`.
+         * No checks are made to see if the `listener` has already been added. Multiple calls passing the same combination of eventName and listener will result in the listener being added, and called, multiple times.
+         * @param  {string} eventName available event names are : (`changed`, api)
+         * @param  {function} listener
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function on(eventName, listener) {
+          _events.on(eventName, listener);
+        }
+
+        /**
+         * Adds a *one-time* `listener` function for the event named `eventName`. The next time `eventName` is triggered, this `listener` is removed and then invoked.
+         * @param  {string} eventName see {@link core.api.on} for available event names
+         * @param  {function} listener
+         * @see core.api.on
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function once(eventName, listener) {
+          _events.once(eventName, listener);
+        }
+
+        /**
+         * Remove listener(s)
+         * If off() will remove every listeners
+         * If off(eventName) will only remove listeners to this specific eventName
+         * If off(eventName, listener) will remove the `listener` to the `eventName`
+         * @param  {?string} eventName see {@link core.api.on} for available event names
+         * @param  {?function} listener
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function off(eventName, listener) {
+          if (!eventName) {
+            // because removeAllListeners treat "undefined" as an event name :facepalm:
+            _events.removeAllListeners();
+          } else if (!listener) {
+            _events.removeAllListeners(eventName);
+          } else {
+            _events.removeListener(eventName, listener);
+          }
+        }
+
+        // get data for initialization
+        return (
+          (data
+            ? Promise.resolve(data)
+            : _options.getDefaultData(_columns, _options)
+          )
+            // setup PredicateCore data
+            .then(_afterPromise(setData, _afterWrite))
+            // expose public API
+            .then(() => {
+              /**
+               * ui-predicate core public API
+               * @typedef {object} PredicateCoreAPI
+               * @namespace core.api
+               */
+              _api = {
+                on: on,
+                once: once,
+                off: off,
+
+                setData: _afterPromise(setData, _afterWrite),
+                add: _afterPromise(add, _afterWrite),
+                remove: _afterPromise(remove, _afterWrite),
+                setPredicateTarget_id: _afterPromise(
+                  setPredicateTarget_id,
+                  _afterWrite
+                ),
+                setPredicateOperator_id: _afterPromise(
+                  setPredicateOperator_id,
+                  _afterWrite
+                ),
+                setPredicateLogicalType_id: _afterPromise(
+                  setPredicateLogicalType_id,
+                  _afterWrite
+                ),
+
+                /**
+                 * Get root CompoundPredicate
+                 * @return {dataclasses.CompoundPredicate}
+                 * @memberof core.api
+                 */
+                get root() {
+                  return _root;
+                },
+
+                toJSON,
+
+                // used for testing
+                get columns() {
+                  return _columns;
+                },
+
+                // used for testing
+                get options() {
+                  return _options;
+                },
+              };
+
+              return _api;
             })
         );
       }
-
-      /**
-       * Compute the JSON pointer path the element
-       * @param  {Object} element (http://jsonpatch.com/)
-       * @return {?Array} null if not found
-       * @readonly
-       * @since 1.0.0
-       */
-      function _find(element) {
-        return CompoundPredicate.reduce(
-          _root,
-          (acc, predicate, parents) => {
-            return element === predicate ? parents : acc;
-          },
-          null
-        );
-      }
-
-      // get data for initialization
-      return (
-        (data ? Promise.resolve(data) : _options.getDefaultData(_columns, _options))
-          // setup PredicateCore data
-          .then(_afterPromise(setData, _apply$flags))
-          // expose public API
-          .then(() => {
-            /**
-             * ui-predicate core public API
-             * @typedef {object} PredicateCoreAPI
-             * @namespace core.api
-             */
-            return {
-              setData: _afterPromise(setData, _apply$flags),
-              add: _afterPromise(add, _apply$flags),
-              remove: _afterPromise(remove, _apply$flags),
-              setPredicateTarget_id: _afterPromise(setPredicateTarget_id, _apply$flags),
-              setPredicateOperator_id: _afterPromise(setPredicateOperator_id, _apply$flags),
-              setPredicateLogicalType_id: _afterPromise(setPredicateLogicalType_id, _apply$flags),
-
-              /**
-               * Get root CompoundPredicate
-               * @return {dataclasses.CompoundPredicate}
-               * @memberof core.api
-               */
-              get root() {
-                return _root;
-              },
-
-              toJSON() {
-                return _root;
-              },
-
-              // used for testing
-              get columns() {
-                return _columns;
-              },
-
-              // used for testing
-              get options() {
-                return _options;
-              }
-            };
-          })
-      );
-    });
+    );
   }
 
   /**
@@ -419,9 +591,13 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * @memberof core.defaults
        */
       getDefaultData(columns, options) {
-        return options.getDefaultComparisonPredicate(columns, options).then(comparisonPredicate => {
-          return options.getDefaultCompoundPredicate(columns, options, [comparisonPredicate]);
-        });
+        return options
+          .getDefaultComparisonPredicate(columns, options)
+          .then(comparisonPredicate => {
+            return options.getDefaultCompoundPredicate(columns, options, [
+              comparisonPredicate,
+            ]);
+          });
       },
 
       /**
@@ -437,7 +613,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        */
       getDefaultCompoundPredicate(columns, options, predicates) {
         return (!Array.isArray(predicates) || predicates.length === 0
-          ? options.getDefaultComparisonPredicate(columns, options).then(comparisonPredicate => [comparisonPredicate])
+          ? options
+              .getDefaultComparisonPredicate(columns, options)
+              .then(comparisonPredicate => [comparisonPredicate])
           : Promise.resolve(predicates)
         ).then(predicates =>
           options
@@ -458,7 +636,11 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        */
       getDefaultComparisonPredicate(columns, options) {
         const firstTarget = head(columns.targets);
-        return ComparisonPredicate(firstTarget, head(firstTarget.$type.$operators), []);
+        return ComparisonPredicate(
+          firstTarget,
+          head(firstTarget.$type.$operators),
+          []
+        );
       },
 
       /**
@@ -474,82 +656,82 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        */
       getDefaultLogicalType(predicates, columns, options) {
         return Promise.resolve(head(columns.logicalTypes));
-      }
+      },
     },
     columns: {
       // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
       operators: [
         {
           operator_id: 'is',
-          label: 'Est'
+          label: 'is',
         },
         {
           operator_id: 'contains',
-          label: 'Contient'
+          label: 'contains',
         },
         {
           operator_id: 'isLowerThan',
-          label: '<'
+          label: '<',
         },
         {
           operator_id: 'isEqualTo',
-          label: '='
+          label: '=',
         },
         {
           operator_id: 'isHigherThan',
-          label: '>'
+          label: '>',
         },
         {
           operator_id: 'isBetween',
-          label: 'est compris entre'
-        }
+          label: 'is between',
+        },
       ],
       types: [
         {
           type_id: 'int',
-          operator_ids: ['isLowerThan', 'isEqualTo', 'isHigherThan']
+          operator_ids: ['isLowerThan', 'isEqualTo', 'isHigherThan'],
         },
         {
           type_id: 'string',
-          operator_ids: ['is', 'contains']
+          operator_ids: ['is', 'contains'],
         },
         {
           type_id: 'datetime',
-          operator_ids: ['is', 'isBetween']
-        }
+          operator_ids: ['is', 'isBetween'],
+        },
       ],
       targets: [
         {
-          target_id: 'article.title',
-          label: 'Titre article',
-          type_id: 'string'
+          target_id: 'title',
+          label: 'Title',
+          type_id: 'string',
         },
         {
           target_id: 'videoCount',
-          label: 'Nombre de vidéo',
-          type_id: 'int'
+          label: 'Video count',
+          type_id: 'int',
         },
         {
-          target_id: 'publishingAt',
-          label: 'Date de publication',
-          type_id: 'datetime'
-        }
+          target_id: 'publishedAt',
+          label: 'Created at',
+          type_id: 'datetime',
+        },
       ],
       logicalTypes: [
         {
           logicalType_id: 'any',
-          label: 'Any'
+          label: 'Any',
         },
         {
           logicalType_id: 'all',
-          label: 'All'
+          label: 'All',
         },
         {
           logicalType_id: 'none',
-          label: 'None'
-        }
-      ]
-    }
+          label: 'None',
+        },
+      ],
+    },
   };
 
   return PredicateCore;

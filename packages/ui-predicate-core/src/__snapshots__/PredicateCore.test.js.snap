@@ -1,50 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`core.component constructor check that every targets refer to a defined type 1`] = `[TargetMustReferToADefinedType: target "article.title" does not refer to a defined type, target.type_id="string"]`;
+exports[`UIPredicateCore CompoundPredicate constructor can't be constructed with at least one subpredicate 1`] = `[CompoundPredicateMustHaveAtLeastOneSubPredicate]`;
 
-exports[`core.component constructor default state (without passed data) should have one predicate, selected automatically 1`] = `
+exports[`UIPredicateCore constructor check that every targets refer to a defined type 1`] = `[TargetMustReferToADefinedType: target "article.title" does not refer to a defined type, target.type_id="string"]`;
+
+exports[`UIPredicateCore constructor default state (without passed data) should have one predicate, selected automatically 1`] = `
 Object {
-  "$_type": "CompoundPredicate",
-  "$canBeRemoved": false,
   "logic": Object {
-    "$_type": "LogicalType",
     "label": "Any",
     "logicalType_id": "any",
   },
   "predicates": Array [
     Object {
-      "$_type": "ComparisonPredicate",
-      "$canBeRemoved": false,
       "arguments": Array [],
       "operator": Object {
-        "$_type": "Operator",
-        "label": "Est",
+        "label": "is",
         "operator_id": "is",
       },
       "target": Object {
-        "$_type": "Target",
-        "$type": Object {
-          "$_type": "Type",
-          "$operators": Array [
-            Object {
-              "$_type": "Operator",
-              "label": "Est",
-              "operator_id": "is",
-            },
-            Object {
-              "$_type": "Operator",
-              "label": "Contient",
-              "operator_id": "contains",
-            },
-          ],
-          "operator_ids": Array [
-            "is",
-            "contains",
-          ],
-          "type_id": "string",
-        },
-        "label": "Titre article",
-        "target_id": "article.title",
+        "label": "Title",
+        "target_id": "title",
         "type_id": "string",
       },
     },
@@ -52,8 +27,11 @@ Object {
 }
 `;
 
-exports[`core.component constructor expose computed options 1`] = `
+exports[`UIPredicateCore constructor expose computed options 1`] = `
 Array [
+  "on",
+  "once",
+  "off",
   "setData",
   "add",
   "remove",
@@ -67,87 +45,36 @@ Array [
 ]
 `;
 
-exports[`core.component constructor rejects an error if data does not start with a ComparisonPredicate 1`] = `[RootPredicateMustBeACompoundPredicate]`;
+exports[`UIPredicateCore constructor rejects an error if data does not start with a ComparisonPredicate 1`] = `[RootPredicateMustBeACompoundPredicate]`;
 
-exports[`core.component ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
+exports[`UIPredicateCore ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
 Object {
-  "$_type": "CompoundPredicate",
-  "$canBeRemoved": false,
   "logic": Object {
-    "$_type": "LogicalType",
     "label": "Any",
     "logicalType_id": "any",
   },
   "predicates": Array [
     Object {
-      "$_type": "ComparisonPredicate",
-      "$canBeRemoved": true,
       "arguments": Array [],
       "operator": Object {
-        "$_type": "Operator",
-        "label": "Est",
+        "label": "is",
         "operator_id": "is",
       },
       "target": Object {
-        "$_type": "Target",
-        "$type": Object {
-          "$_type": "Type",
-          "$operators": Array [
-            Object {
-              "$_type": "Operator",
-              "label": "Est",
-              "operator_id": "is",
-            },
-            Object {
-              "$_type": "Operator",
-              "label": "Contient",
-              "operator_id": "contains",
-            },
-          ],
-          "operator_ids": Array [
-            "is",
-            "contains",
-          ],
-          "type_id": "string",
-        },
-        "label": "Titre article",
-        "target_id": "article.title",
+        "label": "Title",
+        "target_id": "title",
         "type_id": "string",
       },
     },
     Object {
-      "$_type": "ComparisonPredicate",
-      "$canBeRemoved": true,
       "arguments": Array [],
       "operator": Object {
-        "$_type": "Operator",
-        "label": "Est",
+        "label": "is",
         "operator_id": "is",
       },
       "target": Object {
-        "$_type": "Target",
-        "$type": Object {
-          "$_type": "Type",
-          "$operators": Array [
-            Object {
-              "$_type": "Operator",
-              "label": "Est",
-              "operator_id": "is",
-            },
-            Object {
-              "$_type": "Operator",
-              "label": "Contient",
-              "operator_id": "contains",
-            },
-          ],
-          "operator_ids": Array [
-            "is",
-            "contains",
-          ],
-          "type_id": "string",
-        },
-        "label": "Titre article",
-        "target_id": "article.title",
+        "label": "Title",
+        "target_id": "title",
         "type_id": "string",
       },
     },
@@ -155,13 +82,13 @@ Object {
 }
 `;
 
-exports[`core.component ctrl.add rejects if \`how\` is unsupported 1`] = `[AddCurrentlyOnlySupportAfterInsertion]`;
+exports[`UIPredicateCore ctrl.add rejects if \`how\` is unsupported 1`] = `[AddCurrentlyOnlySupportAfterInsertion]`;
 
-exports[`core.component ctrl.add rejects if Predicate type is invalid 1`] = `[InvalidPredicateType]`;
+exports[`UIPredicateCore ctrl.add rejects if Predicate type is invalid 1`] = `[InvalidPredicateType]`;
 
-exports[`core.component ctrl.add rejects if where is unsupported 1`] = `[CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate]`;
+exports[`UIPredicateCore ctrl.add rejects if where is unsupported 1`] = `[CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate]`;
 
-exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredicate 1`] = `
+exports[`UIPredicateCore ctrl.remove(predicate) allow to remove a comparisonPredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": false,
@@ -177,7 +104,7 @@ Object {
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
-        "label": "Est",
+        "label": "is",
         "operator_id": "is",
       },
       "target": Object {
@@ -187,12 +114,12 @@ Object {
           "$operators": Array [
             Object {
               "$_type": "Operator",
-              "label": "Est",
+              "label": "is",
               "operator_id": "is",
             },
             Object {
               "$_type": "Operator",
-              "label": "Contient",
+              "label": "contains",
               "operator_id": "contains",
             },
           ],
@@ -202,8 +129,8 @@ Object {
           ],
           "type_id": "string",
         },
-        "label": "Titre article",
-        "target_id": "article.title",
+        "label": "Title",
+        "target_id": "title",
         "type_id": "string",
       },
     },
@@ -211,7 +138,7 @@ Object {
 }
 `;
 
-exports[`core.component ctrl.remove(predicate) allow to remove a comparisonPredicate and its parent CompoundPredicate if it was the last comparisonPredicate 1`] = `
+exports[`UIPredicateCore ctrl.remove(predicate) allow to remove a comparisonPredicate and its parent CompoundPredicate if it was the last comparisonPredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": false,
@@ -227,7 +154,7 @@ Object {
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
-        "label": "Est",
+        "label": "is",
         "operator_id": "is",
       },
       "target": Object {
@@ -237,12 +164,12 @@ Object {
           "$operators": Array [
             Object {
               "$_type": "Operator",
-              "label": "Est",
+              "label": "is",
               "operator_id": "is",
             },
             Object {
               "$_type": "Operator",
-              "label": "Contient",
+              "label": "contains",
               "operator_id": "contains",
             },
           ],
@@ -252,8 +179,8 @@ Object {
           ],
           "type_id": "string",
         },
-        "label": "Titre article",
-        "target_id": "article.title",
+        "label": "Title",
+        "target_id": "title",
         "type_id": "string",
       },
     },
@@ -261,7 +188,7 @@ Object {
 }
 `;
 
-exports[`core.component ctrl.remove(predicate) allow to remove a compoundpredicate 1`] = `
+exports[`UIPredicateCore ctrl.remove(predicate) allow to remove a compoundpredicate 1`] = `
 Object {
   "$_type": "CompoundPredicate",
   "$canBeRemoved": true,
@@ -277,7 +204,7 @@ Object {
       "arguments": Array [],
       "operator": Object {
         "$_type": "Operator",
-        "label": "Est",
+        "label": "is",
         "operator_id": "is",
       },
       "target": Object {
@@ -287,12 +214,12 @@ Object {
           "$operators": Array [
             Object {
               "$_type": "Operator",
-              "label": "Est",
+              "label": "is",
               "operator_id": "is",
             },
             Object {
               "$_type": "Operator",
-              "label": "Contient",
+              "label": "contains",
               "operator_id": "contains",
             },
           ],
@@ -302,8 +229,8 @@ Object {
           ],
           "type_id": "string",
         },
-        "label": "Titre article",
-        "target_id": "article.title",
+        "label": "Title",
+        "target_id": "title",
         "type_id": "string",
       },
     },
@@ -311,23 +238,23 @@ Object {
 }
 `;
 
-exports[`core.component ctrl.remove(predicate) forbids to remove an unknown type of predicate 1`] = `[CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate]`;
+exports[`UIPredicateCore ctrl.remove(predicate) forbids to remove an unknown type of predicate 1`] = `[CannotRemoveSomethingElseThanACompoundPredicateOrAComparisonPredicate]`;
 
-exports[`core.component ctrl.remove(predicate) forbids to remove the last predicate of the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveLastComparisonPredicate]`;
+exports[`UIPredicateCore ctrl.remove(predicate) forbids to remove the last predicate of the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveLastComparisonPredicate]`;
 
-exports[`core.component ctrl.remove(predicate) forbids to remove the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveRootCompoundPredicate]`;
+exports[`UIPredicateCore ctrl.remove(predicate) forbids to remove the root CompoundPredicate 1`] = `[ForbiddenCannotRemoveRootCompoundPredicate]`;
 
-exports[`core.component ctrl.setPredicateLogicalType_id yield a rejected promise if logicalType_id cannot be found 1`] = `[LogicalType_idMustReferToADefinedLogicalType]`;
+exports[`UIPredicateCore ctrl.setPredicateLogicalType_id yield a rejected promise if logicalType_id cannot be found 1`] = `[LogicalType_idMustReferToADefinedLogicalType]`;
 
-exports[`core.component ctrl.setPredicateLogicalType_id yield a rejected promise if predicate is not a CompoundPredicate 1`] = `[PredicateMustBeACompoundPredicate]`;
+exports[`UIPredicateCore ctrl.setPredicateLogicalType_id yield a rejected promise if predicate is not a CompoundPredicate 1`] = `[PredicateMustBeACompoundPredicate]`;
 
-exports[`core.component ctrl.setPredicateOperator_id rejects an error if operator_id cannot be found 1`] = `[Operator_idMustReferToADefinedOperator]`;
+exports[`UIPredicateCore ctrl.setPredicateOperator_id rejects an error if operator_id cannot be found 1`] = `[Operator_idMustReferToADefinedOperator]`;
 
-exports[`core.component ctrl.setPredicateTarget_id rejects when predicate refers to a invalid predicate 1`] = `[PredicateMustBeAComparisonPredicate]`;
+exports[`UIPredicateCore ctrl.setPredicateTarget_id rejects when predicate refers to a invalid predicate 1`] = `[PredicateMustBeAComparisonPredicate]`;
 
-exports[`core.component ctrl.setPredicateTarget_id rejects when target_id refers to a not defined target 1`] = `[Target_idMustReferToADefinedTarget]`;
+exports[`UIPredicateCore ctrl.setPredicateTarget_id rejects when target_id refers to a not defined target 1`] = `[Target_idMustReferToADefinedTarget]`;
 
-exports[`core.component ctrl.setPredicateTarget_id work if we set a predicate to an exist target_id 1`] = `
+exports[`UIPredicateCore ctrl.setPredicateTarget_id work if we set a predicate to an exist target_id 1`] = `
 Object {
   "$_type": "ComparisonPredicate",
   "$canBeRemoved": false,
@@ -365,11 +292,72 @@ Object {
       ],
       "type_id": "int",
     },
-    "label": "Nombre de vidéo",
+    "label": "Video count",
     "target_id": "videoCount",
     "type_id": "int",
   },
 }
 `;
 
-exports[`core.data CompoundPredicate constructor can't be constructed with at least one subpredicate 1`] = `[CompoundPredicateMustHaveAtLeastOneSubPredicate]`;
+exports[`UIPredicateCore toJSON serialize without special flags 1`] = `
+Object {
+  "logic": Object {
+    "label": "Any",
+    "logicalType_id": "any",
+  },
+  "predicates": Array [
+    Object {
+      "arguments": Array [],
+      "operator": Object {
+        "label": "is",
+        "operator_id": "is",
+      },
+      "target": Object {
+        "label": "Title",
+        "target_id": "title",
+        "type_id": "string",
+      },
+    },
+    Object {
+      "logic": Object {
+        "label": "Any",
+        "logicalType_id": "any",
+      },
+      "predicates": Array [
+        Object {
+          "arguments": Array [],
+          "operator": Object {
+            "label": "is",
+            "operator_id": "is",
+          },
+          "target": Object {
+            "label": "Title",
+            "target_id": "title",
+            "type_id": "string",
+          },
+        },
+        Object {
+          "logic": Object {
+            "label": "Any",
+            "logicalType_id": "any",
+          },
+          "predicates": Array [
+            Object {
+              "arguments": Array [],
+              "operator": Object {
+                "label": "is",
+                "operator_id": "is",
+              },
+              "target": Object {
+                "label": "Title",
+                "target_id": "title",
+                "type_id": "string",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;

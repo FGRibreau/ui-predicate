@@ -14,7 +14,7 @@ const {
 
 const { prop } = require('ramda');
 
-describe('core.component', () => {
+describe('UIPredicateCore', () => {
   describe('constructor', () => {
     it('rejects an error if data does not start with a ComparisonPredicate', () => {
       expect.assertions(1);
@@ -498,9 +498,7 @@ describe('core.component', () => {
         });
     });
   });
-});
 
-describe('core.data', () => {
   describe('CompoundPredicate', () => {
     describe('constructor', () => {
       it(`can't be constructed with at least one subpredicate`, () => {
@@ -511,26 +509,147 @@ describe('core.data', () => {
     });
   });
 
-  // describe('serializable', () => {
-  //   it('serialize a CompoundPredicate with 2 subpredicates', () => {
-  //     const root = CompoundPredicate(LogicalType.and, [
-  //       ComparisonPredicate(Target(), Operator(), []),
-  //       ComparisonPredicate(Target(), Operator(), []),
-  //     ]);
-  //
-  //     expect(JSON.stringify(root)).toMatchSnapshot();
-  //   });
-  //
-  //   it('serialize a CompoundPredicate with subpredicates composed of CompoundPredicate', () => {
-  //     const root = CompoundPredicate(LogicalType.and, [
-  //       ComparisonPredicate(Target(), Operator(), []),
-  //       ComparisonPredicate(Target(), Operator(), []),
-  //       CompoundPredicate(LogicalType.and, [
-  //         ComparisonPredicate(Target(), Operator(), []),
-  //       ]),
-  //     ]);
-  //
-  //     expect(JSON.stringify(root, null, 2)).toMatchSnapshot();
-  //   });
-  // });
+  describe('toJSON', () => {
+    it('serialize without special flags', () => {
+      expect.assertions(1);
+      return PredicateCore()
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[0],
+              type: 'CompoundPredicate',
+            })
+            .then(() => ctrl)
+        )
+        .then(ctrl =>
+          ctrl
+            .add({
+              where: ctrl.root.predicates[1].predicates[0],
+              type: 'CompoundPredicate',
+            })
+            .then(() => ctrl)
+        )
+        .then(ctrl => {
+          expect(ctrl.toJSON()).toMatchSnapshot();
+        });
+    });
+  });
+
+  describe('events', () => {
+    describe('on', () => {
+      it('emits an `changed` event when add() is called', () => {
+        expect.assertions(1);
+        const listener = jest.fn();
+        return PredicateCore()
+          .then(ctrl => {
+            ctrl.on('changed', listener);
+            return ctrl
+              .add({
+                where: ctrl.root.predicates[0],
+                type: 'CompoundPredicate',
+              })
+              .then(() => ctrl);
+          })
+          .then(ctrl => {
+            expect(listener.mock.calls.length).toBe(1);
+          });
+      });
+    });
+
+    describe('once', () => {
+      it('once() works', () => {
+        expect.assertions(1);
+        const listener = jest.fn();
+        return PredicateCore()
+          .then(ctrl => {
+            ctrl.once('changed', listener);
+            return ctrl
+              .add({
+                where: ctrl.root.predicates[0],
+                type: 'CompoundPredicate',
+              })
+              .then(() => ctrl);
+          })
+          .then(ctrl => {
+            return ctrl
+              .add({
+                where: ctrl.root.predicates[0],
+                type: 'CompoundPredicate',
+              })
+              .then(() => ctrl);
+          })
+          .then(ctrl => {
+            expect(listener.mock.calls.length).toBe(1);
+          });
+      });
+    });
+
+    describe('off', () => {
+      it('off() works', () => {
+        expect.assertions(2);
+        const listener = jest.fn();
+        const listener2 = jest.fn();
+        return PredicateCore()
+          .then(ctrl => {
+            ctrl.on('changed', listener);
+            ctrl.on('changed', listener2);
+            ctrl.off();
+            return ctrl
+              .add({
+                where: ctrl.root.predicates[0],
+                type: 'CompoundPredicate',
+              })
+              .then(() => ctrl);
+          })
+          .then(ctrl => {
+            expect(listener.mock.calls.length).toBe(0);
+            expect(listener2.mock.calls.length).toBe(0);
+          });
+      });
+
+      it('off(eventName) works', () => {
+        expect.assertions(2);
+        const listener = jest.fn();
+        const listener2 = jest.fn();
+        return PredicateCore()
+          .then(ctrl => {
+            ctrl.on('changed', listener);
+            ctrl.on('changed', listener2);
+            ctrl.off('changed');
+            return ctrl
+              .add({
+                where: ctrl.root.predicates[0],
+                type: 'CompoundPredicate',
+              })
+              .then(() => ctrl);
+          })
+          .then(ctrl => {
+            expect(listener.mock.calls.length).toBe(0);
+            expect(listener2.mock.calls.length).toBe(0);
+          });
+      });
+
+      it('off(eventName, listener) works', () => {
+        expect.assertions(2);
+        const listener = jest.fn();
+        const listener2 = jest.fn();
+        return PredicateCore()
+          .then(ctrl => {
+            ctrl.on('changed', listener);
+            ctrl.on('changed', listener2);
+            ctrl.off('changed', listener2);
+            return ctrl
+              .add({
+                where: ctrl.root.predicates[0],
+                type: 'CompoundPredicate',
+              })
+              .then(() => ctrl);
+          })
+          .then(ctrl => {
+            expect(listener.mock.calls.length).toBe(1);
+            expect(listener2.mock.calls.length).toBe(0);
+          });
+      });
+    });
+  });
 });
