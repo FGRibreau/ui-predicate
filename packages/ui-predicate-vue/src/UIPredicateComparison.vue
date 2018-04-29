@@ -13,13 +13,14 @@
       <div class="ui-predicate--col">
         <input type="text" :value="predicate.arguments"></input>
       </div>
-      <ui-predicate-options :predicate="predicate"></ui-predicate-options>
+      <UIPredicateOptions :predicate="predicate"></UIPredicateOptions>
     </div>
 </template>
 
 <script>
+import UIPredicateOptions from './UIPredicateOptions';
 module.exports = {
-  name: 'ui-predicate-comparison',
+  name: 'UIPredicateComparison',
   props: {
     predicate: {
       type: Object,

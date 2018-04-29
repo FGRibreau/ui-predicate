@@ -1,14 +1,17 @@
 <template>
   <div class="">
     <div class="ui-predicate main">
-      <ui-predicate-compound v-bind:compound="root" v-bind:columns="columns"></ui-predicate-compound>
+      <UIPredicateCompound v-bind:compound="root" v-bind:columns="columns"></UIPredicateCompound>
     </div>
   </div>
 </template>
 
 <script>
+import { PredicateCore } from 'ui-predicate-core';
+import UIPredicateCompound from './UIPredicateCompound';
+
 module.exports = {
-  name: 'ui-predicate',
+  name: 'UIPredicate',
   props: {
     config: {
       type: Object,
@@ -75,16 +78,21 @@ module.exports = {
   },
   mounted() {
     const vm = this;
-    const { PredicateCore } = require('ui-predicate-core');
 
     PredicateCore({
       data: this.data,
       columns: this.config,
-    }).then(ctrl => {
-      vm.ctrl = ctrl;
-      vm.root = ctrl.root;
-      vm.columns = ctrl.columns;
-    });
+    }).then(
+      ctrl => {
+        vm.ctrl = ctrl;
+        vm.root = ctrl.root;
+        vm.columns = ctrl.columns;
+      },
+      err => {
+        console.error(err);
+        debugger;
+      }
+    );
 
     window.addEventListener('keyup', this.onAltReleased);
     window.addEventListener('keydown', this.onAltPressed);

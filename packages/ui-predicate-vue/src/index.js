@@ -1,18 +1,21 @@
-const UIPredicateOptions = require('../src/components/ui-predicate-options');
-const UIPredicateComparison = require('../src/components/ui-predicate-comparison');
-const UIPredicateCompound = require('../src/components/ui-predicate-compound');
-const UIPredicate = require('../src/components/ui-predicate');
+const UIPredicateOptions = require('../src/UIPredicateOptions.vue');
+const UIPredicateComparison = require('../src/UIPredicateComparison.vue');
+const UIPredicateCompound = require('../src/UIPredicateCompound.vue');
+const UIPredicate = require('../src/UIPredicate.vue');
 
-const components = [
+// not single-source-of-truth, but need it for static refs
+const components = {
   UIPredicateOptions,
   UIPredicateComparison,
   UIPredicateCompound,
   UIPredicate,
-];
+};
 
 // f(Vue, opts = {}) used by Vue.use()
 const install = function(Vue) {
-  components.forEach(component => Vue.component(component.name, component));
+  Object.keys(components).forEach(name =>
+    Vue.component(name, components[name].default)
+  );
 };
 
 /* istanbul ignore if */
@@ -21,6 +24,7 @@ if (typeof window !== 'undefined' && window.Vue) install(window.Vue);
 module.exports = {
   version: require('../package.json').version,
   install,
+  components,
   UIPredicateOptions,
   UIPredicateComparison,
   UIPredicateCompound,

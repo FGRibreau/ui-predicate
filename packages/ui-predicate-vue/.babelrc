@@ -1,13 +1,8 @@
 {
-  "presets": [
-    "stage-3",
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": ["> 2%", "ie 11", "safari >= 9"]
-        }
-      }
-    ]
-  ]
+  "presets": [["env", { "modules": "commonjs" }], "stage-0", "vue"],
+  "env": {
+    "test": {
+      "presets": [["env", { "targets": { "node": "current" } }]]
+    }
+  }
 }

@@ -9,7 +9,8 @@
     "test:coverage": "true",
     "build": "true",
     "docs": "true",
-    "docs:private": "true"
+    "docs:private": "true",
+    "examples:build":"true"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",

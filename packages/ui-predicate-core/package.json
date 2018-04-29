@@ -10,7 +10,8 @@
     "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
     "lint": "eslint src",
     "docs": "jsdoc -c ../../jsdoc.json",
-    "docs:private": "jsdoc -c ../../jsdoc.json -p"
+    "docs:private": "jsdoc -c ../../jsdoc.json -p",
+    "examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/ --public-url ./ --no-cache -d $DIR -t browser"
   },
   "files": [
     "dist"

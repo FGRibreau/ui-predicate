@@ -29,10 +29,10 @@ An elegant user-interface component that allow a user to define :
 
 Packages | description | badges
 ------------ | ------------- | -------------
-**[ui-predicate-vue](packages/ui-predicate-vue)** | (complete) ui-predicate for VueJS | [![npm version](https://img.shields.io/npm/v/ui-predicate-core.svg)](https://www.npmjs.com/package/ui-predicate-core) ![npm](https://img.shields.io/npm/dm/ui-predicate-vue.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-core/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-core)
-**[ui-predicate-react](packages/ui-predicate-react)** | (not started) ui-predicate for React | [![npm version](https://img.shields.io/npm/v/ui-predicate-react.svg)](https://www.npmjs.com/package/ui-predicate-react) ![npm](https://img.shields.io/npm/dm/ui-predicate-react.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-react/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-react)
-**[ui-predicate-angular](packages/ui-predicate-angular)** | (not started) ui-predicate for Angular | [![npm version](https://img.shields.io/npm/v/ui-predicate-angular.svg)](https://www.npmjs.com/package/ui-predicate-angular) ![npm](https://img.shields.io/npm/dm/ui-predicate-angular.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-angular/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-angular)
-**[ui-predicate-hyperhtml](packages/ui-predicate-hyperhtml)** | (not started) ui-predicate for HyperHTML | [![npm version](https://img.shields.io/npm/v/ui-predicate-hyperhtml.svg)](https://www.npmjs.com/package/ui-predicate-hyperhtml) ![npm](https://img.shields.io/npm/dm/ui-predicate-hyperhtml.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-hyperhtml/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-hyperhtml)
+**[ui-predicate-vue](packages/ui-predicate-vue)** | (100%) ui-predicate for VueJS | [![npm version](https://img.shields.io/npm/v/ui-predicate-core.svg)](https://www.npmjs.com/package/ui-predicate-core) ![npm](https://img.shields.io/npm/dm/ui-predicate-vue.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-core/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-core)
+**[ui-predicate-react](packages/ui-predicate-react)** | (0%) ui-predicate for React | [![npm version](https://img.shields.io/npm/v/ui-predicate-react.svg)](https://www.npmjs.com/package/ui-predicate-react) ![npm](https://img.shields.io/npm/dm/ui-predicate-react.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-react/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-react)
+**[ui-predicate-angular](packages/ui-predicate-angular)** | (0%) ui-predicate for Angular | [![npm version](https://img.shields.io/npm/v/ui-predicate-angular.svg)](https://www.npmjs.com/package/ui-predicate-angular) ![npm](https://img.shields.io/npm/dm/ui-predicate-angular.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-angular/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-angular)
+**[ui-predicate-hyperhtml](packages/ui-predicate-hyperhtml)** | (0%) ui-predicate for HyperHTML | [![npm version](https://img.shields.io/npm/v/ui-predicate-hyperhtml.svg)](https://www.npmjs.com/package/ui-predicate-hyperhtml) ![npm](https://img.shields.io/npm/dm/ui-predicate-hyperhtml.svg) [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ui-predicate-hyperhtml/badge)](https://www.jsdelivr.com/package/npm/ui-predicate-hyperhtml)
 
 # Low-level packages
 
@@ -44,6 +44,7 @@ Packages | description | badges
 
 - [ ] ui-predicate-core quality: eslint support
 - [ ] ui-predicate-core build size: tree-shaking support
+- [ ] ui-predicate-core: changelog
 - [ ] ui-predicate-react
 - [ ] ui-predicate-angular
 - [ ] ui-predicate-hyperHTML
