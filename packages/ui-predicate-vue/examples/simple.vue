@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <h1>Simple ui-predicate usage</h1>
-    <UIPredicate v-bind:config="config"></UIPredicate>
+    <ui-predicate :config="config" @onChange="onChange"></ui-predicate>
     <p>Tips: Use "alt + click" to create a sub-group.</p>
+    <pre>{{ ast }}</pre>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ export default {
   name: 'app',
   data() {
     return {
+      ast: {},
       msg: 'Welcome to Your Vue.js App!',
       config: {
         operators: [
@@ -98,6 +100,11 @@ export default {
         ],
       },
     };
+  },
+  methods: {
+    onChange(diff) {
+      this.ast = diff;
+    },
   },
 };
 </script>
