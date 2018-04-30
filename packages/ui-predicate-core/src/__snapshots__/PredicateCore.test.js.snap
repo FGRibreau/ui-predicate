@@ -35,7 +35,9 @@ Array [
 ]
 `;
 
-exports[`UIPredicateCore constructor rejects an error if data does not start with a ComparisonPredicate 1`] = `[RootPredicateMustBeACompoundPredicate]`;
+exports[`UIPredicateCore constructor rejects an error if json data does not start with a ComparisonPredicate 1`] = `[RootPredicateMustBeACompoundPredicate]`;
+
+exports[`UIPredicateCore constructor rejects an error if json data is neither a CompoundPredicate or a ComparisonPredicate 1`] = `[UnknownJSONData]`;
 
 exports[`UIPredicateCore ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
 Object {

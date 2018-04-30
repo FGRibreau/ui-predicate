@@ -102,11 +102,12 @@ module.exports = ({ errors, rules }) => ({
    * @since 1.0.0
    */
   LogicalType_idMustReferToADefinedLogicalType: logicalType =>
-    logicalType.isNone()
+    !logicalType
       ? Promise.reject(
           new errors.LogicalType_idMustReferToADefinedLogicalType()
         )
       : Promise.resolve(logicalType),
+
   /**
    * @param {Option<dataclasses.Target>} target target
    * @return {Promise<dataclasses.Target, errors.Target_idMustReferToADefinedTarget>} resolve the promise if the invariant pass or yield a `Target_idMustReferToADefinedTarget` error otherwise
@@ -114,19 +115,21 @@ module.exports = ({ errors, rules }) => ({
    * @since 1.0.0
    */
   Target_idMustReferToADefinedTarget: target =>
-    target.isNone()
+    !target
       ? Promise.reject(new errors.Target_idMustReferToADefinedTarget())
       : Promise.resolve(target),
+
   /**
-   * @param {Option<dataclasses.Operator>} operator
+   * @param {Option<dataclasses.Operator>} operator operator
    * @return {Promise<dataclasses.Operator, errors.Operator_idMustReferToADefinedOperator>} resolve the promise if the invariant pass or yield a `Operator_idMustReferToADefinedOperator` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
   Operator_idMustReferToADefinedOperator: operator =>
-    operator.isNone()
+    !operator
       ? Promise.reject(new errors.Operator_idMustReferToADefinedOperator())
       : Promise.resolve(operator),
+
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @param {dataclasses.Predicate} predicateToRemove predicateToRemove

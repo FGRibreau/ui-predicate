@@ -1,7 +1,7 @@
 const { merge, mergeAll } = require('ramda');
 const $_type = require('./$_type');
 
-module.exports = ({ invariants }) => {
+module.exports = ({ invariants, errors }) => {
   const { Target, Operator, LogicalType } = require('./columns');
   /**
    * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
@@ -38,6 +38,22 @@ module.exports = ({ invariants }) => {
     return CompoundPredicate.toJSON(predicate);
   };
 
+  /**
+   * @param  {object} json
+   * @return {Promise<Predicate, errors.*>} Promise
+   */
+  Predicate.fromJSON = function(json, internalAPI) {
+    if (ComparisonPredicate.isFromJSON(json)) {
+      return ComparisonPredicate.fromJSON(json, internalAPI);
+    }
+
+    if (CompoundPredicate.isFromJSON(json)) {
+      return CompoundPredicate.fromJSON(json, internalAPI);
+    }
+
+    return Promise.reject(new errors.UnknownJSONData());
+  };
+
   Predicate.Types = {
     ComparisonPredicate: 'ComparisonPredicate',
     CompoundPredicate: 'CompoundPredicate',
@@ -70,6 +86,9 @@ module.exports = ({ invariants }) => {
     );
   }
 
+  // by pass var. mangling from minify
+  ComparisonPredicate.$name = Predicate.Types.ComparisonPredicate;
+
   /**
    * @param  {ComparisonPredicate} predicate
    * @return {Object} JSON serializable object
@@ -84,8 +103,18 @@ module.exports = ({ invariants }) => {
     ]);
   };
 
-  // by pass var. mangling from minify
-  ComparisonPredicate.$name = Predicate.Types.ComparisonPredicate;
+  /**
+   * @param  {object} json
+   * @return {Promise<Predicate, errors.*>} Promise
+   */
+  ComparisonPredicate.fromJSON = function(json, internalAPI) {
+    return Promise.all([
+      internalAPI.getTargetById(json.target_id),
+      internalAPI.getOperatorById(json.operator_id),
+    ]).then(([target, operator]) =>
+      ComparisonPredicate(target, operator, json.arguments)
+    );
+  };
 
   /**
    * Yield true if `predicate` is a ComparisonPredicate
@@ -98,6 +127,15 @@ module.exports = ({ invariants }) => {
       predicate && predicate.$_type === Predicate.Types.ComparisonPredicate
     );
   };
+
+  /**
+   * Yield true if `json` seems to be a ComparisonPredicate
+   * @param  {object}  json
+   * @private
+   * @return {Boolean}
+   * @memberof dataclasses
+   */
+  ComparisonPredicate.isFromJSON = json => json && json.target_id;
 
   /**
    * A specialized predicate that evaluates logical combinations of other predicates.
@@ -133,6 +171,26 @@ module.exports = ({ invariants }) => {
       LogicalType.toJSON(predicate.logic),
       { predicates: predicate.predicates.map(Predicate.toJSON) },
     ]);
+  };
+
+  /**
+   * @param  {CompoundPredicate} predicate
+   * @return {Promise<CompoundPredicate, errors.*>} Promise
+   */
+  CompoundPredicate.fromJSON = function(predicate, internalAPI) {
+    return invariants
+      .CompoundPredicateMustHaveAtLeastOneSubPredicate(
+        predicate.predicates,
+        CompoundPredicate
+      )
+      .then(() => internalAPI.getLogicalTypeById(predicate.logicalType_id))
+      .then(logicalType =>
+        Promise.all(
+          predicate.predicates.map(predicate =>
+            Predicate.fromJSON(predicate, internalAPI)
+          )
+        ).then(predicates => CompoundPredicate(logicalType, predicates))
+      );
   };
 
   /**
@@ -178,6 +236,15 @@ module.exports = ({ invariants }) => {
    */
   CompoundPredicate.is = predicate =>
     predicate && predicate.$_type === Predicate.Types.CompoundPredicate;
+
+  /**
+   * Yield true if `json` seems to be a CompoundPredicate
+   * @param  {object}  json
+   * @private
+   * @return {Boolean}
+   * @memberof dataclasses
+   */
+  CompoundPredicate.isFromJSON = json => json && json.logicalType_id;
 
   return {
     Predicate,

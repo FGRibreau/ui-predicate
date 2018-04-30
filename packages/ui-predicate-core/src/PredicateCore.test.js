@@ -16,9 +16,29 @@ const { prop } = require('ramda');
 
 describe('UIPredicateCore', () => {
   describe('constructor', () => {
-    it('rejects an error if data does not start with a ComparisonPredicate', () => {
+    it('rejects an error if json data does not start with a ComparisonPredicate', () => {
       expect.assertions(1);
-      return expect(PredicateCore({ data: [] })).rejects.toMatchSnapshot();
+      return expect(
+        PredicateCore({
+          data: {
+            arguments: [],
+            operator_id: 'is',
+            target_id: 'title',
+          },
+        })
+      ).rejects.toMatchSnapshot();
+    });
+
+    it('rejects an error if json data is neither a CompoundPredicate or a ComparisonPredicate', () => {
+      expect.assertions(1);
+      return expect(
+        PredicateCore({
+          data: {
+            listeningTo: 'Match Box Blues - Albert King, Stevie Ray Vaughan',
+            at: 'Mon 30 Apr 21:37',
+          },
+        })
+      ).rejects.toMatchSnapshot();
     });
 
     it('default state (without passed data) should have one predicate, selected automatically', () => {
@@ -27,6 +47,45 @@ describe('UIPredicateCore', () => {
         expect(ctrl.root.predicates[0].target.$type).toBeDefined();
         expect(ctrl.root.predicates[0].target.$type.$operators).toBeDefined();
         expect(ctrl.toJSON()).toMatchSnapshot();
+      });
+    });
+
+    it('accept a `data` argument', () => {
+      const DATA = {
+        logicalType_id: 'any',
+        predicates: [
+          {
+            arguments: [],
+            operator_id: 'is',
+            target_id: 'title',
+          },
+          {
+            logicalType_id: 'any',
+            predicates: [
+              {
+                arguments: [],
+                operator_id: 'is',
+                target_id: 'title',
+              },
+              {
+                logicalType_id: 'any',
+                predicates: [
+                  {
+                    arguments: [],
+                    operator_id: 'is',
+                    target_id: 'title',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      return PredicateCore({
+        data: DATA,
+      }).then(ctrl => {
+        expect(ctrl.toJSON()).toEqual(DATA);
       });
     });
 

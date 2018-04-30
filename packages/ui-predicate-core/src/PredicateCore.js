@@ -58,25 +58,27 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   /**
    * Get a target by its target_id
-   * @param  {array} targets
+   * @param  {Array<dataclasses.Target>} targets
    * @param  {string} target_id target id name
-   * @return {?dataclasses.Target}
+   * @return {Promise<dataclasses.Target>}
    * @private
    * @since 1.0.0
    */
   const _getTargetById = (targets, target_id) =>
-    option.fromNullable(find(target => target.target_id == target_id, targets));
+    invariants.Target_idMustReferToADefinedTarget(
+      find(target => target.target_id == target_id, targets)
+    );
 
   /**
    * Get a logical type by its logicalType_id
-   * @param  {array} logicalTypes
+   * @param  {Array<dataclasses.LogicalType>} logicalTypes
    * @param  {string} logicalType_id logicalType id name
-   * @return {?dataclasses.Target}
+   * @return {Promise<dataclasses.LogicalType>}
    * @private
    * @since 1.0.0
    */
   const _getLogicalTypeById = (logicalTypes, logicalType_id) =>
-    option.fromNullable(
+    invariants.LogicalType_idMustReferToADefinedLogicalType(
       find(
         logicalType => logicalType.logicalType_id == logicalType_id,
         logicalTypes
@@ -84,8 +86,21 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
     );
 
   /**
+   * Get an operator by its operator_id
+   * @param  {Array<dataclasses.operator>} operators
+   * @param  {string[]} operator_ids
+   * @return {Promise<dataclasses.operator>}
+   * @private
+   * @since 1.0.0
+   */
+  const _getOperatorById = (operators, operator_id) =>
+    invariants.Operator_idMustReferToADefinedOperator(
+      find(operator => operator.operator_id == operator_id, operators)
+    );
+
+  /**
    * _getOperatorsByIds
-   * @param  {Object} columns
+   * @param  {Object} operators
    * @param  {string[]} operator_ids
    * @return {Array<dataclasses.operator>}
    * @private
@@ -214,6 +229,22 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
         }
 
         /**
+         * [_loadData description]
+         * @internal
+         * @return      {Promise<Predicate, errors.*>} [description]
+         */
+        function _fromJSON(predicate) {
+          return Predicate.fromJSON(predicate, {
+            getTargetById: target_id =>
+              _getTargetById(_columns.targets, target_id),
+            getLogicalTypeById: logicalType_id =>
+              _getLogicalTypeById(_columns.logicalTypes, logicalType_id),
+            getOperatorById: operator_id =>
+              _getOperatorById(_columns.operators, operator_id),
+          });
+        }
+
+        /**
          * Add a ComparisonPredicate or CompoundPredicate
          * @param  {Object} option
          * @param  {string} options.type what type of Predicate to add
@@ -333,13 +364,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                 newLogicalType_id
               );
             })
-            .then(logicalTypeOption =>
-              invariants.LogicalType_idMustReferToADefinedLogicalType(
-                logicalTypeOption
-              )
-            )
-            .then(logicalTypeOption => {
-              predicate.logic = logicalTypeOption.value(); // safe
+            .then(logicalType => {
+              predicate.logic = logicalType;
             });
         }
 
@@ -352,24 +378,24 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * @memberof core.api
          */
         function setPredicateTarget_id(predicate, newTarget_id) {
-          return invariants
-            .PredicateMustBeAComparisonPredicate(predicate, ComparisonPredicate)
-            .then(() => {
-              // first change the target
-              return _getTargetById(_columns.targets, newTarget_id);
-            })
-            .then(targetOption =>
-              invariants.Target_idMustReferToADefinedTarget(targetOption)
-            )
-            .then(targetOption => {
-              predicate.target = targetOption.value(); // safe
-
-              // then change the operator to the first operator for this target
-              return setPredicateOperator_id(
+          return (
+            invariants
+              .PredicateMustBeAComparisonPredicate(
                 predicate,
-                head(predicate.target.$type.$operators).operator_id
-              );
-            });
+                ComparisonPredicate
+              )
+              // first change the target
+              .then(() => _getTargetById(_columns.targets, newTarget_id))
+              .then(target => {
+                predicate.target = target;
+
+                // then change the operator to the first operator for this target
+                return setPredicateOperator_id(
+                  predicate,
+                  head(predicate.target.$type.$operators).operator_id
+                );
+              })
+          );
         }
 
         /**
@@ -385,21 +411,16 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
             Promise.resolve()
               // find operator
               .then(() =>
-                option.fromNullable(
+                invariants.Operator_idMustReferToADefinedOperator(
                   predicate.target.$type.$operators.find(
                     operator => operator.operator_id === newOperator_id
                   )
                 )
               )
 
-              .then(operatorOption =>
-                invariants.Operator_idMustReferToADefinedOperator(
-                  operatorOption
-                )
-              )
               // change the operator
-              .then(operatorOption => {
-                predicate.operator = operatorOption.value(); // safe
+              .then(operator => {
+                predicate.operator = operator;
 
                 // then reset arguments to array
                 predicate.arguments = [];
@@ -482,10 +503,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         // get data for initialization
         return (
-          (data
-            ? Promise.resolve(data)
-            : _options.getDefaultData(_columns, _options)
-          )
+          (data ? _fromJSON(data) : _options.getDefaultData(_columns, _options))
             // setup PredicateCore data
             .then(_afterPromise(setData, _afterWrite))
             // expose public API

@@ -24,6 +24,14 @@ module.exports = mergeAll([
   err('InvalidPredicateType'),
 
   /**
+   * Error when a json data passed to PredicateCore Constructor is neither a serialized ComparisonPredicate or a CompoundPredicate
+   * @typedef {Error} CompoundPredicate
+   * @memberof errors
+   * @since 1.0.0
+   */
+  err('UnknownJSONData'),
+
+  /**
    * Error when someone tried to remove the last remaining predicate from a CompoundPredicate
    * @typedef {Error} CompoundPredicateMustHaveAtLeastOneSubPredicate
    * @memberof errors
@@ -73,7 +81,7 @@ module.exports = mergeAll([
   err('TargetMustReferToADefinedType'),
 
   /**
-   * Thrown when a user asked for a logic change on a {@link dataclasses.CompoundPredicate}
+   * Thrown when a user asked for a logic change
    * but the logicalType_id was invalid because it referred to no existing targets
    * @typedef {Error} LogicalType_idMustReferToADefinedLogicalType
    * @memberof errors
@@ -82,13 +90,22 @@ module.exports = mergeAll([
   err('LogicalType_idMustReferToADefinedLogicalType'),
 
   /**
-   * Thrown when a user asked for a target change on a predicate
+   * Thrown when a user asked for a target
    * but the target_id was invalid because it referred to no existing targets
    * @typedef {Error} Target_idMustReferToADefinedTarget
    * @memberof errors
    * @since 1.0.0
    */
   err('Target_idMustReferToADefinedTarget'),
+
+  /**
+   * Thrown when a user asked for a operator
+   * but the operator_id was invalid because it referred to no existing operators
+   * @typedef {Error} Operator_idMustReferToADefinedOperator
+   * @memberof errors
+   * @since 1.0.0
+   */
+  err('Operator_idMustReferToADefinedOperator'),
 
   /**
    * Thrown when a user asked for a operator change on a predicate
