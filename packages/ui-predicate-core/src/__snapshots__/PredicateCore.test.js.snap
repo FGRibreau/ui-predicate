@@ -6,22 +6,12 @@ exports[`UIPredicateCore constructor check that every targets refer to a defined
 
 exports[`UIPredicateCore constructor default state (without passed data) should have one predicate, selected automatically 1`] = `
 Object {
-  "logic": Object {
-    "label": "Any",
-    "logicalType_id": "any",
-  },
+  "logicalType_id": "any",
   "predicates": Array [
     Object {
       "arguments": Array [],
-      "operator": Object {
-        "label": "is",
-        "operator_id": "is",
-      },
-      "target": Object {
-        "label": "Title",
-        "target_id": "title",
-        "type_id": "string",
-      },
+      "operator_id": "is",
+      "target_id": "title",
     },
   ],
 }
@@ -49,34 +39,17 @@ exports[`UIPredicateCore constructor rejects an error if data does not start wit
 
 exports[`UIPredicateCore ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
 Object {
-  "logic": Object {
-    "label": "Any",
-    "logicalType_id": "any",
-  },
+  "logicalType_id": "any",
   "predicates": Array [
     Object {
       "arguments": Array [],
-      "operator": Object {
-        "label": "is",
-        "operator_id": "is",
-      },
-      "target": Object {
-        "label": "Title",
-        "target_id": "title",
-        "type_id": "string",
-      },
+      "operator_id": "is",
+      "target_id": "title",
     },
     Object {
       "arguments": Array [],
-      "operator": Object {
-        "label": "is",
-        "operator_id": "is",
-      },
-      "target": Object {
-        "label": "Title",
-        "target_id": "title",
-        "type_id": "string",
-      },
+      "operator_id": "is",
+      "target_id": "title",
     },
   ],
 }
@@ -301,58 +274,28 @@ Object {
 
 exports[`UIPredicateCore toJSON serialize without special flags 1`] = `
 Object {
-  "logic": Object {
-    "label": "Any",
-    "logicalType_id": "any",
-  },
+  "logicalType_id": "any",
   "predicates": Array [
     Object {
       "arguments": Array [],
-      "operator": Object {
-        "label": "is",
-        "operator_id": "is",
-      },
-      "target": Object {
-        "label": "Title",
-        "target_id": "title",
-        "type_id": "string",
-      },
+      "operator_id": "is",
+      "target_id": "title",
     },
     Object {
-      "logic": Object {
-        "label": "Any",
-        "logicalType_id": "any",
-      },
+      "logicalType_id": "any",
       "predicates": Array [
         Object {
           "arguments": Array [],
-          "operator": Object {
-            "label": "is",
-            "operator_id": "is",
-          },
-          "target": Object {
-            "label": "Title",
-            "target_id": "title",
-            "type_id": "string",
-          },
+          "operator_id": "is",
+          "target_id": "title",
         },
         Object {
-          "logic": Object {
-            "label": "Any",
-            "logicalType_id": "any",
-          },
+          "logicalType_id": "any",
           "predicates": Array [
             Object {
               "arguments": Array [],
-              "operator": Object {
-                "label": "is",
-                "operator_id": "is",
-              },
-              "target": Object {
-                "label": "Title",
-                "target_id": "title",
-                "type_id": "string",
-              },
+              "operator_id": "is",
+              "target_id": "title",
             },
           ],
         },

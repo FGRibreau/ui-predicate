@@ -1,7 +1,8 @@
-const { merge } = require('ramda');
+const { merge, mergeAll } = require('ramda');
 const $_type = require('./$_type');
 
 module.exports = ({ invariants }) => {
+  const { Target, Operator, LogicalType } = require('./columns');
   /**
    * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
    * @typedef {object} Predicate
@@ -28,6 +29,14 @@ module.exports = ({ invariants }) => {
         })
       );
   }
+
+  Predicate.toJSON = function(predicate) {
+    if (ComparisonPredicate.is(predicate)) {
+      return ComparisonPredicate.toJSON(predicate);
+    }
+
+    return CompoundPredicate.toJSON(predicate);
+  };
 
   Predicate.Types = {
     ComparisonPredicate: 'ComparisonPredicate',
@@ -60,6 +69,20 @@ module.exports = ({ invariants }) => {
       })
     );
   }
+
+  /**
+   * @param  {ComparisonPredicate} predicate
+   * @return {Object} JSON serializable object
+   */
+  ComparisonPredicate.toJSON = function(predicate) {
+    return mergeAll([
+      Target.toJSON(predicate.target),
+      Operator.toJSON(predicate.operator),
+      {
+        arguments: predicate.arguments,
+      },
+    ]);
+  };
 
   // by pass var. mangling from minify
   ComparisonPredicate.$name = Predicate.Types.ComparisonPredicate;
@@ -100,6 +123,17 @@ module.exports = ({ invariants }) => {
 
   // by pass var. mangling from minify
   CompoundPredicate.$name = Predicate.Types.CompoundPredicate;
+
+  /**
+   * @param  {CompoundPredicate} predicate
+   * @return {Object} JSON serializable object
+   */
+  CompoundPredicate.toJSON = function(predicate) {
+    return mergeAll([
+      LogicalType.toJSON(predicate.logic),
+      { predicates: predicate.predicates.map(Predicate.toJSON) },
+    ]);
+  };
 
   /**
    * Reduce through the predicates tree

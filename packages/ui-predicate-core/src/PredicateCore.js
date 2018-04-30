@@ -432,36 +432,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * @memberof core.api
          */
         function toJSON() {
-          const root = clone(_root);
-
-          const toString = Object.prototype.toString;
-          const isObject = mixed => toString.call(mixed) === '[object Object]';
-
-          // we just need to go one-level deep
-          function remove$flagsFromObj(obj, level = 1) {
-            /* istanbul ignore if */
-            if (level < 0) {
-              return;
-            }
-
-            keys(obj).forEach(key => {
-              if (key === 'predicates') {
-                return;
-              }
-
-              if (startsWith('$', key)) {
-                delete obj[key];
-              }
-
-              if (isObject(obj[key])) {
-                remove$flagsFromObj(obj[key], level - 1);
-              }
-            });
-          }
-
-          CompoundPredicate.forEach(root, remove$flagsFromObj);
-
-          return root;
+          return Predicate.toJSON(_root);
         }
 
         /**

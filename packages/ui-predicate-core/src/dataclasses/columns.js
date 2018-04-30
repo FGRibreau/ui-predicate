@@ -23,6 +23,16 @@ function Target(target) {
 }
 
 /**
+ * @param  {Target} target
+ * @return {Object} JSON serializable object
+ */
+Target.toJSON = function(target) {
+  return {
+    target_id: target.target_id,
+  };
+};
+
+/**
  * A type operator
  * @typedef Operator
  * @memberof dataclasses
@@ -48,6 +58,16 @@ function Operator(operator) {
     operator,
   ]);
 }
+
+/**
+ * @param  {Operator} operator
+ * @return {Object} JSON serializable object
+ */
+Operator.toJSON = function(operator) {
+  return {
+    operator_id: operator.operator_id,
+  };
+};
 
 /**
  * Defines a target type
@@ -96,5 +116,15 @@ function LogicalType(logicalType) {
     logicalType,
   ]);
 }
+
+/**
+ * @param  {LogicalType} logicalType
+ * @return {Object} JSON serializable object
+ */
+LogicalType.toJSON = function(logicalType) {
+  return {
+    logicalType_id: logicalType.logicalType_id,
+  };
+};
 
 module.exports = { Type, Target, Operator, LogicalType };
