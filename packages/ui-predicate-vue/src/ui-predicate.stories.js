@@ -79,23 +79,81 @@ storiesOf('ui-predicate', module)
     { notes: '' }
   )
   .add(
-    'get data',
-    () => ({
-      template: `<div>
-        <ui-predicate :config="config" @changed="onChange" @initialized="onChange"></ui-predicate>
-        <textarea style="width:100%;height:30vh">{{ serialized }}</textarea>
-      </div>`,
-      data() {
-        return {
-          config: DEFAULT_CONFIG,
-          serialized: '',
-        };
-      },
-      methods: {
-        onChange(ctrl) {
-          this.serialized = ctrl.toJSON();
+    'load/dump data',
+    () => {
+      const options = {
+        simple: 'Simple',
+        advanced: 'Advanced',
+      };
+
+      const datasets = {
+        simple: {
+          logicalType_id: 'any',
+          predicates: [
+            {
+              target_id: 'article.videoCount',
+              operator_id: 'isHigherThan',
+              arguments: [],
+            },
+          ],
         },
-      },
-    }),
+        advanced: {
+          logicalType_id: 'all',
+          predicates: [
+            {
+              target_id: 'article.title',
+              operator_id: 'is',
+              arguments: [],
+            },
+            {
+              target_id: 'article.videoCount',
+              operator_id: 'isHigherThan',
+              arguments: [],
+            },
+            {
+              target_id: 'article.title',
+              operator_id: 'is',
+              arguments: [],
+            },
+            {
+              logicalType_id: 'none',
+              predicates: [
+                {
+                  target_id: 'article.videoCount',
+                  operator_id: 'isHigherThan',
+                  arguments: [],
+                },
+                {
+                  target_id: 'article.publishingAt',
+                  operator_id: 'is',
+                  arguments: [],
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const selection = select('Example', options, 'simple');
+
+      return {
+        template: `<div class="columns" style="display:flex;width: 80vw;height:90vh">
+          <div style="flex-direction:row;width:40vw"><ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onChange"></ui-predicate></div>
+          <div style="flex-direction:row;width:40vw"><textarea style="width:100%;height:100%">{{ serialized }}</textarea></div>
+        </div>`,
+        data() {
+          return {
+            config: DEFAULT_CONFIG,
+            serialized: '',
+            data: datasets[selection],
+          };
+        },
+        methods: {
+          onChange(ctrl) {
+            this.serialized = ctrl.toJSON();
+          },
+        },
+      };
+    },
     { notes: '' }
   );
