@@ -2,7 +2,7 @@
 
 Low-level ui-predicate API.
 
-# ## Installation
+# Installation
 
 ui-predicate is available on [npm repository](https://www.npmjs.com/package/ui-predicate-core).
 
@@ -18,7 +18,7 @@ using npm:
 $ npm install ui-predicate-core
 ```
 
-You can also directly download [sources](https://github.com/fgribreau/ui-predicate/releases) or use bundles available on [jsDelivr](https://www.jsdelivr.com/package/npm/ui-predicate).
+You can also directly download [sources](https://github.com/fgribreau/ui-predicate/releases) or use bundles available on [jsDelivr](https://www.jsdelivr.com/package/npm/ui-predicate-core).
 
 ## Usage
 
@@ -40,7 +40,7 @@ CommonJS:
 
 Learn more about what ui-predicate can do in the [Getting started](https://github.com/fgribreau/ui-predicate/blob/master/docs/GETTING_STARTED.md).
 
-Feel free to [try ui-predicate on runkit](https://npm.runkit.com/ui-predicate).
+Feel free to [try ui-predicate on runkit](https://npm.runkit.com/ui-predicate-core).
 
 ## Documentation
 
