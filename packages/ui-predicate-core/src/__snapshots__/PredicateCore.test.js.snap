@@ -9,7 +9,7 @@ Object {
   "logicalType_id": "any",
   "predicates": Array [
     Object {
-      "arguments": Array [],
+      "argument": null,
       "operator_id": "is",
       "target_id": "title",
     },
@@ -28,8 +28,10 @@ Array [
   "setPredicateTarget_id",
   "setPredicateOperator_id",
   "setPredicateLogicalType_id",
-  "root",
+  "setArgumentValue",
+  "getArgumentTypeComponentById",
   "toJSON",
+  "root",
   "columns",
   "options",
 ]
@@ -39,17 +41,23 @@ exports[`UIPredicateCore constructor rejects an error if json data does not star
 
 exports[`UIPredicateCore constructor rejects an error if json data is neither a CompoundPredicate or a ComparisonPredicate 1`] = `[UnknownJSONData]`;
 
+exports[`UIPredicateCore constructor throws columns is not an object 1`] = `[Error: Object is required, got: null.]`;
+
+exports[`UIPredicateCore constructor throws if columns does not have minimum required parameters 1`] = `[Error: Object {} MUST have a 'targets' property.]`;
+
+exports[`UIPredicateCore constructor throws if options.getDefaultArgumentComponent is not overriden by the UI Framework adapter 1`] = `"UIFrameworkMustImplementgetDefaultArgumentComponent"`;
+
 exports[`UIPredicateCore ctrl.add adds a second Predicate (a ComparisonPredicate) to the root CompoundPredicate 1`] = `
 Object {
   "logicalType_id": "any",
   "predicates": Array [
     Object {
-      "arguments": Array [],
+      "argument": null,
       "operator_id": "is",
       "target_id": "title",
     },
     Object {
-      "arguments": Array [],
+      "argument": null,
       "operator_id": "is",
       "target_id": "title",
     },
@@ -76,9 +84,10 @@ Object {
     Object {
       "$_type": "ComparisonPredicate",
       "$canBeRemoved": false,
-      "arguments": Array [],
+      "argument": null,
       "operator": Object {
         "$_type": "Operator",
+        "argumentType_id": "smallString",
         "label": "is",
         "operator_id": "is",
       },
@@ -89,12 +98,14 @@ Object {
           "$operators": Array [
             Object {
               "$_type": "Operator",
+              "argumentType_id": "smallString",
               "label": "is",
               "operator_id": "is",
             },
             Object {
               "$_type": "Operator",
-              "label": "contains",
+              "argumentType_id": "smallString",
+              "label": "Contains",
               "operator_id": "contains",
             },
           ],
@@ -126,9 +137,10 @@ Object {
     Object {
       "$_type": "ComparisonPredicate",
       "$canBeRemoved": false,
-      "arguments": Array [],
+      "argument": null,
       "operator": Object {
         "$_type": "Operator",
+        "argumentType_id": "smallString",
         "label": "is",
         "operator_id": "is",
       },
@@ -139,12 +151,14 @@ Object {
           "$operators": Array [
             Object {
               "$_type": "Operator",
+              "argumentType_id": "smallString",
               "label": "is",
               "operator_id": "is",
             },
             Object {
               "$_type": "Operator",
-              "label": "contains",
+              "argumentType_id": "smallString",
+              "label": "Contains",
               "operator_id": "contains",
             },
           ],
@@ -176,9 +190,10 @@ Object {
     Object {
       "$_type": "ComparisonPredicate",
       "$canBeRemoved": true,
-      "arguments": Array [],
+      "argument": null,
       "operator": Object {
         "$_type": "Operator",
+        "argumentType_id": "smallString",
         "label": "is",
         "operator_id": "is",
       },
@@ -189,12 +204,14 @@ Object {
           "$operators": Array [
             Object {
               "$_type": "Operator",
+              "argumentType_id": "smallString",
               "label": "is",
               "operator_id": "is",
             },
             Object {
               "$_type": "Operator",
-              "label": "contains",
+              "argumentType_id": "smallString",
+              "label": "Contains",
               "operator_id": "contains",
             },
           ],
@@ -233,9 +250,10 @@ exports[`UIPredicateCore ctrl.setPredicateTarget_id work if we set a predicate t
 Object {
   "$_type": "ComparisonPredicate",
   "$canBeRemoved": false,
-  "arguments": Array [],
+  "argument": null,
   "operator": Object {
     "$_type": "Operator",
+    "argumentType_id": "number",
     "label": "<",
     "operator_id": "isLowerThan",
   },
@@ -246,16 +264,19 @@ Object {
       "$operators": Array [
         Object {
           "$_type": "Operator",
+          "argumentType_id": "number",
           "label": "<",
           "operator_id": "isLowerThan",
         },
         Object {
           "$_type": "Operator",
+          "argumentType_id": "number",
           "label": "=",
           "operator_id": "isEqualTo",
         },
         Object {
           "$_type": "Operator",
+          "argumentType_id": "number",
           "label": ">",
           "operator_id": "isHigherThan",
         },
@@ -279,7 +300,7 @@ Object {
   "logicalType_id": "any",
   "predicates": Array [
     Object {
-      "arguments": Array [],
+      "argument": null,
       "operator_id": "is",
       "target_id": "title",
     },
@@ -287,7 +308,7 @@ Object {
       "logicalType_id": "any",
       "predicates": Array [
         Object {
-          "arguments": Array [],
+          "argument": null,
           "operator_id": "is",
           "target_id": "title",
         },
@@ -295,7 +316,7 @@ Object {
           "logicalType_id": "any",
           "predicates": Array [
             Object {
-              "arguments": Array [],
+              "argument": null,
               "operator_id": "is",
               "target_id": "title",
             },

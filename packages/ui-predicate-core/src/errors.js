@@ -148,4 +148,12 @@ module.exports = mergeAll([
    * @since 1.0.0
    */
   err('CannotAddSomethingElseThanACompoundPredicateOrAComparisonPredicate'),
+
+  /**
+   * Thrown when the UI Framework adapter forgot to pass `getDefaultArgumentComponent` in the option object to UIPredicateCore constructor
+   * @typedef {Error} UIFrameworkMustImplementgetDefaultArgumentComponent
+   * @memberof errors
+   * @since 1.0.0
+   */
+  err('UIFrameworkMustImplementgetDefaultArgumentComponent'),
 ]);

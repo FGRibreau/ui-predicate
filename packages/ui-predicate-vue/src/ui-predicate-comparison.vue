@@ -11,7 +11,7 @@
         </select>
       </div>
       <div class="ui-predicate--col">
-        <input type="text" :value="predicate.arguments"></input>
+        <ui-predicate-comparison-argument :predicate="predicate"></ui-predicate-comparison-argument>
       </div>
       <ui-predicate-options :predicate="predicate"></ui-predicate-options>
     </div>

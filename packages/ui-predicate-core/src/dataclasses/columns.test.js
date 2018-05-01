@@ -14,3 +14,13 @@ describe('Type', () => {
     ).toBe(true);
   });
 });
+
+describe('Operator', () => {
+  it('throws if a property is missing', () => {
+    expect(() =>
+      Operator({
+        // do not specify anything
+      })
+    ).toThrow(/MUST have a 'argumentType_id' property/);
+  });
+});

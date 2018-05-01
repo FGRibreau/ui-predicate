@@ -18,7 +18,7 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs/vue';
 
-import DEFAULT_CONFIG from './__fixtures__';
+import { DEFAULT_CONFIG, DATASETS } from './__fixtures__';
 
 storiesOf('ui-predicate', module)
   .addDecorator(Centered)
@@ -67,9 +67,12 @@ storiesOf('ui-predicate', module)
     'events',
     () => ({
       template:
-        '<ui-predicate :config="config" @changed="onChange" @initialized="onInit"></ui-predicate>',
+        '<ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onInit"></ui-predicate>',
       data() {
-        return { config: DEFAULT_CONFIG };
+        return {
+          config: DEFAULT_CONFIG,
+          data: DATASETS.advanced,
+        };
       },
       methods: {
         onChange: action('`changed` event'),
@@ -86,66 +89,18 @@ storiesOf('ui-predicate', module)
         advanced: 'Advanced',
       };
 
-      const datasets = {
-        simple: {
-          logicalType_id: 'any',
-          predicates: [
-            {
-              target_id: 'article.videoCount',
-              operator_id: 'isHigherThan',
-              arguments: [],
-            },
-          ],
-        },
-        advanced: {
-          logicalType_id: 'all',
-          predicates: [
-            {
-              target_id: 'article.title',
-              operator_id: 'is',
-              arguments: [],
-            },
-            {
-              target_id: 'article.videoCount',
-              operator_id: 'isHigherThan',
-              arguments: [],
-            },
-            {
-              target_id: 'article.title',
-              operator_id: 'is',
-              arguments: [],
-            },
-            {
-              logicalType_id: 'none',
-              predicates: [
-                {
-                  target_id: 'article.videoCount',
-                  operator_id: 'isHigherThan',
-                  arguments: [],
-                },
-                {
-                  target_id: 'article.publishingAt',
-                  operator_id: 'is',
-                  arguments: [],
-                },
-              ],
-            },
-          ],
-        },
-      };
-
-      const selection = select('Example', options, 'simple');
+      const selection = select('Example', options, 'advanced');
 
       return {
         template: `<div class="columns" style="display:flex;width: 80vw;height:90vh">
-          <div style="flex-direction:row;width:40vw"><ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onChange"></ui-predicate></div>
-          <div style="flex-direction:row;width:40vw"><textarea style="width:100%;height:100%">{{ serialized }}</textarea></div>
+          <div style="flex-direction:row;width:60vw"><ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onChange"></ui-predicate></div>
+          <div style="flex-direction:row;width:20vw"><textarea style="width:100%;height:100%">{{ serialized }}</textarea></div>
         </div>`,
         data() {
           return {
             config: DEFAULT_CONFIG,
             serialized: '',
-            data: datasets[selection],
+            data: DATASETS[selection],
           };
         },
         methods: {
