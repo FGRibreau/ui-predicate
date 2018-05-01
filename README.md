@@ -11,13 +11,19 @@ An elegant user-interface component that allow a user to define :
 
 # Current software using this UI component pattern
 
-Google Analytics segments | Zapier tweets filtering | Mailchimp segmentation
------------- | ------------- | -------------
-![Google Analytics segments](docs/google-analytics-filtering.gif) | ![Zapier tweets filtering](docs/zapier-filtering.gif) | ![Mailchimp segmentation](docs/mailchimp-filtering.gif)
+Mailchimp segmentation | Zapier tweets filtering  |
+------------ | ------------- |
+![Mailchimp segmentation](docs/mailchimp-filtering.gif) | ![Zapier tweets filtering](docs/zapier-filtering.gif) |
+
+
+Google Analytics segments |
+------------ |
+![gg](docs/gg-filtering.gif) |
 
 MacOS Finder | iTunes smart playlist
------------- | -------------
+------------ | ------------- |
 ![MacOS Finder](docs/finder-filtering.gif) | ![iTunes smart playlist](docs/itunes-filtering.gif)
+
 
 # 🌏 Browser Support
 

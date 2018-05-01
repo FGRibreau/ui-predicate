@@ -229,12 +229,11 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
         }
 
         /**
-         * [_loadData description]
-         * @internal
-         * @return      {Promise<Predicate, errors.*>} [description]
+         * @param {object} json user defined JSON
+         * @return {Promise<Predicate, errors<*>>}
          */
-        function _fromJSON(predicate) {
-          return Predicate.fromJSON(predicate, {
+        function _fromJSON(json) {
+          return Predicate.fromJSON(json, {
             getTargetById: target_id =>
               _getTargetById(_columns.targets, target_id),
             getLogicalTypeById: logicalType_id =>

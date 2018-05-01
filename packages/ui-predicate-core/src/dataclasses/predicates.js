@@ -40,7 +40,7 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * @param  {object} json
-   * @return {Promise<Predicate, errors.*>} Promise
+   * @return {Promise<Predicate, errors<*>>} Promise
    */
   Predicate.fromJSON = function(json, internalAPI) {
     if (ComparisonPredicate.isFromJSON(json)) {
@@ -105,7 +105,7 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * @param  {object} json
-   * @return {Promise<Predicate, errors.*>} Promise
+   * @return {Promise<Predicate, errors<*>>} Promise
    */
   ComparisonPredicate.fromJSON = function(json, internalAPI) {
     return Promise.all([
@@ -175,7 +175,7 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * @param  {CompoundPredicate} predicate
-   * @return {Promise<CompoundPredicate, errors.*>} Promise
+   * @return {Promise<CompoundPredicate, errors<*>>} Promise
    */
   CompoundPredicate.fromJSON = function(predicate, internalAPI) {
     return invariants
