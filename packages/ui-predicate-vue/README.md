@@ -15,16 +15,6 @@ const Vue = require('vue')
 const UIPredicate from 'ui-predicate-vue'
 
 Vue.use(UIPredicate)
-
-// or
-import {
-  Select,
-  Button
-  // ...
-} from 'ui-predicate-vue'
-
-Vue.component(Select.name, Select)
-Vue.component(Button.name, Button)
 ```
 
 ```js

@@ -9,7 +9,7 @@ An elegant user-interface component that allow a user to define :
 - filtering UI
 - conditions
 
-# Current software using this UI component pattern
+# Software using this UI component pattern
 
 Mailchimp segmentation
 ------------ |
