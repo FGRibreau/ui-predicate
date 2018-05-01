@@ -26,7 +26,9 @@ const createPackageIndex = (dir, versions) => {
 function isHigherThan(lhs, rhs) {
   const acc = rhs.split('.');
   const [major, minor, patch] = lhs.split('.');
-  return major >= acc[0] && minor >= acc[1] && patch >= acc[2];
+  return major >= acc[0] && minor >= acc[1]
+    ? true
+    : major >= acc[0] && minor >= acc[1] && patch >= acc[2];
 }
 
 const lastVersion = versions =>
