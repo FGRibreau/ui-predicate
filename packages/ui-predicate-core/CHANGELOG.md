@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.2.0...ui-predicate-core@0.3.0) (2018-05-01)
+
+
+### Bug Fixes
+
+* way better, cleaner & simpler JSON output ([2d391d6](https://github.com/FGRibreau/ui-predicate/commit/2d391d6))
+
+
+### Features
+
+* 😱😱😱 7 years after my first implementation with jQuery, here we come, a fully-featured UI Predicate component from scratch finally written in 10 non-consecutive days with an agnostic core (#SoC) and a first UI Framework adapter (#futurproof) for VueJS. FINALLY. This is soOOOOOOOOOOOOOOOOOOOOOOOOOOoooooooo exciting! ([5db8f1a](https://github.com/FGRibreau/ui-predicate/commit/5db8f1a))
+* PredicateCore can now load data! ([934c7ab](https://github.com/FGRibreau/ui-predicate/commit/934c7ab))
+
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.1.0...ui-predicate-core@0.2.0) (2018-04-29)
 

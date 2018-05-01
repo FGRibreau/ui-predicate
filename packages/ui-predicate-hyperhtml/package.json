@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-hyperhtml",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Finally a predicate UI component for the Web for HyperHTML",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,6 @@
     "parcel-bundler": "^1.7.1"
   },
   "dependencies": {
-    "ui-predicate-core": "^0.2.0"
+    "ui-predicate-core": "^0.3.0"
   }
 }
