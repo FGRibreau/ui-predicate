@@ -152,7 +152,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
   const _afterPromise = (fBefore, fAfter) => pipe(fBefore, _tapPromise(fAfter));
 
   // columns => Promise[columns]
-  const initializeColumns = columns => {
+  const _initializeColumns = columns => {
     // at first I used lenses, but the code was way harder to read so it's better that way :)
 
     // wrap operators
@@ -160,6 +160,12 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
     // wrap logicalTypes
     columns.logicalTypes = map(dataclasses.LogicalType, columns.logicalTypes);
+
+    // wrap argumentTypes (allow argumentTypes to be undefined)
+    columns.argumentTypes = map(
+      dataclasses.ArgumentType,
+      columns.argumentTypes || []
+    );
 
     // wrap types and set `$operators` attribute on each type
     const wrapType = pipe(dataclasses.Type, _set$operatorsToType(columns));
@@ -175,15 +181,133 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   /**
    * Create a new PredicateCore
-   * @param       {?dataclasses.CompoundPredicate} [data=PredicateCore.defaults.options.getDefaultData]
-   * @param       {Object} [columns=PredicateCore.defaults.columns]
-   * @param       {Object} [options=PredicateCore.defaults.options]
+   * @param       {?dataclasses.CompoundPredicate} [args.data=core.defaults.options.getDefaultData]
+   * @param       {Object} [args.columns] columns definition
+   * @example <caption>Example of columns definition</caption>
+   * // don't forget to take a look at the Storybook https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples
+   * {
+   * // first define the operator list available along with what type of argument they need
+   * operators: [
+   *   {
+   *     operator_id: 'is',
+   *     label: 'is',
+   *     argumentType_id: 'smallString',
+   *   },
+   *   {
+   *     operator_id: 'contains',
+   *     label: 'Contains',
+   *     argumentType_id: 'smallString',
+   *   },
+   *   {
+   *     operator_id: 'isLowerThan',
+   *     label: '<',
+   *     argumentType_id: 'number',
+   *   },
+   *   {
+   *     operator_id: 'isEqualTo',
+   *     label: '=',
+   *     argumentType_id: 'number',
+   *   },
+   *   {
+   *     operator_id: 'isHigherThan',
+   *     label: '>',
+   *     argumentType_id: 'number',
+   *   },
+   *   {
+   *     operator_id: 'is_date',
+   *     label: 'is',
+   *     argumentType_id: 'datepicker',
+   *   },
+   *   {
+   *     operator_id: 'isBetween_date',
+   *     label: 'is between',
+   *     argumentType_id: 'daterangepicker',
+   *   },
+   * ],
+   * // then define the type, think of them as aggregate of operators so you can attach them to targets
+   * types: [
+   *   {
+   *     type_id: 'int',
+   *     operator_ids: ['isLowerThan', 'isEqualTo', 'isHigherThan'],
+   *   },
+   *   {
+   *     type_id: 'string',
+   *     operator_ids: ['is', 'contains'],
+   *   },
+   *   {
+   *     type_id: 'datetime',
+   *     operator_ids: ['is', 'isBetween'],
+   *   },
+   * ],
+   * // finally define targets, don't forget to specify their associated `type_id`
+   * targets: [
+   *   {
+   *     target_id: 'title',
+   *     label: 'Title',
+   *     type_id: 'string',
+   *   },
+   *   {
+   *     target_id: 'videoCount',
+   *     label: 'Video count',
+   *     type_id: 'int',
+   *   },
+   *   {
+   *     target_id: 'publishedAt',
+   *     label: 'Created at',
+   *     type_id: 'datetime',
+   *   },
+   * ],
+   * // define supported logical type
+   * logicalTypes: [
+   *   {
+   *     logicalType_id: 'any',
+   *     label: 'Any',
+   *   },
+   *   {
+   *     logicalType_id: 'all',
+   *     label: 'All',
+   *   },
+   *   {
+   *     logicalType_id: 'none',
+   *     label: 'None',
+   *   },
+   * ],
+   * // (optional) finally define how to display each argumentType_id
+   * argumentTypes: [
+   *   // here we don't define `component` because it depends on the UI Framework you are using (e.g. Vue, React, Angular, ...)
+   *   // since we are in ui-predicate-core here we don't know the UI Framework library that will be used
+   *   // read your UI Framework adapter (e.g. ui-predicate-vue) on how to set the component.
+   *   // if no argumentType is defined for argumentType_id, then UIPredicateCore will fallback on the default UI component (thanks to getDefaultArgumentComponent)
+   *   // { argumentType_id: 'datepicker', component: ? },
+   *   // { argumentType_id: 'daterangepicker', component: ? },
+   *   // { argumentType_id: 'smallString', component: ? },
+   *   // { argumentType_id: 'number', component: ? },
+   * ]}
+   * @param       {Object} args.columns.operators
+   * @param       {Object} args.columns.types
+   * @param       {Object} args.columns.targets
+   * @param       {Object} args.columns.logicalTypes
+   * @param       {?Object} args.columns.argumentTypes
+   * @param       {Object} [args.options=core.defaults.options]
    * @return {Promise<core.PredicateCoreAPI>}
    * @memberof core
    */
-  function PredicateCore({ data, columns, options } = {}) {
-    return initializeColumns(columns || PredicateCore.defaults.columns).then(
-      _columns => {
+  function PredicateCore(args) {
+    const { columns, data, options } = args;
+
+    return new Promise(function(resolve, reject) {
+      try {
+        dataclasses._requireProps(
+          columns,
+          'operators,logicalTypes,types,targets'
+        );
+      } catch (err) {
+        return reject(err);
+      }
+      resolve();
+    })
+      .then(() => _initializeColumns(columns))
+      .then(_columns => {
         let _root;
         let _api;
         const _events = new EventEmitter();
@@ -372,7 +496,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * Change a predicate's target
          * @param {dataclasses.ComparisonPredicate} predicate
          * @param {string} newTarget_id
-         * @return {Promise} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
          * @since 1.0.0
          * @memberof core.api
          */
@@ -401,7 +525,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * Change a predicate's operator
          * @param {dataclasses.ComparisonPredicate} predicate
          * @param {string} newTarget_id
-         * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
+         * @return {Promise<undefined, errors.Operator_idMustReferToADefinedOperator>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
          * @since 1.0.0
          * @memberof core.api
          */
@@ -421,10 +545,44 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
               .then(operator => {
                 predicate.operator = operator;
 
-                // then reset arguments to array
-                predicate.arguments = [];
+                // then reset arguments
+                predicate.argument = null;
               })
           );
+        }
+
+        /**
+         * Change a predicate's operator value
+         * @param {dataclasses.ComparisonPredicate} predicate
+         * @param {*} newValue
+         * @return {Promise<undefined>} yield nothing if everything went right, currently everything always go right ;)
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function setArgumentValue(predicate, newValue) {
+          return Promise.resolve().then(() => {
+            predicate.argument = newValue;
+          });
+        }
+
+        /**
+         * Get a UI Component (e.g. Vue Component) based on the argumentType_id
+         * @param {string} argumentType_id the argumentType id to find
+         * @return {*} it will either yield the argumentType id associated component or fallback on {@link core.defaults.getArgumentTypeComponentById} to yield the default component
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function getArgumentTypeComponentById(argumentType_id) {
+          return option
+            .fromNullable(
+              _columns.argumentTypes.find(
+                argumentType => argumentType.argumentType_id === argumentType_id
+              )
+            )
+            .map(argumentType => argumentType.component)
+            .valueOrElse(() =>
+              _options.getDefaultArgumentComponent(_columns, _options)
+            );
         }
 
         /**
@@ -532,6 +690,10 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                   setPredicateLogicalType_id,
                   _afterWrite
                 ),
+                setArgumentValue: _afterPromise(setArgumentValue, _afterWrite),
+
+                getArgumentTypeComponentById,
+                toJSON,
 
                 /**
                  * Get root CompoundPredicate
@@ -541,8 +703,6 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                 get root() {
                   return _root;
                 },
-
-                toJSON,
 
                 // used for testing
                 get columns() {
@@ -558,8 +718,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
               return _api;
             })
         );
-      }
-    );
+      });
   }
 
   /**
@@ -568,6 +727,11 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @namespace core.defaults
    */
   PredicateCore.defaults = {
+    /**
+     * Defaults options of PredicateCore
+     * @type {Object}
+     * @namespace core.defaults.options
+     */
     options: {
       /**
        * When data is not set at construction time PredicateCore default behavior will be to use the first target and its first operator with empty argument
@@ -576,7 +740,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * @param  {Object} options PredicateCore available options
        * @return {Promise<dataclasses.CompoundPredicate>}  root CompoundPredicate
        * @since 1.0.0
-       * @memberof core.defaults
+       * @memberof core.defaults.options
        */
       getDefaultData(columns, options) {
         return options
@@ -597,7 +761,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * @param  {Object} options PredicateCore available options
        * @return {Promise<dataclasses.CompoundPredicate>} a CompoundPredicate
        * @since 1.0.0
-       * @memberof core.defaults
+       * @memberof core.defaults.options
        */
       getDefaultCompoundPredicate(columns, options, predicates) {
         return (!Array.isArray(predicates) || predicates.length === 0
@@ -620,14 +784,13 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * @param  {Object} [options=PredicateCore.defaults.options] PredicateCore available options
        * @return {Promise<dataclasses.ComparisonPredicate>} a Comparison
        * @since 1.0.0
-       * @memberof core.defaults
+       * @memberof core.defaults.options
        */
       getDefaultComparisonPredicate(columns, options) {
         const firstTarget = head(columns.targets);
         return ComparisonPredicate(
           firstTarget,
-          head(firstTarget.$type.$operators),
-          []
+          head(firstTarget.$type.$operators)
         );
       },
 
@@ -640,85 +803,25 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * @param  {Object} [options=PredicateCore.defaults.options] PredicateCore available options
        * @return {Promise<dataclasses.LogicalType>} a logical type
        * @since 1.0.0
-       * @memberof core.defaults
+       * @memberof core.defaults.options
        */
       getDefaultLogicalType(predicates, columns, options) {
         return Promise.resolve(head(columns.logicalTypes));
       },
-    },
-    columns: {
-      // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
-      operators: [
-        {
-          operator_id: 'is',
-          label: 'is',
-        },
-        {
-          operator_id: 'contains',
-          label: 'contains',
-        },
-        {
-          operator_id: 'isLowerThan',
-          label: '<',
-        },
-        {
-          operator_id: 'isEqualTo',
-          label: '=',
-        },
-        {
-          operator_id: 'isHigherThan',
-          label: '>',
-        },
-        {
-          operator_id: 'isBetween',
-          label: 'is between',
-        },
-      ],
-      types: [
-        {
-          type_id: 'int',
-          operator_ids: ['isLowerThan', 'isEqualTo', 'isHigherThan'],
-        },
-        {
-          type_id: 'string',
-          operator_ids: ['is', 'contains'],
-        },
-        {
-          type_id: 'datetime',
-          operator_ids: ['is', 'isBetween'],
-        },
-      ],
-      targets: [
-        {
-          target_id: 'title',
-          label: 'Title',
-          type_id: 'string',
-        },
-        {
-          target_id: 'videoCount',
-          label: 'Video count',
-          type_id: 'int',
-        },
-        {
-          target_id: 'publishedAt',
-          label: 'Created at',
-          type_id: 'datetime',
-        },
-      ],
-      logicalTypes: [
-        {
-          logicalType_id: 'any',
-          label: 'Any',
-        },
-        {
-          logicalType_id: 'all',
-          label: 'All',
-        },
-        {
-          logicalType_id: 'none',
-          label: 'None',
-        },
-      ],
+
+      /**
+       * Get the default UI component for any argument. Also used if no registered UI component match `argumentType_id`
+       * @param  {Object} columns specified columns
+       * @param  {Object} [options=PredicateCore.defaults.options] PredicateCore available options
+       * @return {*} yield a UI Component (depending on the UI Framework used)
+       * @throws if the UI Framework adapter did not override this function. Each UI Framework adapter (e.g. ui-predicate-vue, ui-predicate-react, ...) must implement this and let user override it
+       * @memberof core.defaults.options
+       */
+      getDefaultArgumentComponent(columns, options) {
+        throw new errors.UIFrameworkMustImplementgetDefaultArgumentComponent(
+          'UIFrameworkMustImplementgetDefaultArgumentComponent'
+        );
+      },
     },
   };
 

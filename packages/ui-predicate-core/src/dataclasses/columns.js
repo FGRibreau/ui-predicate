@@ -1,4 +1,4 @@
-const { mergeAll } = require('ramda');
+const { mergeAll, trim } = require('ramda');
 const $_type = require('./$_type');
 
 /**
@@ -17,8 +17,11 @@ const $_type = require('./$_type');
  * @memberof dataclasses
  */
 function Target(target) {
+  const { target_id, label, type_id } = _requireProps(
+    target,
+    'target_id,label,type_id'
+  );
   // target MUST at least have the attributes bellow
-  const { target_id, label, type_id } = target;
   return mergeAll([$_type('Target'), { target_id, label, type_id }, target]);
 }
 
@@ -42,17 +45,22 @@ Target.toJSON = function(target) {
  * Create a new operator
  * @param {object} operator
  * @param {string} operator.operator_id - unique id for this operator
+ * @param {string} operator.argumentType_id - the argumentType associated with the operator. For example to define a "is" operator and associate it with two targets "article publishing date" and "article title" then we would have to define 2 operators because ["article publishing date" "is"] and  ["article title" "is"] do NOT have the same kind of arguments (one is a date the other is a string) and associated UI components (one is a date picker the other is a text input)
  * @param {string} operator.label - label that will be displayed for this operator
  * @return {Operator} {@link dataclasses.Operator}
  * @memberof dataclasses
  */
 function Operator(operator) {
-  // operator MUST at least have the attributes bellow
-  const { operator_id, label } = operator;
+  // operator MUST at least have the properties bellow
+  const { operator_id, label, argumentType_id } = _requireProps(
+    operator,
+    'operator_id,label,argumentType_id'
+  );
   return mergeAll([
     $_type('Operator'),
     {
       operator_id,
+      argumentType_id,
       label,
     },
     operator,
@@ -84,8 +92,8 @@ Operator.toJSON = function(operator) {
  * @memberof dataclasses
  */
 function Type(type) {
-  // operator MUST at least have the attributes bellow
-  const { type_id, operator_ids } = type;
+  // type MUST at least have the properties bellow
+  const { type_id, operator_ids } = _requireProps(type, 'type_id,operator_ids');
   return mergeAll([
     $_type('Type'),
     {
@@ -105,8 +113,11 @@ function Type(type) {
  * @memberof dataclasses
  */
 function LogicalType(logicalType) {
-  // logicalType MUST at least have the attributes bellow
-  const { logicalType_id, label } = logicalType;
+  // logicalType MUST at least have the properties bellow
+  const { logicalType_id, label } = _requireProps(
+    logicalType,
+    'logicalType_id,label'
+  );
   return mergeAll([
     $_type('LogicalType'),
     {
@@ -127,4 +138,63 @@ LogicalType.toJSON = function(logicalType) {
   };
 };
 
-module.exports = { Type, Target, Operator, LogicalType };
+/**
+ * Create a new argument type
+ * @param {Object} argumentType
+ * @param {string} type.argumentType_id
+ * @param {*} type.component this attribute will be used by the UI Framework adapter
+ * @memberof dataclasses
+ */
+function ArgumentType(argumentType) {
+  // argumentType MUST at least have the properties bellow
+  const { argumentType_id, component } = _requireProps(
+    argumentType,
+    'argumentType_id,component'
+  );
+  return mergeAll([
+    $_type('ArgumentType'),
+    {
+      argumentType_id,
+      component,
+    },
+    argumentType,
+  ]);
+}
+
+const _toString = Object.prototype.toString;
+function _isObject(mixed) {
+  return _toString.call(mixed) === '[object Object]';
+}
+/**
+ * @param       {Object} object
+ * @param       {string} properties comma-separated list of properties
+ * @return      {Object}
+ * @throws throw if a property is missing from the object
+ */
+function _requireProps(object, properties) {
+  if (!_isObject(object)) {
+    throw new Error(`Object is required, got: ${JSON.stringify(object)}.`);
+  }
+
+  const props = properties.split(',').map(trim);
+  let prop;
+
+  while ((prop = props.pop())) {
+    if (!object.hasOwnProperty(prop)) {
+      throw new Error(
+        `Object ${JSON.stringify(object)} MUST have a '${prop}' property.`
+      );
+    }
+  }
+
+  return object;
+}
+
+module.exports = {
+  Type,
+  Target,
+  Operator,
+  LogicalType,
+  ArgumentType,
+  _requireProps,
+};

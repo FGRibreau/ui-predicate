@@ -64,7 +64,7 @@ module.exports = ({ invariants, errors }) => {
    * @typedef {object} ComparisonPredicate
    * @param {string} target - unique id for this target
    * @param {string} operator - label that will be displayed for this target
-   * @param {string} arguments - the type_id name this target has
+   * @param {string} argument - the type_id name this target has
    * @memberof dataclasses
    */
 
@@ -72,16 +72,16 @@ module.exports = ({ invariants, errors }) => {
    * A specialized predicate that you use to compare expressions.
    * @param  {dataclasses.Target} target
    * @param  {dataclasses.Operator} operator
-   * @param  {Array<*>} args
+   * @param  {*} argument
    * @return {Promise<dataclasses.ComparisonPredicate>} yield a ComparisonPredicate or a rejected promise
    * @memberof dataclasses
    */
-  function ComparisonPredicate(target, operator, args) {
+  function ComparisonPredicate(target, operator, argument = null) {
     return Predicate(ComparisonPredicate).then(predicate =>
       merge(predicate, {
         target: target,
         operator: operator,
-        arguments: args,
+        argument: argument,
       })
     );
   }
@@ -98,7 +98,7 @@ module.exports = ({ invariants, errors }) => {
       Target.toJSON(predicate.target),
       Operator.toJSON(predicate.operator),
       {
-        arguments: predicate.arguments,
+        argument: predicate.argument,
       },
     ]);
   };
@@ -112,7 +112,7 @@ module.exports = ({ invariants, errors }) => {
       internalAPI.getTargetById(json.target_id),
       internalAPI.getOperatorById(json.operator_id),
     ]).then(([target, operator]) =>
-      ComparisonPredicate(target, operator, json.arguments)
+      ComparisonPredicate(target, operator, json.argument)
     );
   };
 

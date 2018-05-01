@@ -1,5 +1,6 @@
 const UIPredicateOptions = require('./ui-predicate-options.vue');
 const UIPredicateComparison = require('./ui-predicate-comparison.vue');
+const UIPredicateComparisonArgument = require('./ui-predicate-comparison-argument');
 const UIPredicateCompound = require('./ui-predicate-compound.vue');
 const UIPredicate = require('./ui-predicate.vue');
 
@@ -10,6 +11,7 @@ const components = {
   // must contain a U+002D HYPHEN-MINUS character, and must not contain any uppercase ASCII letters.
   'ui-predicate-options': UIPredicateOptions,
   'ui-predicate-comparison': UIPredicateComparison,
+  'ui-predicate-comparison-argument': UIPredicateComparisonArgument,
   'ui-predicate-compound': UIPredicateCompound,
   'ui-predicate': UIPredicate,
 };
@@ -31,6 +33,7 @@ module.exports = {
   components,
   UIPredicateOptions,
   UIPredicateComparison,
+  UIPredicateComparisonArgument,
   UIPredicateCompound,
   UIPredicate,
 };

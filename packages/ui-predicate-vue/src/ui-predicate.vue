@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { PredicateCore } from 'ui-predicate-core';
+import { UIPredicateCoreVue } from './UIPredicateCoreVue';
 
 module.exports = {
   name: 'ui-predicate',
@@ -55,6 +55,12 @@ module.exports = {
       setPredicateOperator_id: function(predicate, operator_id) {
         return vm.ctrl.setPredicateOperator_id(predicate, operator_id);
       },
+      getArgumentTypeComponentById: function(argumentType_id) {
+        return vm.ctrl.getArgumentTypeComponentById(argumentType_id);
+      },
+      setArgumentValue: function(predicate, value) {
+        return vm.ctrl.setArgumentValue(predicate, value);
+      },
     };
   },
   methods: {
@@ -82,7 +88,7 @@ module.exports = {
   mounted() {
     const vm = this;
 
-    PredicateCore({
+    UIPredicateCoreVue({
       data: this.data,
       columns: this.config,
     }).then(

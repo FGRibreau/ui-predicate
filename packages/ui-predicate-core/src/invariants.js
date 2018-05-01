@@ -21,6 +21,7 @@ module.exports = ({ errors, rules }) => ({
           new errors.CompoundPredicateMustHaveAtLeastOneSubPredicate()
         )
       : Promise.resolve(),
+
   /**
    * @param {String} type Predicate type
    * @param {Object} acceptedTypes list of accepted types
@@ -32,6 +33,7 @@ module.exports = ({ errors, rules }) => ({
     !Object.keys(acceptedTypes).includes(type)
       ? Promise.reject(new errors.InvalidPredicateType())
       : Promise.resolve(),
+
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @return {Promise<dataclasses.CompoundPredicate, errors.RootPredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `RootPredicateMustBeACompoundPredicate` error otherwise
@@ -42,6 +44,7 @@ module.exports = ({ errors, rules }) => ({
     !CompoundPredicate.is(root)
       ? Promise.reject(new errors.RootPredicateMustBeACompoundPredicate())
       : Promise.resolve(root),
+
   /**
    * @param {dataclasses.Predicate} predicate predicate
    * @param {dataclasses.ComparisonPredicate} ComparisonPredicate ComparisonPredicate constructor
@@ -49,10 +52,12 @@ module.exports = ({ errors, rules }) => ({
    * @memberof invariants
    * @since 1.0.0
    */
+
   PredicateMustBeAComparisonPredicate: (predicate, ComparisonPredicate) =>
     !ComparisonPredicate.is(predicate)
       ? Promise.reject(new errors.PredicateMustBeAComparisonPredicate())
       : Promise.resolve(),
+
   /**
    * @param {dataclasses.Predicate} predicate
    * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate constructor
@@ -64,6 +69,7 @@ module.exports = ({ errors, rules }) => ({
     !CompoundPredicate.is(predicate)
       ? Promise.reject(new errors.PredicateMustBeACompoundPredicate())
       : Promise.resolve(),
+
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @return {Promise<undefined, errors.AddCurrentlyOnlySupportAfterInsertion>} resolve the promise if the invariant pass or yield a `AddCurrentlyOnlySupportAfterInsertion` error otherwise
@@ -74,6 +80,7 @@ module.exports = ({ errors, rules }) => ({
     how !== 'after'
       ? Promise.reject(new errors.AddCurrentlyOnlySupportAfterInsertion())
       : Promise.resolve(),
+
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @return {Promise<dataclasses.Type, errors.TargetMustReferToADefinedType>} resolve the promise if the invariant pass or yield a `TargetMustReferToADefinedType` error otherwise
@@ -141,6 +148,7 @@ module.exports = ({ errors, rules }) => ({
     rules.predicateToRemoveIsRootPredicate(root, predicateToRemove)
       ? Promise.reject(new errors.ForbiddenCannotRemoveRootCompoundPredicate())
       : Promise.resolve(predicateToRemove),
+
   /**
    * @param {dataclasses.CompoundPredicate} root root
    * @param {dataclasses.Predicate} predicateToRemove
