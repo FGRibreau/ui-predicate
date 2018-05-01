@@ -11,14 +11,14 @@ An elegant user-interface component that allow a user to define :
 
 # Current software using this UI component pattern
 
-Mailchimp segmentation | Zapier tweets filtering  |
------------- | ------------- |
-![Mailchimp segmentation](docs/mailchimp-filtering.gif) | ![Zapier tweets filtering](docs/zapier-filtering.gif) |
-
-
-Google Analytics segments |
+Mailchimp segmentation
 ------------ |
-![gg](docs/gg-filtering.gif) |
+![Mailchimp segmentation](docs/mailchimp-filtering.gif)
+
+
+Zapier tweets filtering  | Google Analytics segments
+------------- | ------------ |
+![Zapier tweets filtering](docs/zapier-filtering.gif) | ![gg](docs/gg-filtering.gif)
 
 MacOS Finder | iTunes smart playlist
 ------------ | ------------- |
