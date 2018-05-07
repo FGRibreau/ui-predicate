@@ -4,22 +4,20 @@
   "description": "Finally a predicate UI component for VueJS",
   "main": "src/index.js",
   "scripts": {
-    "examples:build": "npm run --silent storybook:build",
-    "examples:build:watch": "npm run --silent storybook:dev",
     "test": "echo 'not ready for prime-time';true",
-    "test:": "jest",
+    "build": "echo 'not ready for prime-time';parcel build --out-file=ui-predicate-vue --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
     "test:watch": "jest --watch --coverage=false",
     "test:watch:coverage": "npm run --silent test:watch -- --coverage",
     "test:coverage": "true",
-    "dev": "parcel --no-cache examples/index.html",
-    "storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
-    "storybook:watch": "start-storybook -p 9001",
-    "image-snapshots": "npm run storybook:build && npm run image-snapshots:run",
-    "image-snapshots:run": "jest --projects=./image-snapshots",
+    "test:image-snapshots": "npm run docs:storybook:build && npm run test:image-snapshots:run",
+    "test:image-snapshots:run": "jest --projects=./image-snapshots",
     "lint": "eslint --fix examples src",
-    "docs": "jsdoc -c ../../jsdoc.json",
-    "docs:private": "jsdoc -c ../../jsdoc.json -p"
+    "docs:build": "npm run --sient docs:jsdoc:build && npm run --sient docs:storybook:build && npm run --silent docs:getting-started:build",
+    "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
+    "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
+    "docs:storybook:watch": "start-storybook -p 9001",
+    "docs:getting-started:build": "parcel build --no-cache --public-url=./ --out-dir=../../docs/packages/$npm_package_name/$npm_package_version/getting-started getting-started/index.html"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
@@ -60,10 +58,10 @@
     "vue-loader": "^14.2.2",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.6.0",
-    "webpack-dev-server": "^3.1.3"
+    "webpack-dev-server": "^3.1.3",
+    "vue": "^2.5.16"
   },
   "dependencies": {
-    "ramda": "^0.25.0",
-    "vue": "^2.5.16"
+    "lodash": "^4.17.10"
   }
 }

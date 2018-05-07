@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 /**
  * Rules
  * @module core
@@ -10,22 +12,10 @@ const {
   merge,
   find,
   curry,
-  prop,
-  tap,
   pipe,
   filter,
   map,
-  over,
-  lens,
-  lensPath,
   takeLast,
-  clone,
-  keys,
-  startsWith,
-  set,
-  differenceWith,
-  partition,
-  lensProp,
   insert,
 } = require('ramda');
 
@@ -38,70 +28,64 @@ function head(list) {
 }
 
 module.exports = function({ dataclasses, invariants, errors, rules }) {
-  const {
-    CompoundPredicate,
-    ComparisonPredicate,
-    Predicate,
-    Target,
-    LogicalType,
-  } = dataclasses;
+  const { CompoundPredicate, ComparisonPredicate, Predicate } = dataclasses;
   /**
    * Get a type by its type_id
-   * @param  {array} types
+   * @param  {array} types types
    * @param  {string} type_id   type id name
-   * @return {?Type}  a Type
+   * @return {?dataclasses.Type}  a Type
    * @private
    * @since 1.0.0
    */
   const _getTypeById = (types, type_id) =>
-    option.fromNullable(find(type => type.type_id == type_id, types));
+    option.fromNullable(find(type => type.type_id === type_id, types));
 
   /**
    * Get a target by its target_id
-   * @param  {Array<dataclasses.Target>} targets
+   * @param  {Array<dataclasses.Target>} targets targets
    * @param  {string} target_id target id name
-   * @return {Promise<dataclasses.Target>}
+   * @return {Promise<dataclasses.Target, errors.Target_idMustReferToADefinedTarget>}  resolved promise will yield a Target, rejected promise will yield `Target_idMustReferToADefinedTarget` if target_id was not found in `targets`
    * @private
    * @since 1.0.0
    */
   const _getTargetById = (targets, target_id) =>
     invariants.Target_idMustReferToADefinedTarget(
-      find(target => target.target_id == target_id, targets)
+      find(target => target.target_id === target_id, targets)
     );
 
   /**
    * Get a logical type by its logicalType_id
-   * @param  {Array<dataclasses.LogicalType>} logicalTypes
+   * @param  {Array<dataclasses.LogicalType>} logicalTypes logicalTypes
    * @param  {string} logicalType_id logicalType id name
-   * @return {Promise<dataclasses.LogicalType>}
+   * @return {Promise<dataclasses.LogicalType, errors.LogicalType_idMustReferToADefinedLogicalType>} resolved promise will yield a LogicalType, rejected promise will yield `LogicalType_idMustReferToADefinedLogicalType` if logicalType was not found in `logicalTypes`.
    * @private
    * @since 1.0.0
    */
   const _getLogicalTypeById = (logicalTypes, logicalType_id) =>
     invariants.LogicalType_idMustReferToADefinedLogicalType(
       find(
-        logicalType => logicalType.logicalType_id == logicalType_id,
+        logicalType => logicalType.logicalType_id === logicalType_id,
         logicalTypes
       )
     );
 
   /**
    * Get an operator by its operator_id
-   * @param  {Array<dataclasses.operator>} operators
-   * @param  {string[]} operator_ids
-   * @return {Promise<dataclasses.operator>}
+   * @param  {Array<dataclasses.Operator>} operators operators
+   * @param  {string[]} operator_id operator_id
+   * @return {Promise<dataclasses.Operator, errors.Operator_idMustReferToADefinedOperator>} resolved promise will yield an Operator, rejected promise will yield `Operator_idMustReferToADefinedOperator` if operator was not found in `operators`.
    * @private
    * @since 1.0.0
    */
   const _getOperatorById = (operators, operator_id) =>
     invariants.Operator_idMustReferToADefinedOperator(
-      find(operator => operator.operator_id == operator_id, operators)
+      find(operator => operator.operator_id === operator_id, operators)
     );
 
   /**
    * _getOperatorsByIds
-   * @param  {Object} operators
-   * @param  {string[]} operator_ids
+   * @param  {Object} operators operators
+   * @param  {string[]} operator_ids operator_ids
    * @return {Array<dataclasses.operator>}
    * @private
    * @since 1.0.0
@@ -129,8 +113,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   /**
    * Tap for Promise
-   * @param  {Function} f
-   * @return {Function}
+   * @param  {Function} f function to call
+   * @return {Function} function that accept a promise and will call `f`
    * @private
    */
   const _tapPromise = f => {
@@ -144,8 +128,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   /**
    * Run `fAfter()` (without any arguments) after `fBefore`, it will yield the promise yield from fBefore
-   * @param  {Function} fBefore
-   * @param  {Function} fAfter
+   * @param  {Function} fBefore fBefore
+   * @param  {Function} fAfter fAfter
    * @return {Promise} promise from fBefore
    * @private
    */
@@ -181,7 +165,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
   /**
    * Create a new PredicateCore
-   * @param       {?dataclasses.CompoundPredicate} [args.data=core.defaults.options.getDefaultData]
+   * @param       {Object} args Predicate Core parameters
+   * @param       {?dataclasses.CompoundPredicate} [args.data=core.defaults.options.getDefaultData] data
    * @param       {Object} [args.columns] columns definition
    * @example <caption>Example of columns definition</caption>
    * // don't forget to take a look at the Storybook https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples
@@ -283,26 +268,27 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    *   // { argumentType_id: 'smallString', component: ? },
    *   // { argumentType_id: 'number', component: ? },
    * ]}
-   * @param       {Object} args.columns.operators
-   * @param       {Object} args.columns.types
-   * @param       {Object} args.columns.targets
-   * @param       {Object} args.columns.logicalTypes
-   * @param       {?Object} args.columns.argumentTypes
-   * @param       {Object} [args.options=core.defaults.options]
-   * @return {Promise<core.PredicateCoreAPI>}
+   * @param       {Object} args.columns.operators operators
+   * @param       {Object} args.columns.types types
+   * @param       {Object} args.columns.targets targets
+   * @param       {Object} args.columns.logicalTypes logicalTypes
+   * @param       {?Object} args.columns.argumentTypes argumentTypes
+   * @param       {Object} [args.options=core.defaults.options] options
+   * @return {Promise<core.PredicateCoreAPI, errors<*>>} resolved promise yield Predicate Core public API, rejected promise yield an error {@link errors}
    * @memberof core
    */
   function PredicateCore(args) {
     const { columns, data, options } = args;
 
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       try {
         dataclasses._requireProps(
           columns,
           'operators,logicalTypes,types,targets'
         );
       } catch (err) {
-        return reject(err);
+        reject(err);
+        return;
       }
       resolve();
     })
@@ -315,6 +301,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Loop through the predicate tree and update flags (e.g. $canBeRemoved)
+         * @return {undefined} nothing.
          * @private
          */
         function _apply$flags() {
@@ -324,7 +311,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
             ComparisonPredicate
           );
 
-          CompoundPredicate.forEach(_root, function(predicate) {
+          CompoundPredicate.forEach(_root, predicate => {
             predicate.$canBeRemoved =
               canRemoveAnyPredicate &&
               !rules.predicateToRemoveIsRootPredicate(_root, predicate);
@@ -354,7 +341,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * @param {object} json user defined JSON
-         * @return {Promise<Predicate, errors<*>>}
+         * @return {Promise<Predicate, errors<*>>} resolved promise yield the root CompoundPredicate, rejected promise yield an errors
          */
         function _fromJSON(json) {
           return Predicate.fromJSON(json, {
@@ -369,7 +356,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Add a ComparisonPredicate or CompoundPredicate
-         * @param  {Object} option
+         * @param  {Object} option option object
          * @param  {string} options.type what type of Predicate to add
          * @param  {string} [options.how=after] should we insert it before, after or instead of? (currently only after is supported)
          * @param  {dataclasses.Predicate} options.where current element
@@ -422,7 +409,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Remove a ComparisonPredicate or CompoundPredicate
-         * @param  {(dataclasses.ComparisonPredicate|dataclasses.CompoundPredicate)} predicate
+         * @param  {(dataclasses.ComparisonPredicate|dataclasses.CompoundPredicate)} predicate predicate
          * @return {Promise<dataclasses.Predicate>} yield the removed predicate, will reject the promise if remove was called with the root CompoundPredicate or the last ComparisonPredicate of the root CompoundPredicate
          * @since 1.0.0
          * @memberof core.api
@@ -471,8 +458,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Change a CompoundPredicate logical
-         * @param {dataclasses.CompoundPredicate} predicate
-         * @param {string} newLogicalType_id
+         * @param {dataclasses.CompoundPredicate} predicate predicate
+         * @param {string} newLogicalType_id newLogicalType_id
          * @return {Promise<undefined, errors.PredicateMustBeACompoundPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeACompoundPredicate error
          * @since 1.0.0
          * @memberof core.api
@@ -494,8 +481,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Change a predicate's target
-         * @param {dataclasses.ComparisonPredicate} predicate
-         * @param {string} newTarget_id
+         * @param {dataclasses.ComparisonPredicate} predicate predicate
+         * @param {string} newTarget_id newTarget_id
          * @return {Promise<undefined, errors.PredicateMustBeAComparisonPredicate>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
          * @since 1.0.0
          * @memberof core.api
@@ -523,8 +510,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Change a predicate's operator
-         * @param {dataclasses.ComparisonPredicate} predicate
-         * @param {string} newTarget_id
+         * @param {dataclasses.ComparisonPredicate} predicate predicate
+         * @param {string} newOperator_id newOperator_id
          * @return {Promise<undefined, errors.Operator_idMustReferToADefinedOperator>} yield nothing if everything went right, otherwise yield a reject promise with the PredicateMustBeAComparisonPredicate error
          * @since 1.0.0
          * @memberof core.api
@@ -553,8 +540,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
         /**
          * Change a predicate's operator value
-         * @param {dataclasses.ComparisonPredicate} predicate
-         * @param {*} newValue
+         * @param {dataclasses.ComparisonPredicate} predicate predicate
+         * @param {*} newValue newValue
          * @return {Promise<undefined>} yield nothing if everything went right, currently everything always go right ;)
          * @since 1.0.0
          * @memberof core.api
@@ -617,7 +604,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * Adds the `listener` function to the end of the listeners array for the event named `eventName`.
          * No checks are made to see if the `listener` has already been added. Multiple calls passing the same combination of eventName and listener will result in the listener being added, and called, multiple times.
          * @param  {string} eventName available event names are : (`changed`, api)
-         * @param  {function} listener
+         * @param  {function} listener listener
+         * @return {undefined}
          * @since 1.0.0
          * @memberof core.api
          */
@@ -628,7 +616,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
         /**
          * Adds a *one-time* `listener` function for the event named `eventName`. The next time `eventName` is triggered, this `listener` is removed and then invoked.
          * @param  {string} eventName see {@link core.api.on} for available event names
-         * @param  {function} listener
+         * @param  {function} listener listener
+         * @return {undefined}
          * @see core.api.on
          * @since 1.0.0
          * @memberof core.api
@@ -643,7 +632,8 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
          * If off(eventName) will only remove listeners to this specific eventName
          * If off(eventName, listener) will remove the `listener` to the `eventName`
          * @param  {?string} eventName see {@link core.api.on} for available event names
-         * @param  {?function} listener
+         * @param  {?function} listener listener
+         * @return {undefined}
          * @since 1.0.0
          * @memberof core.api
          */
@@ -671,9 +661,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                * @namespace core.api
                */
               _api = {
-                on: on,
-                once: once,
-                off: off,
+                on,
+                once,
+                off,
 
                 setData: _afterPromise(setData, _afterWrite),
                 add: _afterPromise(add, _afterWrite),
@@ -697,7 +687,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
 
                 /**
                  * Get root CompoundPredicate
-                 * @return {dataclasses.CompoundPredicate}
+                 * @return {dataclasses.CompoundPredicate} root CompoundPredicate
                  * @memberof core.api
                  */
                 get root() {
@@ -735,7 +725,6 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
     options: {
       /**
        * When data is not set at construction time PredicateCore default behavior will be to use the first target and its first operator with empty argument
-       * @param  {Object} dataclasses every necessary data class
        * @param  {Object} columns every necessary data class
        * @param  {Object} options PredicateCore available options
        * @return {Promise<dataclasses.CompoundPredicate>}  root CompoundPredicate
@@ -756,9 +745,9 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
        * Default compount predicate to use
        *
        * This function is called whenever a new CompoundPredicate is added to the UIPredicate
-       * @param  {Array<dataclasses.Predicate>} predicates
        * @param  {Object} columns specified columns
        * @param  {Object} options PredicateCore available options
+       * @param  {Array<dataclasses.Predicate>} predicates array of predicates to include into the CompoundPredicate
        * @return {Promise<dataclasses.CompoundPredicate>} a CompoundPredicate
        * @since 1.0.0
        * @memberof core.defaults.options

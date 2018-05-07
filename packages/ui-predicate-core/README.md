@@ -25,46 +25,56 @@ You can also directly download [sources](https://github.com/fgribreau/ui-predica
 ES modules:
 
 ```js
-// todo
+import {PredicateCore} from 'ui-predicate-core'
+
+PredicateCore({
+  data: [/* */],
+  config:{ /* ... */ }
+}).then(api => {
+  // use api here
+  console.log(api);
+}, error => {
+  // UIPredicateCore will yield a rejected promise if something went wrong at initialization time
+  console.error(error);
+});
 ```
 
 CommonJS:  
 
 ```js
-// todo
+const {PredicateCore} = require('ui-predicate-core');
+
+PredicateCore({
+  data: [/* */],
+  config:{ /* ... */ }
+}).then(api => {
+  // use api here
+  console.log(api);
+}, error => {
+  // UIPredicateCore will yield a rejected promise if something went wrong at initialization time
+  console.error(error);
+});
 ```
+
+
 
 ### Example
 
-(todo)
-
-Learn more about what ui-predicate can do in the [Getting started](https://github.com/fgribreau/ui-predicate/blob/master/docs/GETTING_STARTED.md).
+Learn more about what ui-predicate can do in the [Getting started](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples).
 
 Feel free to [try ui-predicate on runkit](https://npm.runkit.com/ui-predicate-core).
 
 ## Documentation
 
-### Getting started
-
-A fast overview of ui-predicate's features is available in the [Getting started](https://github.com/fgribreau/ui-predicate/blob/master/docs/GETTING_STARTED.md) guide.
-
 ### API
 
-The detailed API documentations of the different packages are available here:
-- [ui-predicate-core](https://fgribreau.github.io/ui-predicate/api/ui-predicate-core)
-- [ui-predicate-vue](https://fgribreau.github.io/ui-predicate/api/ui-predicate-vue/)
-- [ui-predicate-angular](https://fgribreau.github.io/ui-predicate/api/ui-predicate-angular/)
-- [ui-predicate-react](https://fgribreau.github.io/ui-predicate/api/ui-predicate-react/)
+The detailed generated [API documentation is available here](https://ui-predicate.fgribreau.com/ui-predicate-core/latest).
 
-Looking for older versions API documentation? Links are available [here](https://github.com/fgribreau/ui-predicate/blob/master/docs/README.md).
+Looking for older versions API documentation? Links are available [here](https://ui-predicate.fgribreau.com/).
 
-<!-- ### Migrating from 0.x versions
+<!-- ## Performances
 
-If you were using a version of ui-predicate previous to 1.0, check out the [migrating guide](docs/MIGRATING_TO_1_0.md). -->
-
-## Performances
-
-(todo)
+(todo) -->
 
 ## Contributing
 

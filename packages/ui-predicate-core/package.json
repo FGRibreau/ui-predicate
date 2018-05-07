@@ -9,9 +9,9 @@
     "test:watch": "jest  --coverage --watch",
     "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
     "lint": "eslint src",
-    "docs": "jsdoc -c ../../jsdoc.json",
-    "docs:private": "jsdoc -c ../../jsdoc.json -p",
-    "examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/ --public-url ./ --no-cache -d $DIR -t browser"
+    "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:examples:build",
+    "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
+    "docs:examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/index.html --public-url ./ --no-cache -d $DIR -t browser"
   },
   "files": [
     "dist"
@@ -19,8 +19,11 @@
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
     "jest": "^22.4.3",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.5.5",
+    "parcel": "^1.8.1"
   },
   "jest": {
     "coverageThreshold": {

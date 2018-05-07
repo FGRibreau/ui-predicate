@@ -1,20 +1,19 @@
-import Vue from 'vue';
 import { storiesOf } from '@storybook/vue';
 
-import { action, actions } from '@storybook/addon-actions';
+import { action } from '@storybook/addon-actions';
 import backgrounds from '@storybook/addon-backgrounds/vue';
 import Centered from '@storybook/addon-centered';
 import { withNotes } from '@storybook/addon-notes';
 
 import {
-  array,
+  /* array,
   boolean,
   button,
   color,
   date,
   number,
+  text,*/
   select,
-  text,
   withKnobs,
 } from '@storybook/addon-knobs/vue';
 

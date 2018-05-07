@@ -5,8 +5,6 @@
  * @note invariants are 100% tested from PredicateCore.test.js
  */
 
-const { is } = require('ramda');
-
 module.exports = ({ errors, rules }) => ({
   /**
    * [CompoundPredicateMustHaveAtLeastOneSubPredicate description]
@@ -36,6 +34,7 @@ module.exports = ({ errors, rules }) => ({
 
   /**
    * @param {dataclasses.CompoundPredicate} root root
+   * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate
    * @return {Promise<dataclasses.CompoundPredicate, errors.RootPredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `RootPredicateMustBeACompoundPredicate` error otherwise
    * @memberof invariants
    * @since 1.0.0
@@ -59,7 +58,7 @@ module.exports = ({ errors, rules }) => ({
       : Promise.resolve(),
 
   /**
-   * @param {dataclasses.Predicate} predicate
+   * @param {dataclasses.Predicate} predicate predicate
    * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate constructor
    * @return {Promise<undefined, errors.PredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `PredicateMustBeACompoundPredicate` error otherwise
    * @memberof invariants
@@ -71,8 +70,8 @@ module.exports = ({ errors, rules }) => ({
       : Promise.resolve(),
 
   /**
-   * @param {dataclasses.CompoundPredicate} root root
-   * @return {Promise<undefined, errors.AddCurrentlyOnlySupportAfterInsertion>} resolve the promise if the invariant pass or yield a `AddCurrentlyOnlySupportAfterInsertion` error otherwise
+   * @param {string} how how
+   * @return {Promise<undefined, errors.AddCurrentlyOnlySupportAfterInsertion>} resolve the promise if the invariant pass or yield a `AddOnlySupportsAfter` error otherwise
    * @memberof invariants
    * @since 1.0.0
    */
@@ -82,7 +81,8 @@ module.exports = ({ errors, rules }) => ({
       : Promise.resolve(),
 
   /**
-   * @param {dataclasses.CompoundPredicate} root root
+   * @param {option<dataclasses.Type>} type type
+   * @param {dataclasses.Target} target target
    * @return {Promise<dataclasses.Type, errors.TargetMustReferToADefinedType>} resolve the promise if the invariant pass or yield a `TargetMustReferToADefinedType` error otherwise
    * @memberof invariants
    * @since 1.0.0
@@ -151,9 +151,9 @@ module.exports = ({ errors, rules }) => ({
 
   /**
    * @param {dataclasses.CompoundPredicate} root root
-   * @param {dataclasses.Predicate} predicateToRemove
-   * @param {dataclasses.CompoundPredicate} CompoundPredicate
-   * @param {dataclasses.ComparisonPredicate} ComparisonPredicate
+   * @param {dataclasses.Predicate} predicateToRemove predicateToRemove
+   * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate
+   * @param {dataclasses.ComparisonPredicate} ComparisonPredicate ComparisonPredicate
    * @return {Promise<undefined, errors.ForbiddenCannotRemoveLastComparisonPredicate>} resolve the promise if the invariant pass or yield a `RootPredicateMustBeACompoundPredicate` error otherwise
    * @memberof invariants
    * @since 1.0.0

@@ -1,7 +1,5 @@
 // why? because I HATE ES6 import/export
-const { Type, Target, Operator } = require('./columns');
-
-const { prop } = require('ramda');
+const { Type, Operator } = require('./columns');
 
 describe('Type', () => {
   it('allow for more operators', () => {

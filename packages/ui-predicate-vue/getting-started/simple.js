@@ -2,12 +2,12 @@ import Vue from 'vue';
 
 import App from './simple.vue';
 
-import UIPredicateCore from '..';
-Vue.use(UIPredicateCore);
+import UIPredicateVue from '..';
+console.log(UIPredicateVue);
+Vue.use(UIPredicateVue);
 
 // expose for debug purposes
-window.Vue = Vue;
-window.UIPredicateCore = UIPredicateCore;
+window.UIPredicateVue = UIPredicateVue;
 window.app = new Vue({
   el: '#app',
   render: h => h(App),

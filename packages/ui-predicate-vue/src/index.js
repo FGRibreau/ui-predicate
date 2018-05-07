@@ -25,7 +25,10 @@ const install = function(Vue) {
 };
 
 /* istanbul ignore if */
-if (typeof window !== 'undefined' && window.Vue) install(window.Vue);
+if (typeof window !== 'undefined' && window.Vue) {
+  install(window.Vue);
+  window.UIPredicate = UIPredicate;
+}
 
 module.exports = {
   version: require('../package.json').version,

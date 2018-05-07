@@ -1,7 +1,8 @@
 {
   "name": "ui-predicate-meta",
   "version": "1.0.0",
-  "description": "Finally a predicate UI component for the Web",
+  "title":"ui-predicate",
+  "description": "Finally a rules editor (or predicates), framework agnostic, component for the Web",
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test": "lerna run --stream test",
@@ -9,12 +10,9 @@
     "test:coverage": "lerna run --stream test:coverage && codecov --disable=gcov",
     "publish:canary": "lerna publish --conventional-commits -c",
     "publish": "lerna publish --conventional-commits",
-    "postpublish":"npm run --silent build:website && git add docs/* && git commit -m 'update website'",
-    "build:website":"npm run --silent build:docs && npm run --silent build:examples",
-    "build:docs": "lerna run --stream docs && node scripts/docs-build-index.js",
-    "build:examples":"npx lerna run examples:build",
-    "updtr": "lerna exec --concurrency 1 -- updtr",
-    "docs:private": "lerna run --stream docs:private"
+    "postpublish":"npm run --silent docs:build && git add docs/* && git commit -m 'update website'",
+    "docs:build": "lerna run --stream docs:build && node scripts/docs-build-index.js",
+    "updtr": "lerna exec --concurrency 1 -- updtr"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",

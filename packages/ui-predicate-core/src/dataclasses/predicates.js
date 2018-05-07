@@ -12,7 +12,7 @@ module.exports = ({ invariants, errors }) => {
   /**
    * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
    * @param {Function} type - Predicate subtype function constructor
-   * @return {dataclasses.Predicate}
+   * @return {dataclasses.Predicate} predicate
    * @memberof dataclasses
    */
   function Predicate(type) {
@@ -30,26 +30,29 @@ module.exports = ({ invariants, errors }) => {
       );
   }
 
+  /**
+   * [description]
+   * @param  {dataclasses.Predicate} predicate predicate
+   * @return {Object} serializable object
+   */
   Predicate.toJSON = function(predicate) {
-    if (ComparisonPredicate.is(predicate)) {
+    if (ComparisonPredicate.is(predicate))
       return ComparisonPredicate.toJSON(predicate);
-    }
 
     return CompoundPredicate.toJSON(predicate);
   };
 
   /**
-   * @param  {object} json
+   * @param  {object} json json
+   * @param  {object} internalAPI internalAPI
    * @return {Promise<Predicate, errors<*>>} Promise
    */
   Predicate.fromJSON = function(json, internalAPI) {
-    if (ComparisonPredicate.isFromJSON(json)) {
+    if (ComparisonPredicate.isFromJSON(json))
       return ComparisonPredicate.fromJSON(json, internalAPI);
-    }
 
-    if (CompoundPredicate.isFromJSON(json)) {
+    if (CompoundPredicate.isFromJSON(json))
       return CompoundPredicate.fromJSON(json, internalAPI);
-    }
 
     return Promise.reject(new errors.UnknownJSONData());
   };
@@ -70,18 +73,18 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * A specialized predicate that you use to compare expressions.
-   * @param  {dataclasses.Target} target
-   * @param  {dataclasses.Operator} operator
-   * @param  {*} argument
+   * @param  {dataclasses.Target} target target
+   * @param  {dataclasses.Operator} operator operator
+   * @param  {*} argument argument
    * @return {Promise<dataclasses.ComparisonPredicate>} yield a ComparisonPredicate or a rejected promise
    * @memberof dataclasses
    */
   function ComparisonPredicate(target, operator, argument = null) {
     return Predicate(ComparisonPredicate).then(predicate =>
       merge(predicate, {
-        target: target,
-        operator: operator,
-        argument: argument,
+        target,
+        operator,
+        argument,
       })
     );
   }
@@ -90,7 +93,7 @@ module.exports = ({ invariants, errors }) => {
   ComparisonPredicate.$name = Predicate.Types.ComparisonPredicate;
 
   /**
-   * @param  {ComparisonPredicate} predicate
+   * @param  {ComparisonPredicate} predicate predicate
    * @return {Object} JSON serializable object
    */
   ComparisonPredicate.toJSON = function(predicate) {
@@ -104,7 +107,8 @@ module.exports = ({ invariants, errors }) => {
   };
 
   /**
-   * @param  {object} json
+   * @param  {object} json json
+   * @param  {object} internalAPI internalAPI
    * @return {Promise<Predicate, errors<*>>} Promise
    */
   ComparisonPredicate.fromJSON = function(json, internalAPI) {
@@ -119,7 +123,7 @@ module.exports = ({ invariants, errors }) => {
   /**
    * Yield true if `predicate` is a ComparisonPredicate
    * @param  {dataclasses.Predicate}  predicate {@link dataclasses.Predicate}
-   * @return {Boolean}
+   * @return {Boolean} true if `predicate` is a ComparisonPredicate
    * @memberof dataclasses
    */
   ComparisonPredicate.is = predicate => {
@@ -130,9 +134,9 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * Yield true if `json` seems to be a ComparisonPredicate
-   * @param  {object}  json
+   * @param  {object} json json
    * @private
-   * @return {Boolean}
+   * @return {Boolean} true if json seems to be a ComparisonPredicate
    * @memberof dataclasses
    */
   ComparisonPredicate.isFromJSON = json => json && json.target_id;
@@ -140,7 +144,7 @@ module.exports = ({ invariants, errors }) => {
   /**
    * A specialized predicate that evaluates logical combinations of other predicates.
    * @param {dataclasses.LogicalType} logic The predicate logic
-   * @param {Array<dataclasses.Predicate>} predicates predicates
+   * @param {Array<dataclasses.Predicate>} predicates predicates predicates
    * @return {Promise<dataclasses.CompoundPredicate>} yield a {@link dataclasses.CompoundPredicate} or a {@link errors.CompoundPredicateMustHaveAtLeastOneSubPredicate} rejected promise
    * @memberof dataclasses
    */
@@ -153,8 +157,8 @@ module.exports = ({ invariants, errors }) => {
       .then(() => Predicate(CompoundPredicate))
       .then(predicate =>
         merge(predicate, {
-          logic: logic,
-          predicates: predicates,
+          logic,
+          predicates,
         })
       );
   }
@@ -163,7 +167,7 @@ module.exports = ({ invariants, errors }) => {
   CompoundPredicate.$name = Predicate.Types.CompoundPredicate;
 
   /**
-   * @param  {CompoundPredicate} predicate
+   * @param  {CompoundPredicate} predicate predicate
    * @return {Object} JSON serializable object
    */
   CompoundPredicate.toJSON = function(predicate) {
@@ -174,7 +178,8 @@ module.exports = ({ invariants, errors }) => {
   };
 
   /**
-   * @param  {CompoundPredicate} predicate
+   * @param  {CompoundPredicate} predicate predicate
+   * @param  {object} internalAPI ui-predicate-core internal api object
    * @return {Promise<CompoundPredicate, errors<*>>} Promise
    */
   CompoundPredicate.fromJSON = function(predicate, internalAPI) {
@@ -203,25 +208,26 @@ module.exports = ({ invariants, errors }) => {
    * @memberof dataclasses
    */
   CompoundPredicate.reduce = function(compoundPredicate, f, acc, parents = []) {
-    acc = f(acc, compoundPredicate, parents);
+    const accumulator = f(acc, compoundPredicate, parents);
     return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
       const _parents = parents.concat([compoundPredicate, [predicate, i]]);
       return CompoundPredicate.is(predicate)
         ? CompoundPredicate.reduce(predicate, f, _acc, _parents)
         : f(_acc, predicate, _parents);
-    }, acc);
+    }, accumulator);
   };
 
   /**
    * Walk through the predicates tree
    * @param       {dataclasses.CompoundPredicate} compoundPredicate starter node
    * @param       {Function} f(predicate) iterator function
+   * @return {undefined}
    * @memberof dataclasses
    */
   CompoundPredicate.forEach = (compoundPredicate, f) => {
     CompoundPredicate.reduce(
       compoundPredicate,
-      (_, predicate, __) => {
+      (_, predicate) => {
         f(predicate);
       },
       null
@@ -230,8 +236,8 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * Yield true if `predicate` is a CompoundPredicate
-   * @param  {dataclasses.Predicate}  predicate
-   * @return {Boolean}
+   * @param  {dataclasses.Predicate}  predicate predicate
+   * @return {Boolean} true if `predicate` is a CompoundPredicate
    * @memberof dataclasses
    */
   CompoundPredicate.is = predicate =>
@@ -239,9 +245,9 @@ module.exports = ({ invariants, errors }) => {
 
   /**
    * Yield true if `json` seems to be a CompoundPredicate
-   * @param  {object}  json
+   * @param  {object}  json json
    * @private
-   * @return {Boolean}
+   * @return {Boolean} true if json seems to be a CompoundPredicate json
    * @memberof dataclasses
    */
   CompoundPredicate.isFromJSON = json => json && json.logicalType_id;

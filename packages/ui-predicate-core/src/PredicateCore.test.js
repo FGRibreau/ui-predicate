@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 // why? because I HATE ES6 import/export
 const {
   PredicateCore,
@@ -242,7 +244,7 @@ describe('UIPredicateCore', () => {
           ],
         },
         options: {
-          getDefaultArgumentComponent: function(columns, options) {
+          getDefaultArgumentComponent(columns, options) {
             return () => 0;
           },
         },
@@ -402,7 +404,7 @@ describe('UIPredicateCore', () => {
       expect.assertions(3);
       return PredicateCore({ columns: _defaultConfig() })
         .then(ctrl => {
-          const firstPredicate = ctrl.root.predicates[0];
+          const [firstPredicate] = ctrl.root.predicates;
           return ctrl
             .add({
               where: firstPredicate,
@@ -459,7 +461,7 @@ describe('UIPredicateCore', () => {
     it('work if we set a predicate to an exist target_id', () => {
       expect.assertions(6);
       return PredicateCore({ columns: _defaultConfig() }).then(ctrl => {
-        const firstPredicate = ctrl.root.predicates[0];
+        const [firstPredicate] = ctrl.root.predicates;
 
         expect(firstPredicate.target.target_id).not.toBe(
           ctrl.columns.targets[1].target_id
@@ -496,7 +498,7 @@ describe('UIPredicateCore', () => {
     it('rejects an error if operator_id cannot be found', () => {
       expect.assertions(1);
       return PredicateCore({ columns: _defaultConfig() }).then(ctrl => {
-        const firstPredicate = ctrl.root.predicates[0];
+        const [firstPredicate] = ctrl.root.predicates;
         return expect(
           ctrl.setPredicateOperator_id(firstPredicate, 'lool')
         ).rejects.toMatchSnapshot();
@@ -506,7 +508,7 @@ describe('UIPredicateCore', () => {
     it('work if we set a predicate to an existing operator_id', () => {
       expect.assertions(3);
       return PredicateCore({ columns: _defaultConfig() }).then(ctrl => {
-        const firstPredicate = ctrl.root.predicates[0];
+        const [firstPredicate] = ctrl.root.predicates;
         const target_idBefore = firstPredicate.target.target_id;
 
         expect(firstPredicate.operator.operator_id).not.toBe(
@@ -608,7 +610,7 @@ describe('UIPredicateCore', () => {
       return PredicateCore({
         columns: _defaultConfig(),
         options: {
-          getDefaultArgumentComponent: function() {
+          getDefaultArgumentComponent() {
             return true;
           },
         },
@@ -704,7 +706,7 @@ describe('UIPredicateCore', () => {
         });
     });
 
-    it(`allow to remove a comparisonPredicate and its parent CompoundPredicate if it was the last comparisonPredicate`, () => {
+    it('allow to remove a comparisonPredicate and its parent CompoundPredicate if it was the last comparisonPredicate', () => {
       expect.assertions(3);
       return PredicateCore({ columns: _defaultConfig() })
         .then(ctrl =>
@@ -735,7 +737,7 @@ describe('UIPredicateCore', () => {
 
   describe('CompoundPredicate', () => {
     describe('constructor', () => {
-      it(`can't be constructed with at least one subpredicate`, () => {
+      it("can't be constructed with at least one subpredicate", () => {
         return expect(
           CompoundPredicate(LogicalType.and, [])
         ).rejects.toMatchSnapshot();

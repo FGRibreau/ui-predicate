@@ -1,36 +1,45 @@
 // const PredicateCore = require('ui-predicate-core');
-const PredicateCore = require('..');
+const { PredicateCore } = require('..');
 
 PredicateCore({
   // data:{},
-  // columns:{},
-  options: {
+  columns: {
     // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
     operators: [
       {
         operator_id: 'is',
-        label: 'Est',
-        ploplop: [1, 2, 3],
+        label: 'is',
+        argumentType_id: 'smallString',
       },
       {
         operator_id: 'contains',
-        label: 'Contient',
+        label: 'Contains',
+        argumentType_id: 'smallString',
       },
       {
         operator_id: 'isLowerThan',
         label: '<',
+        argumentType_id: 'number',
       },
       {
         operator_id: 'isEqualTo',
         label: '=',
+        argumentType_id: 'number',
       },
       {
         operator_id: 'isHigherThan',
         label: '>',
+        argumentType_id: 'number',
       },
       {
-        operator_id: 'isBetween',
-        label: 'est compris entre',
+        operator_id: 'is_date',
+        label: 'is',
+        argumentType_id: 'datepicker',
+      },
+      {
+        operator_id: 'isBetween_date',
+        label: 'is between',
+        argumentType_id: 'daterangepicker',
       },
     ],
     types: [
@@ -49,18 +58,18 @@ PredicateCore({
     ],
     targets: [
       {
-        target_id: 'article.title',
-        label: 'Titre article',
+        target_id: 'title',
+        label: 'Title',
         type_id: 'string',
       },
       {
-        target_id: 'article.videoCount',
-        label: 'Nombre de vidéos',
+        target_id: 'videoCount',
+        label: 'Video count',
         type_id: 'int',
       },
       {
-        target_id: 'article.publishingAt',
-        label: 'Date publication',
+        target_id: 'publishedAt',
+        label: 'Created at',
         type_id: 'datetime',
       },
     ],
@@ -80,5 +89,7 @@ PredicateCore({
     ],
   },
 }).then(core => {
+  window.core = core;
   console.log('🎉 You can play with `core` global variable');
+  console.log(core);
 });

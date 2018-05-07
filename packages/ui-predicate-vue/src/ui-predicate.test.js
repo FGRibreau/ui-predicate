@@ -1,5 +1,7 @@
+/* eslint no-console: "off"*/
 import UIPredicateCore, { UIPredicate } from '..';
-import a, { mount, createLocalVue, shallow } from '@vue/test-utils';
+
+import { mount, createLocalVue /* , shallow*/ } from '@vue/test-utils';
 
 import DEFAULT_CONFIG from './__fixtures__';
 
@@ -20,7 +22,7 @@ describe('<ui-predicate/>', () => {
         localVue,
       });
 
-      // console.log(wrapper.text());
+      console.log(wrapper.text());
     });
   });
 });

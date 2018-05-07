@@ -9,7 +9,7 @@ const $_type = require('./$_type');
 
 /**
  * Create a new target
- * @param {object} target
+ * @param {object} target target
  * @param {string} target.target_id - unique id for this target
  * @param {string} target.label - label that will be displayed for this target
  * @param {string} target.type_id - the type_id name this target has
@@ -26,7 +26,7 @@ function Target(target) {
 }
 
 /**
- * @param  {Target} target
+ * @param  {Target} target target
  * @return {Object} JSON serializable object
  */
 Target.toJSON = function(target) {
@@ -43,7 +43,7 @@ Target.toJSON = function(target) {
 
 /**
  * Create a new operator
- * @param {object} operator
+ * @param {object} operator operator
  * @param {string} operator.operator_id - unique id for this operator
  * @param {string} operator.argumentType_id - the argumentType associated with the operator. For example to define a "is" operator and associate it with two targets "article publishing date" and "article title" then we would have to define 2 operators because ["article publishing date" "is"] and  ["article title" "is"] do NOT have the same kind of arguments (one is a date the other is a string) and associated UI components (one is a date picker the other is a text input)
  * @param {string} operator.label - label that will be displayed for this operator
@@ -68,7 +68,7 @@ function Operator(operator) {
 }
 
 /**
- * @param  {Operator} operator
+ * @param  {Operator} operator operator
  * @return {Object} JSON serializable object
  */
 Operator.toJSON = function(operator) {
@@ -85,9 +85,9 @@ Operator.toJSON = function(operator) {
 
 /**
  * Create a new type
- * @param {Object} type
- * @param {string} type.type_id
- * @param {string[]} type.operator_ids
+ * @param {Object} type type
+ * @param {string} type.type_id type_id
+ * @param {string[]} type.operator_ids array of operator_id
  * @return {Type} {@link dataclasses.Type}
  * @memberof dataclasses
  */
@@ -107,9 +107,10 @@ function Type(type) {
 /**
  * Create a new type logical type
  * Logical types or used in CompoundPredicates
- * @param {Object} logic The predicate logic
- * @param {string} type.logicalType_id
- * @param {string} type.label
+ * @param {Object} logicalType The predicate logic
+ * @param {string} logicalType.logicalType_id logicalType_id
+ * @param {string} logicalType.label label
+ * @return {object} logicalType object
  * @memberof dataclasses
  */
 function LogicalType(logicalType) {
@@ -129,7 +130,7 @@ function LogicalType(logicalType) {
 }
 
 /**
- * @param  {LogicalType} logicalType
+ * @param  {LogicalType} logicalType logicalType
  * @return {Object} JSON serializable object
  */
 LogicalType.toJSON = function(logicalType) {
@@ -140,9 +141,10 @@ LogicalType.toJSON = function(logicalType) {
 
 /**
  * Create a new argument type
- * @param {Object} argumentType
- * @param {string} type.argumentType_id
+ * @param {Object} argumentType argumentType
+ * @param {string} type.argumentType_id argumentType_id
  * @param {*} type.component this attribute will be used by the UI Framework adapter
+ * @return {object} ArgumentType
  * @memberof dataclasses
  */
 function ArgumentType(argumentType) {
@@ -166,15 +168,15 @@ function _isObject(mixed) {
   return _toString.call(mixed) === '[object Object]';
 }
 /**
- * @param       {Object} object
+ * @param       {Object} object object
  * @param       {string} properties comma-separated list of properties
- * @return      {Object}
+ * @return      {Object} the passed object
  * @throws throw if a property is missing from the object
+ * @private
  */
 function _requireProps(object, properties) {
-  if (!_isObject(object)) {
+  if (!_isObject(object))
     throw new Error(`Object is required, got: ${JSON.stringify(object)}.`);
-  }
 
   const props = properties.split(',').map(trim);
   let prop;

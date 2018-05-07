@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src", "package.json", "../../README.md"]
+    "include": ["src", "package.json", "README.md"]
   },
   "opts": {
     "template": "node_modules/hotdoc/template",

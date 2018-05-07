@@ -1,5 +1,13 @@
+/* eslint no-unused-vars: "off"*/
+
+/**
+ * VueJS adapter for ui-predicate-core
+ * @namespace vue
+ * @since 1.0.0
+ */
+
 import { PredicateCore } from 'ui-predicate-core';
-const { merge } = require('ramda');
+const merge = require('lodash/merge');
 import Vue from 'vue';
 
 const defaults = {
@@ -8,7 +16,7 @@ const defaults = {
      * UIPredicate Vue Adapter own default argument component
      * @param  {Object} columns specified columns
      * @param  {Object} [options=PredicateCore.defaults.options] PredicateCore available options
-     * @return {Vue.component}
+     * @return {Vue.component} the default Vue Component to use as argument specifier
      * @see core.defaults.getDefaultArgumentComponent
      * @memberof vue.defaults
      */
@@ -34,11 +42,11 @@ const defaults = {
 
 /**
  * UIPredicateCore adapter for VueJS
- * @param       {?dataclasses.CompoundPredicate} [data=PredicateCore.defaults.options.getDefaultData]
- * @param       {Object} [columns=PredicateCore.defaults.columns]
- * @param       {Object} [options=PredicateCore.defaults.options]
- * @return {Promise<core.PredicateCoreAPI>}
- * @memberof core
+ * @param       {?dataclasses.CompoundPredicate} [data=PredicateCore.defaults.options.getDefaultData] data
+ * @param       {Object} [columns=PredicateCore.defaults.columns] columns
+ * @param       {Object} [options=PredicateCore.defaults.options] options
+ * @return {Promise<core.PredicateCoreAPI>} resolved promise yield a PredicateCoreAPI
+ * @memberof vue
  */
 function UIPredicateCoreVue({ data, columns, options } = {}) {
   const _options = merge(defaults.options, options);

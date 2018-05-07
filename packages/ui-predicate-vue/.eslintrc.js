@@ -6,11 +6,8 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    jest: true,
   },
-  /*parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module',
-  },*/
   rules: {
     'array-bracket-spacing': 'error',
     'array-callback-return': 'error',
@@ -25,7 +22,7 @@ module.exports = {
         allowSingleLine: true,
       },
     ],
-    camelcase: 'error',
+    camelcase: 'off',
     'comma-dangle': 'off',
     'comma-spacing': [
       'error',
@@ -43,7 +40,8 @@ module.exports = {
     'eol-last': 'error',
     eqeqeq: 'error',
     'func-call-spacing': 'error',
-    indent: ['error', 2],
+    // let prettier do its thing
+    indent: ['off', 2],
     'key-spacing': 'error',
     'keyword-spacing': 'error',
     'linebreak-style': 'error',
@@ -97,9 +95,9 @@ module.exports = {
     'no-var': 'error',
     'no-void': 'error',
     'no-whitespace-before-property': 'error',
-    'object-curly-newline': 'error',
+    'object-curly-newline': 'off',
     'object-curly-spacing': ['error', 'always'],
-    'object-property-newline': 'error',
+    'object-property-newline': 'off',
     'object-shorthand': 'error',
     'operator-assignment': 'error',
     'prefer-arrow-callback': 'error',
@@ -109,7 +107,8 @@ module.exports = {
     'prefer-spread': 'error',
     'prefer-template': 'error',
     'quote-props': ['error', 'consistent-as-needed'],
-    quotes: ['error', 'single'],
+    // let prettier do its thing
+    quotes: ['off'],
     'require-await': 'error',
     'rest-spread-spacing': 'error',
     semi: 'off',

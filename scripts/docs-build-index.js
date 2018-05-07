@@ -1,8 +1,10 @@
 const { resolve } = require('path');
 const { readdirSync, writeFileSync } = require('fs');
-
+const pack = require('../package.json');
 const readDir = dir => readdirSync(dir);
 const GITHUB = 'https://github.com/FGRibreau/ui-predicate';
+const CSS_HEAD =
+  '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>';
 
 const root = resolve(__dirname, '../docs/packages');
 
@@ -10,12 +12,13 @@ const createPackageIndex = (dir, versions) => {
   writeFileSync(
     resolve(dir, 'index.html'),
     `
-<html><head>
-</head>
-<body>
-<ul>
-  ${versions.sort(isHigherThan).map(v => `<a href="./${v}">${v}</a>`)}
-</ul>
+<html><head>${CSS_HEAD}</head>
+<body><pre><ul>
+  ${versions
+    .sort(isHigherThan)
+    .map(v => `<li><a href="./${v}">${v}</a></li>`)
+    .join('')}
+</ul></pre>
 </body>
 </html>
   `,
@@ -69,19 +72,40 @@ const createIndex = (dir, packages) => {
     resolve(dir, 'index.html'),
     `
   <html><head>
-    <title>ui-predicate</title>
+    <title>${pack.title}</title>
+    ${CSS_HEAD}
   </head>
   <body>
-    <pre><ul><li><a href="${GITHUB}">Github</a></li>${packages
+  <main class="container">
+
+    <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          ${pack.title}
+        </h1>
+        <h2 class="subtitle">
+          ${pack.description}
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <aside class="menu">
+    ${packages
       .map(
         ([pkg, versions]) =>
-          `<li>${pkg} <a href="${GITHUB}/tree/master/packages/${pkg}">README</a></li><ul><li><a href="./${pkg}/latest.html">latest</a></li>${versions
+          `<p class="menu-label">${pkg}</p>
+            <ul class="menu-list">
+              <li><a href="./${pkg}/latest.html">latest</a></li><li><ul>${versions
             .sort(isHigherThan)
             .reverse()
             .map(v => `<li><a href="./${pkg}/${v}">${v}</a></li>`)
-            .join('')}</ul>`
+            .join('')}</ul></li></ul>`
       )
-      .join('\n')}</ul></pre>
+      .join('\n')}
+  </aside>
+  </main>
   </body>
   </html>
     `,
