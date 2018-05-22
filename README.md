@@ -18,7 +18,7 @@ Mailchimp segmentation | Zapier tweets filtering
 
 Google Analytics segments | Uservoice rules
 ------------- | ------------ |
-![gg](docs/gg-filtering.gif) | ![uservoice](docs/uservoice-filtering.png)
+![gg](docs/gg-filtering.gif) | ![uservoice](docs/uservoice-rules.png)
 
 MacOS Finder | iTunes smart playlist
 ------------ | ------------- |
