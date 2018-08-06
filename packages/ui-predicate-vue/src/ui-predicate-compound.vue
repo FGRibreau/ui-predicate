@@ -28,7 +28,7 @@
 </template>
 
 <script>
-module.exports = {
+export default {
   name: 'ui-predicate-compound',
   props: {
     compound: {

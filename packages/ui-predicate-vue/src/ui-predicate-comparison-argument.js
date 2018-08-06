@@ -4,7 +4,7 @@ import Vue from 'vue';
  * as long as these UIcomponents were registered in UIPredicateCore ArgumentType registry
  * @type {Vue.Component}
  */
-module.exports = Vue.component('ui-predicate-comparison-argument', {
+export default {
   render(createElement) {
     return createElement(
       this.getArgumentTypeComponentById(
@@ -31,4 +31,4 @@ module.exports = Vue.component('ui-predicate-comparison-argument', {
       required: true,
     },
   },
-});
+};

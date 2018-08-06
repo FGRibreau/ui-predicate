@@ -6,7 +6,7 @@
 </template>
 
 <script>
-module.exports = {
+export default {
   name: 'ui-predicate-options',
   props: {
     predicate: {

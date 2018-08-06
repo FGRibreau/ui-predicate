@@ -18,7 +18,7 @@
 </template>
 
 <script>
-module.exports = {
+export default {
   name: 'ui-predicate-comparison',
   props: {
     predicate: {
