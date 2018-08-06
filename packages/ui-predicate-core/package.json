@@ -6,8 +6,9 @@
   "scripts": {
     "test": "jest -c ../../jest.js --coverage",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
-    "test:watch": "jest  --coverage --watch",
+    "postinstall":"npm run build",
     "build": "parcel build --out-file=ui-predicate-core --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
+    "test:watch": "jest  --coverage --watch",
     "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
     "lint": "eslint src",
     "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:examples:build",
