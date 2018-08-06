@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.3.0...ui-predicate-vue@0.4.0) (2018-08-06)
+
+
+### Bug Fixes
+
+* getting-started ([d1a0367](https://github.com/FGRibreau/ui-predicate/commit/d1a0367))
+* now using es6 export ([0b9676a](https://github.com/FGRibreau/ui-predicate/commit/0b9676a))
+
+
+### Features
+
+* add eslint & fix lint on ui-predicate-core, new /getting-started for ui-predicate-vue exposed on public doc, clean cross-package doc generation, better jsdoc for ui-predicate-vue, fixed linting on ui-predicate-vue ([997ebca](https://github.com/FGRibreau/ui-predicate/commit/997ebca))
+* ui-predicate-core build compiled library ([47a14d4](https://github.com/FGRibreau/ui-predicate/commit/47a14d4))
+
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.2.0...ui-predicate-vue@0.3.0) (2018-05-01)
 
