@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.3.0...ui-predicate-core@0.4.0) (2018-08-06)
+
+
+### Bug Fixes
+
+* ui-predicate-core remove weird package.json parameter ([1d476f2](https://github.com/FGRibreau/ui-predicate/commit/1d476f2))
+
+
+### Features
+
+* add eslint & fix lint on ui-predicate-core, new /getting-started for ui-predicate-vue exposed on public doc, clean cross-package doc generation, better jsdoc for ui-predicate-vue, fixed linting on ui-predicate-vue ([997ebca](https://github.com/FGRibreau/ui-predicate/commit/997ebca))
+
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.2.0...ui-predicate-core@0.3.0) (2018-05-01)
 
