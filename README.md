@@ -1,6 +1,6 @@
 # ui-predicate
 
-[![Codecov branch](https://img.shields.io/codecov/c/github/fgribreau/ui-predicate/master.svg)](https://codecov.io/gh/fgribreau/ui-predicate) [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://fgribreau.github.io/ui-predicate/api/) [![CircleCI branch](https://img.shields.io/circleci/project/github/FGRibreau/ui-predicate/master.svg)](https://circleci.com/gh/FGRibreau/ui-predicate)
+[![Codecov branch](https://img.shields.io/codecov/c/github/fgribreau/ui-predicate/master.svg)](https://codecov.io/gh/fgribreau/ui-predicate) [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://ui-predicate.fgribreau.com/ui-predicate-vue/0.3.0/getting-started/) [![CircleCI branch](https://img.shields.io/circleci/project/github/FGRibreau/ui-predicate/master.svg)](https://circleci.com/gh/FGRibreau/ui-predicate)
 
 Finally a f\*ck\*n Predicates UI component for the Web.
 
