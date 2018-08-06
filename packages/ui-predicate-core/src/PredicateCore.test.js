@@ -12,7 +12,7 @@ const {
     LogicalType,
   },
   errors,
-} = require('..');
+} = require('./index');
 
 const { prop } = require('ramda');
 
