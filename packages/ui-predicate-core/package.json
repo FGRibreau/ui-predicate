@@ -13,9 +13,6 @@
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/index.html --public-url ./ --no-cache -d $DIR -t browser"
   },
-  "files": [
-    "dist"
-  ],
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
