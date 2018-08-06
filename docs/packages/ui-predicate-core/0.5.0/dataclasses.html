@@ -1,0 +1,3118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dataclasses - Documentation</title>
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="nav">
+    <h2 class="home-link"><a href="index.html">ui-predicate</a></h2><h3>Namespaces</h3><ul><li><details open><summary><a href="core.html">core</a></summary><ul class='methods'><li data-type='method'><a href="core.html#.PredicateCore">PredicateCore</a></li></ul></details></li><li><details open><summary><a href="core.api.html">api</a></summary><ul class='members'><li data-type='member'><a href="core.api.html#.root">root</a></li></ul><ul class='methods'><li data-type='method'><a href="core.api.html#.setData">setData</a></li><li data-type='method'><a href="core.api.html#.add">add</a></li><li data-type='method'><a href="core.api.html#.remove">remove</a></li><li data-type='method'><a href="core.api.html#.setPredicateLogicalType_id">setPredicateLogicalType_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateTarget_id">setPredicateTarget_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateOperator_id">setPredicateOperator_id</a></li><li data-type='method'><a href="core.api.html#.setArgumentValue">setArgumentValue</a></li><li data-type='method'><a href="core.api.html#.getArgumentTypeComponentById">getArgumentTypeComponentById</a></li><li data-type='method'><a href="core.api.html#.toJSON">toJSON</a></li><li data-type='method'><a href="core.api.html#.on">on</a></li><li data-type='method'><a href="core.api.html#.once">once</a></li><li data-type='method'><a href="core.api.html#.off">off</a></li></ul></details></li><li><details open><summary><a href="core.defaults.html">defaults</a></summary></details></li><li><details open><summary><a href="core.defaults.options.html">options</a></summary><ul class='methods'><li data-type='method'><a href="core.defaults.options.html#.getDefaultData">getDefaultData</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultCompoundPredicate">getDefaultCompoundPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultComparisonPredicate">getDefaultComparisonPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultLogicalType">getDefaultLogicalType</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultArgumentComponent">getDefaultArgumentComponent</a></li></ul></details></li><li><details open><summary><a href="dataclasses.html">dataclasses</a></summary><ul class='methods'><li data-type='method'><a href="dataclasses.html#.Target">Target</a></li><li data-type='method'><a href="dataclasses.html#.Operator">Operator</a></li><li data-type='method'><a href="dataclasses.html#.Type">Type</a></li><li data-type='method'><a href="dataclasses.html#.LogicalType">LogicalType</a></li><li data-type='method'><a href="dataclasses.html#.ArgumentType">ArgumentType</a></li><li data-type='method'><a href="dataclasses.html#.Predicate">Predicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate">ComparisonPredicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate.is">ComparisonPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate">CompoundPredicate</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.reduce">CompoundPredicate.reduce</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.forEach">CompoundPredicate.forEach</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.is">CompoundPredicate.is</a></li></ul></details></li><li><details open><summary><a href="errors.html">errors</a></summary></details></li><li><details open><summary><a href="invariants.html">invariants</a></summary><ul class='methods'><li data-type='method'><a href="invariants.html#.CompoundPredicateMustHaveAtLeastOneSubPredicate">CompoundPredicateMustHaveAtLeastOneSubPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateTypeMustBeValid">PredicateTypeMustBeValid</a></li><li data-type='method'><a href="invariants.html#.RootPredicateMustBeACompoundPredicate">RootPredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeAComparisonPredicate">PredicateMustBeAComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeACompoundPredicate">PredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.AddOnlySupportsAfter">AddOnlySupportsAfter</a></li><li data-type='method'><a href="invariants.html#.TargetMustReferToADefinedType">TargetMustReferToADefinedType</a></li><li data-type='method'><a href="invariants.html#.LogicalType_idMustReferToADefinedLogicalType">LogicalType_idMustReferToADefinedLogicalType</a></li><li data-type='method'><a href="invariants.html#.Target_idMustReferToADefinedTarget">Target_idMustReferToADefinedTarget</a></li><li data-type='method'><a href="invariants.html#.Operator_idMustReferToADefinedOperator">Operator_idMustReferToADefinedOperator</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateMustDifferFromRootPredicate">RemovePredicateMustDifferFromRootPredicate</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateCannotBeTheLastComparisonPredicate">RemovePredicateCannotBeTheLastComparisonPredicate</a></li></ul></details></li><li><details open><summary><a href="rules.html">rules</a></summary><ul class='methods'><li data-type='method'><a href="rules.html#.predicateToRemoveIsRootPredicate">predicateToRemoveIsRootPredicate</a></li><li data-type='method'><a href="rules.html#.predicateToRemoveIsTheLastComparisonPredicate">predicateToRemoveIsTheLastComparisonPredicate</a></li></ul></details></li></ul>
+</nav>
+
+<div id="main" class="main-container">
+    
+        <h1 class="page-title">dataclasses</h1>
+    
+
+    
+
+
+
+
+<section class="page-container">
+
+    <header class="page-header">
+        
+            <h2>
+            dataclasses
+            </h2>
+            
+        
+    </header>
+
+    <section class="page-content">
+        <article class="container-overview">
+            
+                
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_index.js.html">dataclasses/index.js</a>, <a href="dataclasses_index.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+                
+                    <div class="description">Data classes</div>
+                
+
+                
+            
+        </article>
+
+        
+
+        
+
+        
+
+         
+
+        
+
+        
+
+        
+            <article class="container-methods">
+                <h3 class="subsection-title">Methods</h3>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".Target"><span class="signature-type">(static) </span>Target<span class="signature">(target)</span><span class="signature-return"> &rarr; {Target}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new target
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>target</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">target</td>
+
+</tr>
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>target_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">unique id for this target</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>label</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">label that will be displayed for this target</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>type_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">the type_id name this target has</td>
+
+</tr>
+
+
+
+
+
+        
+            
+            
+            
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <a href="dataclasses.html#.Target">dataclasses.Target</a>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Target</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".Operator"><span class="signature-type">(static) </span>Operator<span class="signature">(operator)</span><span class="signature-return"> &rarr; {Operator}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new operator
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>operator</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">operator</td>
+
+</tr>
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>operator_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">unique id for this operator</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>argumentType_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">the argumentType associated with the operator. For example to define a "is" operator and associate it with two targets "article publishing date" and "article title" then we would have to define 2 operators because ["article publishing date" "is"] and  ["article title" "is"] do NOT have the same kind of arguments (one is a date the other is a string) and associated UI components (one is a date picker the other is a text input)</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>label</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">label that will be displayed for this operator</td>
+
+</tr>
+
+
+
+
+
+        
+            
+            
+            
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <a href="dataclasses.html#.Operator">dataclasses.Operator</a>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Operator</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".Type"><span class="signature-type">(static) </span>Type<span class="signature">(type)</span><span class="signature-return"> &rarr; {Type}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new type
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>type</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">type</td>
+
+</tr>
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>type_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">type_id</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>operator_ids</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Array.&lt;string></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">array of operator_id</td>
+
+</tr>
+
+
+
+
+
+        
+            
+            
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <a href="dataclasses.html#.Type">dataclasses.Type</a>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Type</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".LogicalType"><span class="signature-type">(static) </span>LogicalType<span class="signature">(logicalType)</span><span class="signature-return"> &rarr; {object}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line116">line 116</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new type logical type
+Logical types or used in CompoundPredicates
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>logicalType</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">The predicate logic</td>
+
+</tr>
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>logicalType_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">logicalType_id</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>label</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">label</td>
+
+</tr>
+
+
+
+
+
+        
+            
+            
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    logicalType object
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".ArgumentType"><span class="signature-type">(static) </span>ArgumentType<span class="signature">(argumentType)</span><span class="signature-return"> &rarr; {object}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line150">line 150</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new argument type
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>argumentType</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">argumentType</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>type.argumentType_id</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">argumentType_id</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>type.component</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">*</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">this attribute will be used by the UI Framework adapter</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    ArgumentType
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".Predicate"><span class="signature-type">(static) </span>Predicate<span class="signature">(type)</span><span class="signature-return"> &rarr; {<a href="dataclasses.html#.Predicate">dataclasses.Predicate</a>}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>type</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">function</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">Predicate subtype function constructor</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    predicate
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="dataclasses.html#.Predicate">dataclasses.Predicate</a></span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".ComparisonPredicate"><span class="signature-type">(static) </span>ComparisonPredicate<span class="signature">(target, operator, argument)</span><span class="signature-return"> &rarr; {Promise.&lt;<a href="dataclasses.html#.ComparisonPredicate">dataclasses.ComparisonPredicate</a>>}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        A specialized predicate that you use to compare expressions.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+            <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>target</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.Target">dataclasses.Target</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+        <td class="default">
+            
+        </td>
+    
+
+    <td class="description last">target</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>operator</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.Operator">dataclasses.Operator</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+        <td class="default">
+            
+        </td>
+    
+
+    <td class="description last">operator</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>argument</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">*</span>
+
+
+        
+    </td>
+
+    
+
+    
+        <td class="default">
+            
+                <code>null</code>
+            
+        </td>
+    
+
+    <td class="description last">argument</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    yield a ComparisonPredicate or a rejected promise
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="dataclasses.html#.ComparisonPredicate">dataclasses.ComparisonPredicate</a>></span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".ComparisonPredicate.is"><span class="signature-type">(static) </span>ComparisonPredicate.is<span class="signature">(predicate)</span><span class="signature-return"> &rarr; {Boolean}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line129">line 129</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Yield true if `predicate` is a ComparisonPredicate
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>predicate</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.Predicate">dataclasses.Predicate</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><a href="dataclasses.html#.Predicate">dataclasses.Predicate</a></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true if `predicate` is a ComparisonPredicate
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".CompoundPredicate"><span class="signature-type">(static) </span>CompoundPredicate<span class="signature">(logic, predicates)</span><span class="signature-return"> &rarr; {Promise.&lt;<a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a>>}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line151">line 151</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        A specialized predicate that evaluates logical combinations of other predicates.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>logic</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.LogicalType">dataclasses.LogicalType</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">The predicate logic</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>predicates</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Array.&lt;<a href="dataclasses.html#.Predicate">dataclasses.Predicate</a>></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">predicates predicates</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    yield a <a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a> or a <a href="errors.html#.CompoundPredicateMustHaveAtLeastOneSubPredicate">errors.CompoundPredicateMustHaveAtLeastOneSubPredicate</a> rejected promise
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a>></span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".CompoundPredicate.reduce"><span class="signature-type">(static) </span>CompoundPredicate.reduce<span class="signature">(compoundPredicate, f, acc, <span class="optional">[parents]</span>)</span><span class="signature-return"> &rarr; {T}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line210">line 210</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Reduce through the predicates tree
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+            <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>compoundPredicate</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a></span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+        </td>
+    
+
+    
+        <td class="default">
+            
+        </td>
+    
+
+    <td class="description last">starter node</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>f</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">function</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+        </td>
+    
+
+    
+        <td class="default">
+            
+        </td>
+    
+
+    <td class="description last">accumulation function, f(acc, predicate, parents)</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>acc</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">T</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+        </td>
+    
+
+    
+        <td class="default">
+            
+        </td>
+    
+
+    <td class="description last">accumulator</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>parents</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Array</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+                <div class="attribute optional">optional</div>
+            
+
+            
+
+            
+        </td>
+    
+
+    
+        <td class="default">
+            
+                <code>[]</code>
+            
+        </td>
+    
+
+    <td class="description last">path to the node, array of parents</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    yield the accumulator
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">T</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".CompoundPredicate.forEach"><span class="signature-type">(static) </span>CompoundPredicate.forEach<span class="signature">(compoundPredicate, f(predicate))</span><span class="signature-return"> &rarr; {undefined}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line227">line 227</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Walk through the predicates tree
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>compoundPredicate</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">starter node</td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>f(predicate)</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">function</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">iterator function</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".CompoundPredicate.is"><span class="signature-type">(static) </span>CompoundPredicate.is<span class="signature">(predicate)</span><span class="signature-return"> &rarr; {Boolean}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line243">line 243</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Yield true if `predicate` is a CompoundPredicate
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>predicate</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.Predicate">dataclasses.Predicate</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">predicate</td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true if `predicate` is a CompoundPredicate
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+            </article>
+        
+
+        
+            <article class="container-type-definitions">
+                <h3 class="subsection-title">Type Definitions</h3>
+
+                
+                    
+<article class="member">
+    <h4 class="name" id=".Target">Target</h4>
+
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Target type definition
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+
+    
+</article>
+
+                
+                    
+<article class="member">
+    <h4 class="name" id=".Operator">Operator</h4>
+
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        A type operator
+    </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+                
+                    
+<article class="member">
+    <h4 class="name" id=".Type">Type</h4>
+
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_columns.js.html">dataclasses/columns.js</a>, <a href="dataclasses_columns.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Defines a target type
+    </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+                
+                    
+<article class="member">
+    <h4 class="name" id=".Predicate">Predicate</h4>
+
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+
+    
+</article>
+
+                
+                    
+<article class="member">
+    <h4 class="name" id=".ComparisonPredicate">ComparisonPredicate</h4>
+
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="dataclasses_predicates.js.html">dataclasses/predicates.js</a>, <a href="dataclasses_predicates.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+
+    
+</article>
+
+                
+            </article>
+        
+
+        
+    </section>
+
+</section>
+
+
+
+
+</div>
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>
