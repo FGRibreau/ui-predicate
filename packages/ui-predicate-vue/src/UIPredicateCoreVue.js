@@ -60,4 +60,4 @@ function UIPredicateCoreVue({ data, columns, options } = {}) {
 
 UIPredicateCoreVue.defaults = defaults;
 
-module.exports = { UIPredicateCoreVue };
+export { UIPredicateCoreVue };

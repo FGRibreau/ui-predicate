@@ -9,7 +9,7 @@
 <script>
 import { UIPredicateCoreVue } from './UIPredicateCoreVue';
 
-module.exports = {
+export default {
   name: 'ui-predicate',
   props: {
     config: {
