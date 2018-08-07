@@ -1,5 +1,13 @@
+lib
 .cache
+.vscode
+.idea
+coverage
+node_modules
+lerna-debug.log
+npm-debug.log
+.DS_Store
+docs
 old
-dist/
-coverage/
+dist
 .env

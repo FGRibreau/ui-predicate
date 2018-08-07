@@ -1,29 +1,33 @@
 <template>
-    <div class="ui-predicate ui-predicate--row compound">
+    <div class="ui-predicate__compound">
 
-      <div class="ui-predicate ui-predicate--row">
+      <div class="ui-predicate--row">
         <div class="ui-predicate--col">
-          <select v-if="compound.logic" :value="compound.logic.logicalType_id" @change="changeLogic">
-            <option v-for="logicalType in columns.logicalTypes" :value="logicalType.logicalType_id">{{logicalType.label}}</option>
-          </select>
+          <component
+            v-if="predicate.logic"
+            :is="getUIComponent(UITypes.LOGICAL_TYPES)"
+            :predicate="predicate"
+            :columns="columns"
+            @change="changeLogic($event)"
+          />
         </div>
-        <ui-predicate-options :predicate="compound"></ui-predicate-options>
+        <ui-predicate-options :predicate="predicate"></ui-predicate-options>
       </div>
 
-      <div class="ui-predicate predicates ui-predicate--row">
-        <div class="ui-predicate predicate" v-for="(model, index) in compound.predicates">
-          <ui-predicate-compound
-            v-if="model.$_type === 'CompoundPredicate'"
-            :compound="model"
-            :columns="columns"
-          ></ui-predicate-compound>
-          <ui-predicate-comparison
-            v-if="model.$_type === 'ComparisonPredicate'"
-            :predicate="model"
-            :columns="columns"
-          ></ui-predicate-comparison>
-        </div>
-      </div>
+      <template v-for="(model, index) in predicate.predicates">
+        <ui-predicate-compound
+          :key="index"
+          v-if="model.$_type === 'CompoundPredicate'"
+          :predicate="model"
+          :columns="columns">
+        </ui-predicate-compound>
+        <ui-predicate-comparison
+          :key="index"
+          v-if="model.$_type === 'ComparisonPredicate'"
+          :predicate="model"
+          :columns="columns">
+        </ui-predicate-comparison>
+      </template>
     </div>
 </template>
 
@@ -31,7 +35,7 @@
 export default {
   name: 'ui-predicate-compound',
   props: {
-    compound: {
+    predicate: {
       type: Object,
       required: true,
     },
@@ -40,10 +44,10 @@ export default {
       required: true,
     },
   },
-  inject: ['add', 'setPredicateLogicalType_id'],
+  inject: ['add', 'setPredicateLogicalType_id', 'UITypes', 'getUIComponent'],
   methods: {
-    changeLogic: function({ target: { value: logicalType_id } }) {
-      this.setPredicateLogicalType_id(this.compound, logicalType_id);
+    changeLogic: function(logicalType_id) {
+      this.setPredicateLogicalType_id(this.predicate, logicalType_id);
     },
   },
 };

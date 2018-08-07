@@ -1,36 +1,48 @@
 <template>
-  <div class="">
-    <div class="ui-predicate main">
-      <ui-predicate-compound v-bind:compound="root" v-bind:columns="columns"></ui-predicate-compound>
-    </div>
+  <div class="ui-predicate">
+    <ui-predicate-compound
+      v-if="isCoreReady"
+      :predicate="root"
+      :columns="columns"
+    />
   </div>
 </template>
 
 <script>
+import { UITypes } from 'ui-predicate-core';
 import { UIPredicateCoreVue } from './UIPredicateCoreVue';
 
 export default {
   name: 'ui-predicate',
   props: {
-    config: {
+    data: {
+      type: Object,
+      defaut: () => ({})
+    },
+    columns: {
       type: Object,
       required: true,
     },
-    data: {
+    ui: {
       type: Object,
       required: false,
     },
   },
+  model: {
+    prop: 'data',
+    event: 'change'
+  },
   data: function() {
     return {
+      isCoreReady: false,
       root: {},
-      columns: {},
       isInAddCompoundMode: false,
     };
   },
   provide: function() {
     const vm = this;
     return {
+      UITypes,
       getAddCompoundMode: function() {
         return vm.isInAddCompoundMode;
       },
@@ -61,6 +73,9 @@ export default {
       setArgumentValue: function(predicate, value) {
         return vm.ctrl.setArgumentValue(predicate, value);
       },
+      getUIComponent(name) {
+        return vm.ctrl.getUIComponent(name);
+      },
     };
   },
   methods: {
@@ -82,27 +97,30 @@ export default {
     },
     triggerChanged() {
       // emit 'changed' event
-      this.$emit('changed', this.ctrl);
+      this.$emit('change', this.ctrl.toJSON());
     },
   },
-  mounted() {
+  created() {
     const vm = this;
 
     UIPredicateCoreVue({
       data: this.data,
-      columns: this.config,
+      columns: this.columns,
+      ui: this.ui,
     }).then(
       ctrl => {
         vm.ctrl = ctrl;
         vm.root = ctrl.root;
-        vm.columns = ctrl.columns;
-        // emit 'initialized' event
-        vm.$emit('initialized', ctrl);
+
         ctrl.on('changed', vm.triggerChanged);
+
+        // Will allow to render root component when UiPredicateCore is ready.
+        vm.isCoreReady = true;
+
+        vm.$emit('initialized', ctrl);
       },
       err => {
         console.error(err);
-        debugger;
       }
     );
 
@@ -118,16 +136,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.ui-predicate.main {
-  display: flex;
-}
-
-.ui-predicate--row {
-  flex-direction: row;
-}
-.ui-predicate--col {
-  display: inline-block;
-}
-</style>

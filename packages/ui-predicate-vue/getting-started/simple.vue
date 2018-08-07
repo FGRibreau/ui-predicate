@@ -1,7 +1,12 @@
 <template>
     <div class="columns">
       <div class="column">
-        <ui-predicate :config="config" @changed="onChange" @initialized="onChange"></ui-predicate>
+        <ui-predicate
+          v-model="predicate"
+          :columns="columns"
+          @changed="onChange"
+          @initialized="onChange"
+        />
       </div>
 
       <div class="column">
@@ -38,8 +43,20 @@ export default {
   name: 'app',
   data() {
     return {
-      ast: {},
-      config: {
+      ast: {
+        
+      },
+      predicate: {
+        logicalType_id: 'all',
+        predicates: [
+          {
+            "target_id": "article.videoCount",
+            "operator_id": "isEqualTo",
+            "argument": 42
+          },
+        ],
+      },
+      columns: {
         targets: [
           {
             target_id: 'article.title',

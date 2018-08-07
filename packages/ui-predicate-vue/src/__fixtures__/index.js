@@ -1,6 +1,36 @@
 import Vue from 'vue';
+import { UITypes } from '../../../ui-predicate-core';
 
 module.exports = {
+  UI_OVERRIDES: {
+    [UITypes.TARGETS]: {
+      props: {
+        columns: {
+            type: Object,
+            required: true,
+        },
+        predicate: {
+            type: Object,
+            required: true,
+        },
+      },
+      template: `
+        <div>
+          <h3>This is the "TARGETS" (UITypes.TARGETS) default UI component overrided</h3>
+          <select
+            :value="predicate.target.target_id"
+            @change="$emit('change', $event.target.value)">
+            <option value="MY_CUYSTOM_VALUE">MY CUSTOM LABEL</option>
+            <option
+                v-for="target in columns.targets"
+                :key="target.label"
+                :value="target.target_id">{{target.label}}
+            </option>
+          </select>
+        </div>
+      `
+    }
+  },
   DEFAULT_CONFIG: {
     // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
     operators: [

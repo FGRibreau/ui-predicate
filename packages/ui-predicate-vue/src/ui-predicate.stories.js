@@ -17,7 +17,7 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs/vue';
 
-import { DEFAULT_CONFIG, DATASETS } from './__fixtures__';
+import { DEFAULT_CONFIG, DATASETS, UI_OVERRIDES } from './__fixtures__';
 
 storiesOf('ui-predicate', module)
   .addDecorator(Centered)
@@ -44,9 +44,9 @@ storiesOf('ui-predicate', module)
     'minimal configuration',
     () => {
       return {
-        template: '<ui-predicate :config="config"></ui-predicate>',
+        template: '<ui-predicate :columns="columns" />',
         data() {
-          return { config: DEFAULT_CONFIG };
+          return { columns: DEFAULT_CONFIG };
         },
       };
     },
@@ -55,9 +55,8 @@ storiesOf('ui-predicate', module)
         markdown: `
       ## minimal configuration
 
-      \`<ui-predicate/>\` only requires a \`config\` object.
+      \`<ui-predicate/>\` only requires a \`columns\` object.
       That's how you will pass your \`targets\`,\`operators\` , \`types\` and \`logicalTypes\`.
-
     `,
       },
     }
@@ -66,19 +65,63 @@ storiesOf('ui-predicate', module)
     'events',
     () => ({
       template:
-        '<ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onInit"></ui-predicate>',
+        '<ui-predicate :columns="columns" :data="data" @change="onChange" @initialized="onInit"></ui-predicate>',
       data() {
         return {
-          config: DEFAULT_CONFIG,
+          columns: DEFAULT_CONFIG,
           data: DATASETS.advanced,
         };
       },
       methods: {
-        onChange: action('`changed` event'),
+        onChange: action('`change` event'),
         onInit: action('`initialized` event'),
       },
     }),
     { notes: '' }
+  )
+  .add(
+    'defaults UI components overriding',
+    () => ({
+      template: '<ui-predicate :columns="columns" :ui="ui" @change="onChange" @initialized="onInit"/>',
+      data() {
+        return {
+          data: DATASETS.advanced,
+          columns: DEFAULT_CONFIG,
+          ui: UI_OVERRIDES,
+        };
+      },
+      methods: {
+        onChange: action('`change` event'),
+        onInit: action('`initialized` event'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+          ## Component Overriding
+          If you need to override defaults UI components to match your needs, you can pass the \`ui\` attribute to \`<ui-predicate>\`.
+          
+          \`\`\`javascript
+          import { UITypes } from 'ui-predicate-core';
+          const MyCustomComponent = {
+            /* VueJS Component Definition */
+          };
+
+          const UI_OVERRIDES = {
+            [UITypes.TARGETS]: MyCustomComponent,
+            [UITypes.LOGICAL_TYPES]: MyCustomComponent,
+            [UITypes.OPERATORS]: MyCustomComponent,
+            [UITypes.PREDICATE_ADD]: MyCustomComponent,
+            [UITypes.PREDICATE_REMOVE]: MyCustomComponent,
+            // If UIPredicate can't find a component related to your argumentType_id
+            // This component will be used as a fallback.
+            // By default it just an <input type="text">
+            [UITypes.ARGUMENT_DEFAULT]: MyCustomComponent,
+          };
+          \`\`\`
+        `
+      }
+    }
   )
   .add(
     'load/dump data',
@@ -92,12 +135,12 @@ storiesOf('ui-predicate', module)
 
       return {
         template: `<div class="columns" style="display:flex;width: 80vw;height:90vh">
-          <div style="flex-direction:row;width:60vw"><ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onChange"></ui-predicate></div>
+          <div style="flex-direction:row;width:60vw"><ui-predicate :columns="columns" :data="data" @change="onChange" @initialized="onChange"></ui-predicate></div>
           <div style="flex-direction:row;width:20vw"><textarea style="width:100%;height:100%">{{ serialized }}</textarea></div>
         </div>`,
         data() {
           return {
-            config: DEFAULT_CONFIG,
+            columns: DEFAULT_CONFIG,
             serialized: '',
             data: DATASETS[selection],
           };
@@ -105,7 +148,7 @@ storiesOf('ui-predicate', module)
         methods: {
           onChange(ctrl) {
             this.serialized = ctrl.toJSON();
-          },
+          }
         },
       };
     },

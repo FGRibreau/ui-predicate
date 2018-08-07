@@ -1,16 +1,22 @@
 <template>
-  <div class="ui-predicate--row comparison">
-      <div class="ui-predicate--col">
-        <select :value="predicate.target.target_id" @change="changeTarget">
-          <option v-for="target in columns.targets" :value="target.target_id">{{target.label}}</option>
-        </select>
+  <div class="ui-predicate--row">
+      <div class="ui-predicate--col targets">
+        <component
+          :is="getUIComponent(UITypes.TARGETS)"
+          :columns="columns"
+          :predicate="predicate"
+          @change="changeTarget($event)"
+        />
       </div>
-      <div class="ui-predicate--col">
-        <select :value="predicate.operator.operator_id" @change="changeOperator">
-          <option v-for="operator in predicate.target.$type.$operators" :value="operator.operator_id">{{operator.label}}</option>
-        </select>
+      <div class="ui-predicate--col operators">
+        <component
+          :is="getUIComponent(UITypes.OPERATORS)"
+          :columns="columns"
+          :predicate="predicate"
+          @change="changeOperator($event)"
+        />
       </div>
-      <div class="ui-predicate--col">
+      <div class="ui-predicate--col arguments">
         <ui-predicate-comparison-argument :predicate="predicate"></ui-predicate-comparison-argument>
       </div>
       <ui-predicate-options :predicate="predicate"></ui-predicate-options>
@@ -30,22 +36,14 @@ export default {
       required: true,
     },
   },
-  inject: ['add', 'setPredicateTarget_id', 'setPredicateOperator_id'],
+  inject: ['add', 'setPredicateTarget_id', 'setPredicateOperator_id', 'UITypes', 'getUIComponent'],
   methods: {
-    changeTarget: function({ target: { value: target_id } }) {
+    changeTarget: function(target_id) {
       this.setPredicateTarget_id(this.predicate, target_id);
     },
-    changeOperator: function({ target: { value: operator_id } }) {
+    changeOperator: function(operator_id) {
       this.setPredicateOperator_id(this.predicate, operator_id);
     },
-  },
-  mounted() {
-    window.addEventListener('keyup', this.onAltReleased);
-    window.addEventListener('keydown', this.onAltPressed);
-  },
-  destroyed() {
-    window.removeEventListener('keyup', this.onAltReleased);
-    window.removeEventListener('keydown', this.onAltPressed);
   },
 };
 </script>
