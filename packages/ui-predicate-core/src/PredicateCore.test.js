@@ -11,6 +11,7 @@ const {
     ComparisonPredicate,
     LogicalType,
   },
+  UITypes,
   errors,
 } = require('./index');
 
@@ -587,6 +588,18 @@ describe('UIPredicateCore', () => {
               ctrl.columns.logicalTypes[1].logicalType_id
             );
           });
+      });
+    });
+  });
+
+  describe('ctrl.getUIComponent', () => {
+    it('return a default UI component', () => {
+      expect.assertions(1);
+      return PredicateCore({
+        columns: _defaultConfig(),
+        ui: UITypes
+      }).then(ctrl => {
+        expect(ctrl.getUIComponent(UITypes.TARGETS)).toBe('TARGETS');
       });
     });
   });

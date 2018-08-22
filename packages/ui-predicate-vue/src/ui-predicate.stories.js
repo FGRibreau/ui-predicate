@@ -18,6 +18,7 @@ import {
 } from '@storybook/addon-knobs/vue';
 
 import { DEFAULT_CONFIG, DATASETS } from './__fixtures__';
+const { UITypes } = require('ui-predicate-core');
 
 storiesOf('ui-predicate', module)
   .addDecorator(Centered)
@@ -44,9 +45,9 @@ storiesOf('ui-predicate', module)
     'minimal configuration',
     () => {
       return {
-        template: '<ui-predicate :config="config"></ui-predicate>',
+        template: '<ui-predicate :columns="columns" />',
         data() {
-          return { config: DEFAULT_CONFIG };
+          return { columns: DEFAULT_CONFIG };
         },
       };
     },
@@ -55,9 +56,8 @@ storiesOf('ui-predicate', module)
         markdown: `
       ## minimal configuration
 
-      \`<ui-predicate/>\` only requires a \`config\` object.
+      \`<ui-predicate/>\` only requires a \`columns\` object.
       That's how you will pass your \`targets\`,\`operators\` , \`types\` and \`logicalTypes\`.
-
     `,
       },
     }
@@ -66,19 +66,99 @@ storiesOf('ui-predicate', module)
     'events',
     () => ({
       template:
-        '<ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onInit"></ui-predicate>',
+        '<ui-predicate :columns="columns" :data="data" @change="onChange" @initialized="onInit"></ui-predicate>',
       data() {
         return {
-          config: DEFAULT_CONFIG,
+          columns: DEFAULT_CONFIG,
           data: DATASETS.advanced,
         };
       },
       methods: {
-        onChange: action('`changed` event'),
+        onChange: action('`change` event'),
         onInit: action('`initialized` event'),
       },
     }),
     { notes: '' }
+  )
+  .add(
+    'Customize default UI components',
+    () => ({
+      template: `<ui-predicate
+          :columns="columns"
+          :ui="ui"
+          @change="onChange"
+          @initialized="onInit"/>`,
+      data() {
+        return {
+          data: DATASETS.advanced,
+          columns: DEFAULT_CONFIG,
+          ui: {
+            [UITypes.TARGETS]: {
+              props: {
+                columns: {
+                  type: Object,
+                  required: true,
+                },
+                predicate: {
+                  type: Object,
+                  required: true,
+                },
+              },
+              template: `
+                <div>
+                  <input
+                    id="targets-selector"
+                    list="targets-datalist"
+                    :value="predicate.target.target_id"
+                  >
+                  <datalist
+                    id="targets-datalist"
+                    @change="$emit('change', $event.target.value)">
+                    <option
+                        v-for="target in columns.targets"
+                        :key="target.target_id"
+                        :value="target.target_id">{{target.label}}
+                    </option>
+                  </datalist>
+                </div>
+              `,
+            },
+          },
+        };
+      },
+      methods: {
+        onChange: action('`change` event'),
+        onInit: action('`initialized` event'),
+      },
+    }),
+    {
+      notes: {
+        markdown: `
+          ## Core ui-predicate component override
+
+          If you need to override defaults ui-predicate UI components to match your needs, use the \`ui\` prop.
+
+          \`\`\`javascript
+          import { UITypes } from 'ui-predicate-core';
+          const MyCustomComponent = {
+            /* VueJS Component Definition */
+          };
+
+          const UI_OVERRIDES = {
+            [UITypes.TARGETS]: MyCustomComponent,
+            [UITypes.LOGICAL_TYPES]: MyCustomComponent,
+            [UITypes.OPERATORS]: MyCustomComponent,
+            [UITypes.PREDICATE_ADD]: MyCustomComponent,
+            [UITypes.PREDICATE_REMOVE]: MyCustomComponent,
+            // If UIPredicate can't find a component related to your argumentType_id
+            // This component will be used as a fallback.
+            // By default it just an <input type="text">
+            [UITypes.ARGUMENT_DEFAULT]: MyCustomComponent,
+          };
+          \`\`\`
+        `,
+      },
+    }
   )
   .add(
     'load/dump data',
@@ -92,12 +172,12 @@ storiesOf('ui-predicate', module)
 
       return {
         template: `<div class="columns" style="display:flex;width: 80vw;height:90vh">
-          <div style="flex-direction:row;width:60vw"><ui-predicate :config="config" :data="data" @changed="onChange" @initialized="onChange"></ui-predicate></div>
+          <div style="flex-direction:row;width:60vw"><ui-predicate :columns="columns" :data="data" @change="onChange" @initialized="onChange"></ui-predicate></div>
           <div style="flex-direction:row;width:20vw"><textarea style="width:100%;height:100%">{{ serialized }}</textarea></div>
         </div>`,
         data() {
           return {
-            config: DEFAULT_CONFIG,
+            columns: DEFAULT_CONFIG,
             serialized: '',
             data: DATASETS[selection],
           };

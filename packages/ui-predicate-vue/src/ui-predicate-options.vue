@@ -1,7 +1,17 @@
 <template>
-  <div class="ui-predicate--col ui-predicate--option">
-    <button type="button" @click="remove(predicate)" :disabled="predicate.$canBeRemoved === false">-</button>
-    <button type="button" @click="add(predicate)">{{ isInAddCompoundMode ? '…' : '+'  }}</button>
+  <div class="ui-predicate__col ui-predicate__col--option">
+    <component
+      :is="getUIComponent(UITypes.PREDICATE_REMOVE)"
+      @click.native="remove(predicate)"
+      :predicate="predicate"
+      :disabled="predicate.$canBeRemoved === false"
+    />
+    <component
+      :is="getUIComponent(UITypes.PREDICATE_ADD)"
+      @click.native="add(predicate)"
+      :predicate="predicate"
+      :is-in-add-compound-mode="isInAddCompoundMode"
+    />
   </div>
 </template>
 
@@ -14,22 +24,11 @@ export default {
       required: true,
     },
   },
-  data: function() {
-    return {
-      isInAddCompoundMode: this.getAddCompoundMode(),
-    };
-  },
-  inject: ['remove', 'add', 'getAddCompoundMode'],
-  methods: {
-    isInAddCompoundModeChanged: function(isInAddCompoundMode) {
-      this.isInAddCompoundMode = isInAddCompoundMode;
+  inject: ['remove', 'add', 'getAddCompoundMode', 'UITypes', 'getUIComponent'],
+  computed: {
+    isInAddCompoundMode() {
+      return this.getAddCompoundMode();
     },
-  },
-  mounted() {
-    this.$root.$on('isInAddCompoundMode', this.isInAddCompoundModeChanged);
-  },
-  destroyed() {
-    this.$root.$off('isInAddCompoundMode', this.isInAddCompoundModeChanged);
   },
 };
 </script>

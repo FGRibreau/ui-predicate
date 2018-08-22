@@ -1,40 +1,52 @@
 <template>
-  <div class="">
-    <div class="ui-predicate main">
-      <ui-predicate-compound v-bind:compound="root" v-bind:columns="columns"></ui-predicate-compound>
-    </div>
+  <div class="ui-predicate__main">
+    <ui-predicate-compound
+      v-if="isCoreReady"
+      :predicate="root"
+      :columns="columns"
+    />
   </div>
 </template>
 
 <script>
+import { UITypes } from 'ui-predicate-core';
 import { UIPredicateCoreVue } from './UIPredicateCoreVue';
 
 export default {
   name: 'ui-predicate',
   props: {
-    config: {
+    data: {
+      type: Object,
+      defaut: () => ({}),
+    },
+    columns: {
       type: Object,
       required: true,
     },
-    data: {
+    ui: {
       type: Object,
       required: false,
     },
   },
-  data: function() {
+  model: {
+    prop: 'data',
+    event: 'change',
+  },
+  data() {
     return {
+      isCoreReady: false,
       root: {},
-      columns: {},
       isInAddCompoundMode: false,
     };
   },
-  provide: function() {
+  provide() {
     const vm = this;
     return {
-      getAddCompoundMode: function() {
+      UITypes,
+      getAddCompoundMode() {
         return vm.isInAddCompoundMode;
       },
-      add: function(predicate) {
+      add(predicate) {
         return vm.ctrl.add({
           where: predicate,
           how: 'after',
@@ -43,66 +55,68 @@ export default {
             : 'ComparisonPredicate',
         });
       },
-      remove: function(predicate) {
+      remove(predicate) {
         return vm.ctrl.remove(predicate);
       },
-      setPredicateLogicalType_id: function(predicate, logicalType_id) {
+      setPredicateLogicalType_id(predicate, logicalType_id) {
         return vm.ctrl.setPredicateLogicalType_id(predicate, logicalType_id);
       },
-      setPredicateTarget_id: function(predicate, target_id) {
+      setPredicateTarget_id(predicate, target_id) {
         return vm.ctrl.setPredicateTarget_id(predicate, target_id);
       },
-      setPredicateOperator_id: function(predicate, operator_id) {
+      setPredicateOperator_id(predicate, operator_id) {
         return vm.ctrl.setPredicateOperator_id(predicate, operator_id);
       },
-      getArgumentTypeComponentById: function(argumentType_id) {
+      getArgumentTypeComponentById(argumentType_id) {
         return vm.ctrl.getArgumentTypeComponentById(argumentType_id);
       },
-      setArgumentValue: function(predicate, value) {
+      setArgumentValue(predicate, value) {
         return vm.ctrl.setArgumentValue(predicate, value);
+      },
+      getUIComponent(name) {
+        return vm.ctrl.getUIComponent(name);
       },
     };
   },
   methods: {
-    setIsInAddCompoundMode: function(state) {
+    setIsInAddCompoundMode(state) {
       this.isInAddCompoundMode = state;
       this.$root.$emit('isInAddCompoundMode', state);
     },
     onAltPressed(event) {
       // If alt was pressed...
-      if (event.keyCode == 18) {
-        this.setIsInAddCompoundMode(true);
-      }
+      if (event.keyCode == 18) this.setIsInAddCompoundMode(true);
     },
     onAltReleased(event) {
-      // If alt was pressed...
-      if (event.keyCode == 18) {
-        this.setIsInAddCompoundMode(false);
-      }
+      // If alt was released...
+      if (event.keyCode == 18) this.setIsInAddCompoundMode(false);
     },
     triggerChanged() {
-      // emit 'changed' event
-      this.$emit('changed', this.ctrl);
+      // emit 'changed' event when some predicates where changed
+      this.$emit('change', this.ctrl.toJSON());
     },
   },
-  mounted() {
+  created() {
     const vm = this;
 
     UIPredicateCoreVue({
       data: this.data,
-      columns: this.config,
+      columns: this.columns,
+      ui: this.ui,
     }).then(
       ctrl => {
         vm.ctrl = ctrl;
         vm.root = ctrl.root;
-        vm.columns = ctrl.columns;
-        // emit 'initialized' event
-        vm.$emit('initialized', ctrl);
+
         ctrl.on('changed', vm.triggerChanged);
+
+        // Will allow to render root component when UiPredicateCore is ready.
+        vm.isCoreReady = true;
+
+        vm.$emit('initialized', ctrl);
       },
       err => {
         console.error(err);
-        debugger;
       }
     );
 
@@ -110,9 +124,8 @@ export default {
     window.addEventListener('keydown', this.onAltPressed);
   },
   destroyed() {
-    if (this.ctrl) {
-      this.ctrl.off();
-    }
+    if (this.ctrl) this.ctrl.off();
+
     window.removeEventListener('keyup', this.onAltReleased);
     window.removeEventListener('keydown', this.onAltPressed);
   },
@@ -120,14 +133,13 @@ export default {
 </script>
 
 <style>
-.ui-predicate.main {
+.ui-predicate__main {
   display: flex;
 }
-
-.ui-predicate--row {
+.ui-predicate__row {
   flex-direction: row;
 }
-.ui-predicate--col {
+.ui-predicate__col {
   display: inline-block;
 }
 </style>

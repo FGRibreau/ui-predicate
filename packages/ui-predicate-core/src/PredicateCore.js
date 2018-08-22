@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: "off" */
 
 /**
- * Rules
+ * PredicateCore
  * @module core
  * @namespace core
  * @since 1.0.0
@@ -27,7 +27,7 @@ function head(list) {
   return option.fromNullable(list[0]).value();
 }
 
-module.exports = function({ dataclasses, invariants, errors, rules }) {
+module.exports = function({ dataclasses, invariants, errors, rules, UITypes }) {
   const { CompoundPredicate, ComparisonPredicate, Predicate } = dataclasses;
   /**
    * Get a type by its type_id
@@ -278,7 +278,7 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
    * @memberof core
    */
   function PredicateCore(args) {
-    const { columns, data, options } = args;
+    const { data, columns, ui, options } = args;
 
     return new Promise((resolve, reject) => {
       try {
@@ -573,6 +573,17 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
         }
 
         /**
+         * Get default or overrided ui component
+         * @param {ui} name the UIType key to get the right component
+         * @return {any} component
+         * @since 1.0.0
+         * @memberof core.api
+         */
+        function getUIComponent(name) {
+          return ui[name];
+        }
+
+        /**
          * Compute the JSON pointer path the element
          * @param  {Object} element (http://jsonpatch.com/)
          * @return {?Array} null if not found
@@ -683,6 +694,20 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                 setArgumentValue: _afterPromise(setArgumentValue, _afterWrite),
 
                 getArgumentTypeComponentById,
+
+                /**
+                 * Enumeration of overridable core ui-predicate component
+                 * @enum {String}
+                 */
+                UITypes,
+
+                /**
+                 * Get core UI component (e.g. target selector)
+                 * @param {core.ui} ui component name
+                 * @return {Object} component
+                 * @memberof core.api
+                 */
+                getUIComponent,
                 toJSON,
 
                 /**
