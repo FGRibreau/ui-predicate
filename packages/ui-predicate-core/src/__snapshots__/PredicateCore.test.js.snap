@@ -30,6 +30,7 @@ Array [
   "setPredicateLogicalType_id",
   "setArgumentValue",
   "getArgumentTypeComponentById",
+  "UITypes",
   "getUIComponent",
   "toJSON",
   "root",
