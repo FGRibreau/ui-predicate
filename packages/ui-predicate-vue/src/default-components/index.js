@@ -7,11 +7,12 @@ import PredicateAdd from './predicate-add';
 import PredicateRemove from './predicate-remove';
 import ArgumentDefault from './argument-default';
 
+console.log(UITypes);
 export default {
-    [UITypes.TARGETS]: Targets,
-    [UITypes.LOGICAL_TYPES]: LogicalTypes,
-    [UITypes.OPERATORS]: Operators,
-    [UITypes.PREDICATE_ADD]: PredicateAdd,
-    [UITypes.PREDICATE_REMOVE]: PredicateRemove,
-    [UITypes.ARGUMENT_DEFAULT]: ArgumentDefault,
-}
+  [UITypes.TARGETS]: Targets,
+  [UITypes.LOGICAL_TYPES]: LogicalTypes,
+  [UITypes.OPERATORS]: Operators,
+  [UITypes.PREDICATE_ADD]: PredicateAdd,
+  [UITypes.PREDICATE_REMOVE]: PredicateRemove,
+  [UITypes.ARGUMENT_DEFAULT]: ArgumentDefault,
+};

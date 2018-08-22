@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-predicate--col option">
+  <div class="ui-predicate__col ui-predicate__col--option">
     <component
       :is="getUIComponent(UITypes.PREDICATE_REMOVE)"
       @click.native="remove(predicate)"
@@ -28,7 +28,7 @@ export default {
   computed: {
     isInAddCompoundMode() {
       return this.getAddCompoundMode();
-    }
+    },
   },
 };
 </script>

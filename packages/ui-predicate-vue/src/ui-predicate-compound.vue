@@ -1,8 +1,7 @@
 <template>
-    <div class="ui-predicate__compound">
-
-      <div class="ui-predicate--row">
-        <div class="ui-predicate--col">
+    <div class="ui-predicate__row--compound">
+      <div class="ui-predicate__row">
+        <div class="ui-predicate__col">
           <component
             v-if="predicate.logic"
             :is="getUIComponent(UITypes.LOGICAL_TYPES)"
@@ -46,7 +45,7 @@ export default {
   },
   inject: ['add', 'setPredicateLogicalType_id', 'UITypes', 'getUIComponent'],
   methods: {
-    changeLogic: function(logicalType_id) {
+    changeLogic(logicalType_id) {
       this.setPredicateLogicalType_id(this.predicate, logicalType_id);
     },
   },
