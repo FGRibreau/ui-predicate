@@ -7,7 +7,7 @@
  */
 
 import Vue from 'vue';
-import merge from 'lodash/merge';
+import assign from 'lodash/assign';
 import { PredicateCore, UITypes } from 'ui-predicate-core';
 import DEFAULT_COMPONENTS from './default-components';
 
@@ -37,8 +37,8 @@ function UIPredicateCoreVue({ data, columns, ui, options } = {}) {
   return PredicateCore({
     data,
     columns,
-    ui: merge(DEFAULT_COMPONENTS, ui),
-    options: merge(defaults.options, options),
+    ui: assign({}, DEFAULT_COMPONENTS, ui),
+    options: assign({}, defaults.options, options),
   });
 }
 

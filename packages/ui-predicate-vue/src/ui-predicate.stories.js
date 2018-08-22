@@ -17,7 +17,8 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs/vue';
 
-import { DEFAULT_CONFIG, DATASETS, UI_OVERRIDES } from './__fixtures__';
+import { DEFAULT_CONFIG, DATASETS } from './__fixtures__';
+const { UITypes } = require('ui-predicate-core');
 
 storiesOf('ui-predicate', module)
   .addDecorator(Centered)
@@ -80,27 +81,63 @@ storiesOf('ui-predicate', module)
     { notes: '' }
   )
   .add(
-    'defaults UI components overriding',
+    'Customize default UI components',
     () => ({
-      template: '<ui-predicate :columns="columns" :ui="ui" @change="onChange" @initialized="onInit"/>',
+      template: `<ui-predicate
+          :columns="columns"
+          :ui="ui"
+          @change="onChange"
+          @initialized="onInit"/>`,
       data() {
         return {
           data: DATASETS.advanced,
           columns: DEFAULT_CONFIG,
-          ui: UI_OVERRIDES,
+          ui: {
+            [UITypes.TARGETS]: {
+              props: {
+                columns: {
+                  type: Object,
+                  required: true,
+                },
+                predicate: {
+                  type: Object,
+                  required: true,
+                },
+              },
+              template: `
+                <div>
+                  <input
+                    id="targets-selector"
+                    list="targets-datalist"
+                    :value="predicate.target.target_id"
+                  >
+                  <datalist
+                    id="targets-datalist"
+                    @change="$emit('change', $event.target.value)">
+                    <option
+                        v-for="target in columns.targets"
+                        :key="target.target_id"
+                        :value="target.target_id">{{target.label}}
+                    </option>
+                  </datalist>
+                </div>
+              `,
+            },
+          },
         };
       },
       methods: {
         onChange: action('`change` event'),
         onInit: action('`initialized` event'),
-      }
+      },
     }),
     {
       notes: {
         markdown: `
-          ## Component Overriding
-          If you need to override defaults UI components to match your needs, you can pass the \`ui\` attribute to \`<ui-predicate>\`.
-          
+          ## Core ui-predicate component override
+
+          If you need to override defaults ui-predicate UI components to match your needs, use the \`ui\` prop.
+
           \`\`\`javascript
           import { UITypes } from 'ui-predicate-core';
           const MyCustomComponent = {
@@ -119,8 +156,8 @@ storiesOf('ui-predicate', module)
             [UITypes.ARGUMENT_DEFAULT]: MyCustomComponent,
           };
           \`\`\`
-        `
-      }
+        `,
+      },
     }
   )
   .add(
@@ -148,7 +185,7 @@ storiesOf('ui-predicate', module)
         methods: {
           onChange(ctrl) {
             this.serialized = ctrl.toJSON();
-          }
+          },
         },
       };
     },

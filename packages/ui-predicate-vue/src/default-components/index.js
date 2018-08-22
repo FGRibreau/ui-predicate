@@ -7,7 +7,6 @@ import PredicateAdd from './predicate-add';
 import PredicateRemove from './predicate-remove';
 import ArgumentDefault from './argument-default';
 
-console.log(UITypes);
 export default {
   [UITypes.TARGETS]: Targets,
   [UITypes.LOGICAL_TYPES]: LogicalTypes,

@@ -27,7 +27,7 @@ function head(list) {
   return option.fromNullable(list[0]).value();
 }
 
-module.exports = function({ dataclasses, invariants, errors, rules }) {
+module.exports = function({ dataclasses, invariants, errors, rules, UITypes }) {
   const { CompoundPredicate, ComparisonPredicate, Predicate } = dataclasses;
   /**
    * Get a type by its type_id
@@ -694,6 +694,19 @@ module.exports = function({ dataclasses, invariants, errors, rules }) {
                 setArgumentValue: _afterPromise(setArgumentValue, _afterWrite),
 
                 getArgumentTypeComponentById,
+
+                /**
+                 * Enumeration of overridable core ui-predicate component
+                 * @enum {String}
+                 */
+                UITypes,
+
+                /**
+                 * Get core UI component (e.g. target selector)
+                 * @param {core.ui} ui component name
+                 * @return {Object} component
+                 * @memberof core.api
+                 */
                 getUIComponent,
                 toJSON,
 

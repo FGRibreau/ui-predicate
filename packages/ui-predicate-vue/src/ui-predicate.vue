@@ -88,11 +88,11 @@ export default {
       if (event.keyCode == 18) this.setIsInAddCompoundMode(true);
     },
     onAltReleased(event) {
-      // If alt was pressed...
+      // If alt was released...
       if (event.keyCode == 18) this.setIsInAddCompoundMode(false);
     },
     triggerChanged() {
-      // emit 'changed' event
+      // emit 'changed' event when some predicates where changed
       this.$emit('change', this.ctrl.toJSON());
     },
   },

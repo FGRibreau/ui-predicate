@@ -23,4 +23,6 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ['html', 'text-summary'],
   collectCoverageFrom: ['**/*.{js,vue}', '!**/node_modules/**'],
+  verbose: true,
+  testURL: 'http://localhost/',
 };
