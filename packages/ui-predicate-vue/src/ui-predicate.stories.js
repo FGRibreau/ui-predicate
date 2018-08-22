@@ -183,8 +183,8 @@ storiesOf('ui-predicate', module)
           };
         },
         methods: {
-          onChange(ctrl) {
-            this.serialized = ctrl.toJSON();
+          onChange(serialized) {
+            this.serialized = serialized;
           },
         },
       };
