@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.4.0...ui-predicate-vue@0.5.0) (2018-08-22)
+
+
+### Bug Fixes
+
+* bugs (assign instead of merge, merge that was overriding ui for every instance of ui-predicate), simpler storybook ([757db43](https://github.com/FGRibreau/ui-predicate/commit/757db43))
+* css & class name, follow BEM rules ([9337d09](https://github.com/FGRibreau/ui-predicate/commit/9337d09))
+
+
+### Features
+
+* **ui-component-overriding:** add possibility to override ui default components ([6ff449d](https://github.com/FGRibreau/ui-predicate/commit/6ff449d))
+
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.3.0...ui-predicate-vue@0.4.0) (2018-08-06)
 

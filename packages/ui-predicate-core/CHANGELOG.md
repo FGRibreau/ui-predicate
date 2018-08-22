@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.5.0...ui-predicate-core@0.6.0) (2018-08-22)
+
+
+### Bug Fixes
+
+* bugs (assign instead of merge, merge that was overriding ui for every instance of ui-predicate), simpler storybook ([757db43](https://github.com/FGRibreau/ui-predicate/commit/757db43))
+* test snapshot ([7ac4ccb](https://github.com/FGRibreau/ui-predicate/commit/7ac4ccb))
+* ui-predicate-core bring back 100% coverage ([db48541](https://github.com/FGRibreau/ui-predicate/commit/db48541))
+* ui-predicate-core fix tests ([8315520](https://github.com/FGRibreau/ui-predicate/commit/8315520))
+
+
+### Features
+
+* **ui-component-overriding:** add possibility to override ui default components ([6ff449d](https://github.com/FGRibreau/ui-predicate/commit/6ff449d))
+
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.3.0...ui-predicate-core@0.5.0) (2018-08-06)
 
