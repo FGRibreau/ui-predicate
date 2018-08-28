@@ -161,6 +161,46 @@ storiesOf('ui-predicate', module)
     }
   )
   .add(
+    'Customize CSS',
+    () => ({
+      template: `<ui-predicate
+              class="custom-css"
+              :columns="columns"
+              @change="onChange"
+              @initialized="onInit"/>`,
+      data() {
+        return {
+          data: DATASETS.advanced,
+          columns: DEFAULT_CONFIG,
+        };
+      },
+      methods: {
+        onChange: action('`change` event'),
+        onInit: action('`initialized` event'),
+      },
+    }),
+    {
+      notes: {
+        markdown: `
+          Please prefer to override your own ui-predicate core components (see Customize default UI components).
+
+          ## CSS class names
+
+          - \\\`.ui-predicate__main\\\`: select the whole ui-predicate div container
+          - \\\`.ui-predicate__row\\\`: select every rows div container
+          - \\\`.ui-predicate__row--compound\\\`: select every predicate compound row div containers
+          - \\\`.ui-predicate__row--comparison\\\`: select every predicate comparison row div containers
+          - \\\`.ui-predicate__col\\\`: select every column (targets, operators, arguments and option) div containers
+          - \\\`.ui-predicate__col--targets\\\`: select the every target columns div container
+          - \\\`.ui-predicate__col--operators\\\`: select every operators div container
+          - \\\`.ui-predicate__col--arguments\\\`: select every arguments div container
+          - \\\`.ui-predicate__col--option\\\`: select every option div container
+          - \\\`.ui-predicate__col--logic\\\`: select every logic div container
+        `,
+      },
+    }
+  )
+  .add(
     'load/dump data',
     () => {
       const options = {

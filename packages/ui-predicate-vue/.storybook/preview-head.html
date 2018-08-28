@@ -7,3 +7,70 @@ So, these won’t be loaded into the main Storybook UI. -->
   margin-left: 10px;
 }
 </style>
+
+<style>
+.custom-css .ui-predicate__main,
+.custom-css .ui-predicate__row,
+.custom-css .ui-predicate__row--compound,
+.custom-css .ui-predicate__row--comparison,
+.custom-css .ui-predicate__col,
+.custom-css .ui-predicate__col--targets,
+.custom-css .ui-predicate__col--operators,
+.custom-css .ui-predicate__col--arguments,
+.custom-css .ui-predicate__col--option,
+.custom-css .ui-predicate__col--logic{
+  position: relative;
+  margin: 4px;
+  background: rgba(0,0,0,0.1);
+  padding: 15px;
+}
+
+.custom-css .ui-predicate__main::after,
+.custom-css .ui-predicate__row::after,
+.custom-css .ui-predicate__row--compound::after,
+.custom-css .ui-predicate__row--comparison::after,
+.custom-css .ui-predicate__col::after,
+.custom-css .ui-predicate__col--targets::after,
+.custom-css .ui-predicate__col--operators::after,
+.custom-css .ui-predicate__col--arguments::after,
+.custom-css .ui-predicate__col--option::after,
+.custom-css .ui-predicate__col--logic::after{
+  display: block;
+  font-size: 10px;
+  font-family: monospace;
+  width: auto;
+  left: 0px;
+}
+
+/** */
+.custom-css .ui-predicate__main::after{
+  content:'.ui-predicate__main';
+}
+.custom-css .ui-predicate__row::after{
+  content:'.ui-predicate__row';
+}
+.custom-css .ui-predicate__row--compound::after{
+  content:'.ui-predicate__row.ui-predicate__row--compound';
+}
+.custom-css .ui-predicate__row--comparison::after{
+  content:'.ui-predicate__row.ui-predicate__row--comparison';
+}
+.custom-css .ui-predicate__col::after{
+  content:'.ui-predicate__col';
+}
+.custom-css .ui-predicate__col--targets::after{
+  content:'.ui-predicate__col.ui-predicate__col--targets';
+}
+.custom-css .ui-predicate__col--operators::after{
+  content:'.ui-predicate__col.ui-predicate__col--operators';
+}
+.custom-css .ui-predicate__col--arguments::after{
+  content:'.ui-predicate__col.ui-predicate__col--arguments';
+}
+.custom-css .ui-predicate__col--option::after{
+  content:'.ui-predicate__col.ui-predicate__col--option';
+}
+.custom-css .ui-predicate__col--logic::after{
+  content:'.ui-predicate__col.ui-predicate__col--logic';
+}
+</style>

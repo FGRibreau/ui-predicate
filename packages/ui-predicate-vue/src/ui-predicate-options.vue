@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-predicate__col ui-predicate__col--option">
+  <div>
     <component
       :is="getUIComponent(UITypes.PREDICATE_REMOVE)"
       @click.native="remove(predicate)"

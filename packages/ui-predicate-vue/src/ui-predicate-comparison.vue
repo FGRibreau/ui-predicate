@@ -1,6 +1,6 @@
 <template>
   <div class="ui-predicate__row ui-predicate__row--comparison">
-      <div class="ui-predicate__col targets">
+      <div class="ui-predicate__col ui-predicate__col--targets">
         <component
           :is="getUIComponent(UITypes.TARGETS)"
           :columns="columns"
@@ -8,7 +8,7 @@
           @change="changeTarget($event)"
         />
       </div>
-      <div class="ui-predicate__col operators">
+      <div class="ui-predicate__col ui-predicate__col--operators">
         <component
           :is="getUIComponent(UITypes.OPERATORS)"
           :columns="columns"
@@ -16,10 +16,12 @@
           @change="changeOperator($event)"
         />
       </div>
-      <div class="ui-predicate__col arguments">
+      <div class="ui-predicate__col ui-predicate__col--arguments">
         <ui-predicate-comparison-argument :predicate="predicate"></ui-predicate-comparison-argument>
       </div>
-      <ui-predicate-options :predicate="predicate"></ui-predicate-options>
+      <div class="ui-predicate__col ui-predicate__col--option">
+        <ui-predicate-options :predicate="predicate"></ui-predicate-options>
+      </div>
     </div>
 </template>
 
