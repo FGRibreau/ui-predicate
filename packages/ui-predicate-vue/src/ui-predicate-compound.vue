@@ -10,7 +10,7 @@
             @change="changeLogic($event)"
           />
         </div>
-        <div class="ui-predicate__col ui-predicate__col--option">
+        <div class="ui-predicate__col ui-predicate__col--options">
           <ui-predicate-options :predicate="predicate"></ui-predicate-options>
         </div>
       </div>

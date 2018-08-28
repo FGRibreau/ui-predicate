@@ -194,7 +194,7 @@ storiesOf('ui-predicate', module)
           - \\\`.ui-predicate__col--targets\\\`: select the every target columns div container
           - \\\`.ui-predicate__col--operators\\\`: select every operators div container
           - \\\`.ui-predicate__col--arguments\\\`: select every arguments div container
-          - \\\`.ui-predicate__col--option\\\`: select every option div container
+          - \\\`.ui-predicate__col--options\\\`: select every option div container
           - \\\`.ui-predicate__col--logic\\\`: select every logic div container
         `,
       },
