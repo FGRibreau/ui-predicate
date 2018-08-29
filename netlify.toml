@@ -7,4 +7,4 @@
 
 [build]
   publish = "docs/packages"
-  command = "npm i && npm run docs:build"
+  command = "npm i && npm run libs:build && npm run docs:build"

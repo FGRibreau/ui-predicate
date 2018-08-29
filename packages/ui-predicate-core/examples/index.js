@@ -1,5 +1,4 @@
-// const PredicateCore = require('ui-predicate-core');
-const { PredicateCore } = require('..');
+const PredicateCore = require('..');
 
 PredicateCore({
   // data:{},
