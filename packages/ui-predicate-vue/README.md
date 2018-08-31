@@ -18,7 +18,7 @@ ui-predicate-vue is a rules editor, predicates component, for Vue JS. It aims to
 
 ## Documentation
 
-Checkout the [storybook](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples) or the [API documentation](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest).
+Checkout the [getting-started](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/getting-started), [storybook](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples) or the [API documentation](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest).
 
 
 ## One minute Quick-start

@@ -273,12 +273,15 @@ module.exports = function({ dataclasses, invariants, errors, rules, UITypes }) {
    * @param       {Object} args.columns.targets targets
    * @param       {Object} args.columns.logicalTypes logicalTypes
    * @param       {?Object} args.columns.argumentTypes argumentTypes
+   * @param       {Object} [args.ui] overriden core ui-predicate component (see UITypes and examples)
    * @param       {Object} [args.options=core.defaults.options] options
    * @return {Promise<core.PredicateCoreAPI, errors<*>>} resolved promise yield Predicate Core public API, rejected promise yield an error {@link errors}
    * @memberof core
    */
   function PredicateCore(args) {
-    const { data, columns, ui: _ui, options } = args;
+    const { data, columns, ui, options } = args;
+
+    const _ui = ui || {};
 
     return new Promise((resolve, reject) => {
       try {
