@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.2"></a>
+## [0.6.2](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.6.1...ui-predicate-vue@0.6.2) (2018-08-31)
+
+
+### Bug Fixes
+
+* PredicateCore ui ([af85e9a](https://github.com/FGRibreau/ui-predicate/commit/af85e9a))
+
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.6.0...ui-predicate-vue@0.6.1) (2018-08-31)
 
