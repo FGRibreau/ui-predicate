@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.6.0...ui-predicate-vue@0.6.1) (2018-08-31)
+
+
+### Bug Fixes
+
+* missing default_argument component overriding and predicate-options display ([#12](https://github.com/FGRibreau/ui-predicate/issues/12)) ([82df478](https://github.com/FGRibreau/ui-predicate/commit/82df478))
+
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.5.1...ui-predicate-vue@0.6.0) (2018-08-29)
 

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.2"></a>
+## [0.6.2](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.6.1...ui-predicate-core@0.6.2) (2018-08-31)
+
+
+### Bug Fixes
+
+* examples ([fed36a6](https://github.com/FGRibreau/ui-predicate/commit/fed36a6))
+* missing default_argument component overriding and predicate-options display ([#12](https://github.com/FGRibreau/ui-predicate/issues/12)) ([82df478](https://github.com/FGRibreau/ui-predicate/commit/82df478))
+* require ([bc16be0](https://github.com/FGRibreau/ui-predicate/commit/bc16be0))
+
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.6.0...ui-predicate-core@0.6.1) (2018-08-29)
 
