@@ -11,7 +11,7 @@
     "publish:canary": "lerna publish --conventional-commits -c",
     "publish": "lerna publish --conventional-commits",
     "libs:build": "lerna run --stream build",
-    "postpublish":"npm run --silent docs:build && git add docs/packages/index.html && (git commit -m 'update website' || true)",
+    "postpublish":"npm run --silent docs:build && git add -f docs/* && (git commit -m 'update website' || true)",
     "docs:build": "lerna run --stream docs:build && node scripts/docs-build-index.js",
     "updtr": "lerna exec --concurrency 1 -- updtr"
   },
