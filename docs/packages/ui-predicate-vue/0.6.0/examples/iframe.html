@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <base target="_parent">
+    <title>Storybook</title>
+    <link rel="shortcut icon" href="favicon.ico?v=1" />
+    <!-- Storybook will inject these tags to the iframe where your components are rendered.
+So, these won’t be loaded into the main Storybook UI. -->
+<style>
+
+/* for demo purpose */
+.ui-predicate.compound {
+  margin-left: 10px;
+}
+</style>
+
+<style>
+.custom-css .ui-predicate__main,
+.custom-css .ui-predicate__row,
+.custom-css .ui-predicate__row--compound,
+.custom-css .ui-predicate__row--comparison,
+.custom-css .ui-predicate__col,
+.custom-css .ui-predicate__col--targets,
+.custom-css .ui-predicate__col--operators,
+.custom-css .ui-predicate__col--arguments,
+.custom-css .ui-predicate__col--options,
+.custom-css .ui-predicate__col--logic{
+  position: relative;
+  margin: 4px;
+  background: rgba(0,0,0,0.1);
+  padding: 15px;
+}
+
+.custom-css .ui-predicate__main::after,
+.custom-css .ui-predicate__row::after,
+.custom-css .ui-predicate__row--compound::after,
+.custom-css .ui-predicate__row--comparison::after,
+.custom-css .ui-predicate__col::after,
+.custom-css .ui-predicate__col--targets::after,
+.custom-css .ui-predicate__col--operators::after,
+.custom-css .ui-predicate__col--arguments::after,
+.custom-css .ui-predicate__col--options::after,
+.custom-css .ui-predicate__col--logic::after{
+  display: block;
+  font-size: 10px;
+  font-family: monospace;
+  width: auto;
+  left: 0px;
+}
+
+/** */
+.custom-css .ui-predicate__main::after{
+  content:'.ui-predicate__main';
+}
+.custom-css .ui-predicate__row::after{
+  content:'.ui-predicate__row';
+}
+.custom-css .ui-predicate__row--compound::after{
+  content:'.ui-predicate__row.ui-predicate__row--compound';
+}
+.custom-css .ui-predicate__row--comparison::after{
+  content:'.ui-predicate__row.ui-predicate__row--comparison';
+}
+.custom-css .ui-predicate__col::after{
+  content:'.ui-predicate__col';
+}
+.custom-css .ui-predicate__col--targets::after{
+  content:'.ui-predicate__col.ui-predicate__col--targets';
+}
+.custom-css .ui-predicate__col--operators::after{
+  content:'.ui-predicate__col.ui-predicate__col--operators';
+}
+.custom-css .ui-predicate__col--arguments::after{
+  content:'.ui-predicate__col.ui-predicate__col--arguments';
+}
+.custom-css .ui-predicate__col--options::after{
+  content:'.ui-predicate__col.ui-predicate__col--options';
+}
+.custom-css .ui-predicate__col--logic::after{
+  content:'.ui-predicate__col.ui-predicate__col--logic';
+}
+</style>
+
+    <style>
+        :not(.sb-show-main) > .sb-main,
+        :not(.sb-show-nopreview) > .sb-nopreview,
+        :not(.sb-show-errordisplay) > .sb-errordisplay {
+            display: none;
+        }
+
+
+        .sb-wrapper {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            font-family: -apple-system, ".SFNSText-Regular", "San Francisco", Roboto, "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .sb-heading {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            margin: 10px 0;
+        }
+
+
+        .sb-nopreview {
+            display: flex;
+            align-content: center;
+            justify-content: center;
+        }
+
+        .sb-nopreview_main {
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.03);
+        }
+
+        .sb-nopreview_heading {
+            text-align: center;
+        }
+
+
+        .sb-errordisplay {
+            background-color: rgb(187, 49, 49);
+            color: #FFF;
+        }
+
+        .sb-errordisplay_code {
+            font-size: 14px;
+            width: 100vw;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body class="sb-show-main">
+    <div id="root" class="sb-main"></div>
+
+    <div class="sb-nopreview sb-wrapper">
+        <div class="sb-nopreview_main">
+            <h1 class="sb-nopreview_heading sb-heading">No Preview</h1>
+            <p>Sorry, but you either have no stories or none are selected somehow.</p>
+            <ul>
+                <li>Please check the storybook config.</li>
+                <li>Try reloading the page.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sb-errordisplay sb-wrapper">
+        <div id="error-message" class="sb-heading"></div>
+        <pre class="sb-errordisplay_code">
+            <code id="error-stack"></code>
+        </pre>
+    </div>
+<script type="text/javascript" src="static/preview.6a0de99c69070e12ea7e.bundle.js"></script><script type="text/javascript" src="static/vendors~preview.75dbd71a894299b61487.bundle.js"></script><script type="text/javascript" src="static/runtime~preview.54cc4290e870f934d9e1.bundle.js"></script></body>
+</html>

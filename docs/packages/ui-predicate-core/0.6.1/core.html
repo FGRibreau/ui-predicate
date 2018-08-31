@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>core - Documentation</title>
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="nav">
+    <h2 class="home-link"><a href="index.html">ui-predicate</a></h2><h3>Namespaces</h3><ul><li><details open><summary><a href="core.html">core</a></summary><ul class='methods'><li data-type='method'><a href="core.html#.PredicateCore">PredicateCore</a></li></ul></details></li><li><details open><summary><a href="core.api.html">api</a></summary><ul class='members'><li data-type='member'><a href="core.api.html#.getUIComponent">getUIComponent</a></li><li data-type='member'><a href="core.api.html#.root">root</a></li></ul><ul class='methods'><li data-type='method'><a href="core.api.html#.setData">setData</a></li><li data-type='method'><a href="core.api.html#.add">add</a></li><li data-type='method'><a href="core.api.html#.remove">remove</a></li><li data-type='method'><a href="core.api.html#.setPredicateLogicalType_id">setPredicateLogicalType_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateTarget_id">setPredicateTarget_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateOperator_id">setPredicateOperator_id</a></li><li data-type='method'><a href="core.api.html#.setArgumentValue">setArgumentValue</a></li><li data-type='method'><a href="core.api.html#.getArgumentTypeComponentById">getArgumentTypeComponentById</a></li><li data-type='method'><a href="core.api.html#.getUIComponent">getUIComponent</a></li><li data-type='method'><a href="core.api.html#.toJSON">toJSON</a></li><li data-type='method'><a href="core.api.html#.on">on</a></li><li data-type='method'><a href="core.api.html#.once">once</a></li><li data-type='method'><a href="core.api.html#.off">off</a></li></ul></details></li><li><details open><summary><a href="core.defaults.html">defaults</a></summary></details></li><li><details open><summary><a href="core.defaults.options.html">options</a></summary><ul class='methods'><li data-type='method'><a href="core.defaults.options.html#.getDefaultData">getDefaultData</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultCompoundPredicate">getDefaultCompoundPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultComparisonPredicate">getDefaultComparisonPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultLogicalType">getDefaultLogicalType</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultArgumentComponent">getDefaultArgumentComponent</a></li></ul></details></li><li><details open><summary><a href="dataclasses.html">dataclasses</a></summary><ul class='methods'><li data-type='method'><a href="dataclasses.html#.Target">Target</a></li><li data-type='method'><a href="dataclasses.html#.Operator">Operator</a></li><li data-type='method'><a href="dataclasses.html#.Type">Type</a></li><li data-type='method'><a href="dataclasses.html#.LogicalType">LogicalType</a></li><li data-type='method'><a href="dataclasses.html#.ArgumentType">ArgumentType</a></li><li data-type='method'><a href="dataclasses.html#.Predicate">Predicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate">ComparisonPredicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate.is">ComparisonPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate">CompoundPredicate</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.reduce">CompoundPredicate.reduce</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.forEach">CompoundPredicate.forEach</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.is">CompoundPredicate.is</a></li></ul></details></li><li><details open><summary><a href="errors.html">errors</a></summary></details></li><li><details open><summary><a href="invariants.html">invariants</a></summary><ul class='methods'><li data-type='method'><a href="invariants.html#.CompoundPredicateMustHaveAtLeastOneSubPredicate">CompoundPredicateMustHaveAtLeastOneSubPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateTypeMustBeValid">PredicateTypeMustBeValid</a></li><li data-type='method'><a href="invariants.html#.RootPredicateMustBeACompoundPredicate">RootPredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeAComparisonPredicate">PredicateMustBeAComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeACompoundPredicate">PredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.AddOnlySupportsAfter">AddOnlySupportsAfter</a></li><li data-type='method'><a href="invariants.html#.TargetMustReferToADefinedType">TargetMustReferToADefinedType</a></li><li data-type='method'><a href="invariants.html#.LogicalType_idMustReferToADefinedLogicalType">LogicalType_idMustReferToADefinedLogicalType</a></li><li data-type='method'><a href="invariants.html#.Target_idMustReferToADefinedTarget">Target_idMustReferToADefinedTarget</a></li><li data-type='method'><a href="invariants.html#.Operator_idMustReferToADefinedOperator">Operator_idMustReferToADefinedOperator</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateMustDifferFromRootPredicate">RemovePredicateMustDifferFromRootPredicate</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateCannotBeTheLastComparisonPredicate">RemovePredicateCannotBeTheLastComparisonPredicate</a></li></ul></details></li><li><details open><summary><a href="rules.html">rules</a></summary><ul class='methods'><li data-type='method'><a href="rules.html#.predicateToRemoveIsRootPredicate">predicateToRemoveIsRootPredicate</a></li><li data-type='method'><a href="rules.html#.predicateToRemoveIsTheLastComparisonPredicate">predicateToRemoveIsTheLastComparisonPredicate</a></li></ul></details></li></ul>
+</nav>
+
+<div id="main" class="main-container">
+    
+        <h1 class="page-title">core</h1>
+    
+
+    
+
+
+
+
+<section class="page-container">
+
+    <header class="page-header">
+        
+            <h2>
+            core
+            </h2>
+            
+        
+    </header>
+
+    <section class="page-content">
+        <article class="container-overview">
+            
+                
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="PredicateCore.js.html">PredicateCore.js</a>, <a href="PredicateCore.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+                
+                    <div class="description">PredicateCore</div>
+                
+
+                
+            
+        </article>
+
+        
+
+        
+
+        
+
+         
+
+        
+            <article class="container-namespaces">
+                <h3 class="subsection-title">Namespaces</h3>
+
+                <dl>
+                    <dt><a href="core.api.html">api</a></dt>
+                    <dd></dd>
+                
+                    <dt><a href="core.defaults.html">defaults</a></dt>
+                    <dd></dd>
+                </dl>
+            </article>
+        
+
+        
+
+        
+            <article class="container-methods">
+                <h3 class="subsection-title">Methods</h3>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".PredicateCore"><span class="signature-type">(static) </span>PredicateCore<span class="signature">(args)</span><span class="signature-return"> &rarr; {Promise.&lt;core.PredicateCoreAPI, <a href="errors.html">errors</a>.&lt;*>>}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="PredicateCore.js.html">PredicateCore.js</a>, <a href="PredicateCore.js.html#line280">line 280</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new PredicateCore
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+        <p class="code-caption">Example of columns definition</p>
+    
+    <pre class="prettyprint"><code>// don't forget to take a look at the Storybook https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples
+{
+// first define the operator list available along with what type of argument they need
+operators: [
+  {
+    operator_id: 'is',
+    label: 'is',
+    argumentType_id: 'smallString',
+  },
+  {
+    operator_id: 'contains',
+    label: 'Contains',
+    argumentType_id: 'smallString',
+  },
+  {
+    operator_id: 'isLowerThan',
+    label: '&lt;',
+    argumentType_id: 'number',
+  },
+  {
+    operator_id: 'isEqualTo',
+    label: '=',
+    argumentType_id: 'number',
+  },
+  {
+    operator_id: 'isHigherThan',
+    label: '>',
+    argumentType_id: 'number',
+  },
+  {
+    operator_id: 'is_date',
+    label: 'is',
+    argumentType_id: 'datepicker',
+  },
+  {
+    operator_id: 'isBetween_date',
+    label: 'is between',
+    argumentType_id: 'daterangepicker',
+  },
+],
+// then define the type, think of them as aggregate of operators so you can attach them to targets
+types: [
+  {
+    type_id: 'int',
+    operator_ids: ['isLowerThan', 'isEqualTo', 'isHigherThan'],
+  },
+  {
+    type_id: 'string',
+    operator_ids: ['is', 'contains'],
+  },
+  {
+    type_id: 'datetime',
+    operator_ids: ['is', 'isBetween'],
+  },
+],
+// finally define targets, don't forget to specify their associated `type_id`
+targets: [
+  {
+    target_id: 'title',
+    label: 'Title',
+    type_id: 'string',
+  },
+  {
+    target_id: 'videoCount',
+    label: 'Video count',
+    type_id: 'int',
+  },
+  {
+    target_id: 'publishedAt',
+    label: 'Created at',
+    type_id: 'datetime',
+  },
+],
+// define supported logical type
+logicalTypes: [
+  {
+    logicalType_id: 'any',
+    label: 'Any',
+  },
+  {
+    logicalType_id: 'all',
+    label: 'All',
+  },
+  {
+    logicalType_id: 'none',
+    label: 'None',
+  },
+],
+// (optional) finally define how to display each argumentType_id
+argumentTypes: [
+  // here we don't define `component` because it depends on the UI Framework you are using (e.g. Vue, React, Angular, ...)
+  // since we are in ui-predicate-core here we don't know the UI Framework library that will be used
+  // read your UI Framework adapter (e.g. ui-predicate-vue) on how to set the component.
+  // if no argumentType is defined for argumentType_id, then UIPredicateCore will fallback on the default UI component (thanks to getDefaultArgumentComponent)
+  // { argumentType_id: 'datepicker', component: ? },
+  // { argumentType_id: 'daterangepicker', component: ? },
+  // { argumentType_id: 'smallString', component: ? },
+  // { argumentType_id: 'number', component: ? },
+]}</code></pre>
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>args</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">Predicate Core parameters</td>
+
+</tr>
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>data</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">data</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">columns definition</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.operators</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">operators</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.types</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">types</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.targets</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">targets</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.logicalTypes</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">logicalTypes</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.argumentTypes</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">argumentTypes</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>options</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">options</td>
+
+</tr>
+
+
+
+
+
+        
+            
+            
+            
+            
+            
+            
+            
+            
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    resolved promise yield Predicate Core public API, rejected promise yield an error <a href="errors.html">errors</a>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;core.PredicateCoreAPI, <a href="errors.html">errors</a>.&lt;*>></span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+            </article>
+        
+
+        
+
+        
+    </section>
+
+</section>
+
+
+
+
+
+
+
+<section class="page-container">
+
+    <header class="page-header">
+        
+            <h2>
+            core
+            </h2>
+            
+        
+    </header>
+
+    <section class="page-content">
+        <article class="container-overview">
+            
+                
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="UITypes.js.html">UITypes.js</a>, <a href="UITypes.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+                
+                    <div class="description">UITypes</div>
+                
+
+                
+            
+        </article>
+
+        
+
+        
+
+        
+
+         
+
+        
+            <article class="container-namespaces">
+                <h3 class="subsection-title">Namespaces</h3>
+
+                <dl>
+                    <dt><a href="core.api.html">api</a></dt>
+                    <dd></dd>
+                
+                    <dt><a href="core.defaults.html">defaults</a></dt>
+                    <dd></dd>
+                </dl>
+            </article>
+        
+
+        
+
+        
+            <article class="container-methods">
+                <h3 class="subsection-title">Methods</h3>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".PredicateCore"><span class="signature-type">(static) </span>PredicateCore<span class="signature">(args)</span><span class="signature-return"> &rarr; {Promise.&lt;core.PredicateCoreAPI, <a href="errors.html">errors</a>.&lt;*>>}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul><li>
+        <a href="PredicateCore.js.html">PredicateCore.js</a>, <a href="PredicateCore.js.html#line280">line 280</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        Create a new PredicateCore
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+        <p class="code-caption">Example of columns definition</p>
+    
+    <pre class="prettyprint"><code>// don't forget to take a look at the Storybook https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples
+{
+// first define the operator list available along with what type of argument they need
+operators: [
+  {
+    operator_id: 'is',
+    label: 'is',
+    argumentType_id: 'smallString',
+  },
+  {
+    operator_id: 'contains',
+    label: 'Contains',
+    argumentType_id: 'smallString',
+  },
+  {
+    operator_id: 'isLowerThan',
+    label: '&lt;',
+    argumentType_id: 'number',
+  },
+  {
+    operator_id: 'isEqualTo',
+    label: '=',
+    argumentType_id: 'number',
+  },
+  {
+    operator_id: 'isHigherThan',
+    label: '>',
+    argumentType_id: 'number',
+  },
+  {
+    operator_id: 'is_date',
+    label: 'is',
+    argumentType_id: 'datepicker',
+  },
+  {
+    operator_id: 'isBetween_date',
+    label: 'is between',
+    argumentType_id: 'daterangepicker',
+  },
+],
+// then define the type, think of them as aggregate of operators so you can attach them to targets
+types: [
+  {
+    type_id: 'int',
+    operator_ids: ['isLowerThan', 'isEqualTo', 'isHigherThan'],
+  },
+  {
+    type_id: 'string',
+    operator_ids: ['is', 'contains'],
+  },
+  {
+    type_id: 'datetime',
+    operator_ids: ['is', 'isBetween'],
+  },
+],
+// finally define targets, don't forget to specify their associated `type_id`
+targets: [
+  {
+    target_id: 'title',
+    label: 'Title',
+    type_id: 'string',
+  },
+  {
+    target_id: 'videoCount',
+    label: 'Video count',
+    type_id: 'int',
+  },
+  {
+    target_id: 'publishedAt',
+    label: 'Created at',
+    type_id: 'datetime',
+  },
+],
+// define supported logical type
+logicalTypes: [
+  {
+    logicalType_id: 'any',
+    label: 'Any',
+  },
+  {
+    logicalType_id: 'all',
+    label: 'All',
+  },
+  {
+    logicalType_id: 'none',
+    label: 'None',
+  },
+],
+// (optional) finally define how to display each argumentType_id
+argumentTypes: [
+  // here we don't define `component` because it depends on the UI Framework you are using (e.g. Vue, React, Angular, ...)
+  // since we are in ui-predicate-core here we don't know the UI Framework library that will be used
+  // read your UI Framework adapter (e.g. ui-predicate-vue) on how to set the component.
+  // if no argumentType is defined for argumentType_id, then UIPredicateCore will fallback on the default UI component (thanks to getDefaultArgumentComponent)
+  // { argumentType_id: 'datepicker', component: ? },
+  // { argumentType_id: 'daterangepicker', component: ? },
+  // { argumentType_id: 'smallString', component: ? },
+  // { argumentType_id: 'number', component: ? },
+]}</code></pre>
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>args</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">Predicate Core parameters</td>
+
+</tr>
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>data</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="dataclasses.html#.CompoundPredicate">dataclasses.CompoundPredicate</a></span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">data</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">columns definition</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.operators</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">operators</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.types</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">types</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.targets</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">targets</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.logicalTypes</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">logicalTypes</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>columns.argumentTypes</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">argumentTypes</td>
+
+</tr>
+
+
+
+
+    
+    
+<tr class="prop">
+    
+        <td class="name">
+            
+                <span class="prefix">&#8627;</span>
+            
+            <code>options</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Object</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last">options</td>
+
+</tr>
+
+
+
+
+
+        
+            
+            
+            
+            
+            
+            
+            
+            
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    resolved promise yield Predicate Core public API, rejected promise yield an error <a href="errors.html">errors</a>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;core.PredicateCoreAPI, <a href="errors.html">errors</a>.&lt;*>></span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+            </article>
+        
+
+        
+
+        
+    </section>
+
+</section>
+
+
+
+
+</div>
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>
