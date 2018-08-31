@@ -1,26 +1,31 @@
 <template>
   <div class="ui-predicate__row ui-predicate__row--comparison">
-      <div class="ui-predicate__col ui-predicate__col--targets">
+      <div class="ui-predicate__col">
         <component
+          class="ui-predicate__targets"
           :is="getUIComponent(UITypes.TARGETS)"
           :columns="columns"
           :predicate="predicate"
           @change="changeTarget($event)"
         />
       </div>
-      <div class="ui-predicate__col ui-predicate__col--operators">
+      <div class="ui-predicate__col">
         <component
+          class="ui-predicate__operators"
           :is="getUIComponent(UITypes.OPERATORS)"
           :columns="columns"
           :predicate="predicate"
           @change="changeOperator($event)"
         />
       </div>
-      <div class="ui-predicate__col ui-predicate__col--arguments">
-        <ui-predicate-comparison-argument :predicate="predicate"></ui-predicate-comparison-argument>
+      <div class="ui-predicate__col">
+        <ui-predicate-comparison-argument
+          class="ui-predicate__arguments"
+          :predicate="predicate"
+        />
       </div>
-      <div class="ui-predicate__col ui-predicate__col--options">
-        <ui-predicate-options :predicate="predicate"></ui-predicate-options>
+      <div class="ui-predicate__col">
+        <ui-predicate-options :predicate="predicate" />
       </div>
     </div>
 </template>

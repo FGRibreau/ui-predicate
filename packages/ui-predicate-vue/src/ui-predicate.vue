@@ -142,4 +142,7 @@ export default {
 .ui-predicate__col {
   display: inline-block;
 }
+.ui-predicate__options {
+  display: flex;
+}
 </style>

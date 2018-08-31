@@ -14,27 +14,30 @@ So, these won’t be loaded into the main Storybook UI. -->
 .custom-css .ui-predicate__row--compound,
 .custom-css .ui-predicate__row--comparison,
 .custom-css .ui-predicate__col,
-.custom-css .ui-predicate__col--targets,
-.custom-css .ui-predicate__col--operators,
-.custom-css .ui-predicate__col--arguments,
-.custom-css .ui-predicate__col--options,
-.custom-css .ui-predicate__col--logic{
+.custom-css .ui-predicate__targets,
+.custom-css .ui-predicate__operators,
+.custom-css .ui-predicate__arguments,
+.custom-css .ui-predicate__options,
+.custom-css .ui-predicate__option,
+.custom-css .ui-predicate__logic{
   position: relative;
   margin: 4px;
   background: rgba(0,0,0,0.1);
-  padding: 15px;
+  padding: 4px;
+  vertical-align: top;
 }
 
-.custom-css .ui-predicate__main::after,
-.custom-css .ui-predicate__row::after,
-.custom-css .ui-predicate__row--compound::after,
-.custom-css .ui-predicate__row--comparison::after,
-.custom-css .ui-predicate__col::after,
-.custom-css .ui-predicate__col--targets::after,
-.custom-css .ui-predicate__col--operators::after,
-.custom-css .ui-predicate__col--arguments::after,
-.custom-css .ui-predicate__col--options::after,
-.custom-css .ui-predicate__col--logic::after{
+.custom-css .ui-predicate__main::before,
+.custom-css .ui-predicate__row::before,
+.custom-css .ui-predicate__row--compound::before,
+.custom-css .ui-predicate__row--comparison::before,
+.custom-css .ui-predicate__col::before,
+.custom-css .ui-predicate__targets::before,
+.custom-css .ui-predicate__operators::before,
+.custom-css .ui-predicate__arguments::before,
+.custom-css .ui-predicate__options::before,
+.custom-css .ui-predicate__option::before,
+.custom-css .ui-predicate__logic::before{
   display: block;
   font-size: 10px;
   font-family: monospace;
@@ -43,34 +46,37 @@ So, these won’t be loaded into the main Storybook UI. -->
 }
 
 /** */
-.custom-css .ui-predicate__main::after{
+.custom-css .ui-predicate__main::before{
   content:'.ui-predicate__main';
 }
-.custom-css .ui-predicate__row::after{
+.custom-css .ui-predicate__row::before{
   content:'.ui-predicate__row';
 }
-.custom-css .ui-predicate__row--compound::after{
+.custom-css .ui-predicate__row--compound::before{
   content:'.ui-predicate__row.ui-predicate__row--compound';
 }
-.custom-css .ui-predicate__row--comparison::after{
+.custom-css .ui-predicate__row--comparison::before{
   content:'.ui-predicate__row.ui-predicate__row--comparison';
 }
-.custom-css .ui-predicate__col::after{
+.custom-css .ui-predicate__col::before{
   content:'.ui-predicate__col';
 }
-.custom-css .ui-predicate__col--targets::after{
-  content:'.ui-predicate__col.ui-predicate__col--targets';
+.custom-css .ui-predicate__targets::before{
+  content:'..ui-predicate__targets';
 }
-.custom-css .ui-predicate__col--operators::after{
-  content:'.ui-predicate__col.ui-predicate__col--operators';
+.custom-css .ui-predicate__operators::before{
+  content:'.ui-predicate__operators';
 }
-.custom-css .ui-predicate__col--arguments::after{
-  content:'.ui-predicate__col.ui-predicate__col--arguments';
+.custom-css .ui-predicate__arguments::before{
+  content:'.ui-predicate__arguments';
 }
-.custom-css .ui-predicate__col--options::after{
-  content:'.ui-predicate__col.ui-predicate__col--options';
+.custom-css .ui-predicate__options::before{
+  content:'.ui-predicate__options';
 }
-.custom-css .ui-predicate__col--logic::after{
-  content:'.ui-predicate__col.ui-predicate__col--logic';
+.custom-css .ui-predicate__option::before{
+  content:'.ui-predicate__option';
+}
+.custom-css .ui-predicate__logic::before{
+  content:'.ui-predicate__logic';
 }
 </style>

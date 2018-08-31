@@ -191,11 +191,12 @@ storiesOf('ui-predicate', module)
           - \\\`.ui-predicate__row--compound\\\`: select every predicate compound row div containers
           - \\\`.ui-predicate__row--comparison\\\`: select every predicate comparison row div containers
           - \\\`.ui-predicate__col\\\`: select every column (targets, operators, arguments and option) div containers
-          - \\\`.ui-predicate__col--targets\\\`: select the every target columns div container
-          - \\\`.ui-predicate__col--operators\\\`: select every operators div container
-          - \\\`.ui-predicate__col--arguments\\\`: select every arguments div container
-          - \\\`.ui-predicate__col--options\\\`: select every option div container
-          - \\\`.ui-predicate__col--logic\\\`: select every logic div container
+          - \\\`.ui-predicate__targets\\\`: select the every target columns div container
+          - \\\`.ui-predicate__operators\\\`: select every operators div container
+          - \\\`.ui-predicate__arguments\\\`: select every arguments div container
+          - \\\`.ui-predicate__options\\\`: select every option div container
+          - \\\`.ui-predicate__option\\\`: select one option div container
+          - \\\`.ui-predicate__logic\\\`: select every logic div container
         `,
       },
     }

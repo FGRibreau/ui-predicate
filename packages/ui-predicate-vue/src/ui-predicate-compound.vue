@@ -1,8 +1,9 @@
 <template>
     <div class="ui-predicate__row--compound">
       <div class="ui-predicate__row">
-        <div class="ui-predicate__col ui-predicate__col--logic">
+        <div class="ui-predicate__col">
           <component
+            class="ui-predicate__logic"
             v-if="predicate.logic"
             :is="getUIComponent(UITypes.LOGICAL_TYPES)"
             :predicate="predicate"
@@ -10,7 +11,7 @@
             @change="changeLogic($event)"
           />
         </div>
-        <div class="ui-predicate__col ui-predicate__col--options">
+        <div class="ui-predicate__col">
           <ui-predicate-options :predicate="predicate"></ui-predicate-options>
         </div>
       </div>

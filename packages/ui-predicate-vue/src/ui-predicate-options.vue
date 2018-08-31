@@ -1,17 +1,21 @@
 <template>
-  <div>
-    <component
-      :is="getUIComponent(UITypes.PREDICATE_REMOVE)"
-      @click.native="remove(predicate)"
-      :predicate="predicate"
-      :disabled="predicate.$canBeRemoved === false"
-    />
-    <component
-      :is="getUIComponent(UITypes.PREDICATE_ADD)"
-      @click.native="add(predicate)"
-      :predicate="predicate"
-      :is-in-add-compound-mode="isInAddCompoundMode"
-    />
+  <div class="ui-predicate__options">
+    <div class="ui-predicate__option">
+      <component
+        :is="getUIComponent(UITypes.PREDICATE_REMOVE)"
+        @click.native="remove(predicate)"
+        :predicate="predicate"
+        :disabled="predicate.$canBeRemoved === false"
+      />
+    </div>
+    <div class="ui-predicate__option">
+      <component
+        :is="getUIComponent(UITypes.PREDICATE_ADD)"
+        @click.native="add(predicate)"
+        :predicate="predicate"
+        :is-in-add-compound-mode="isInAddCompoundMode"
+      />
+    </div>
   </div>
 </template>
 

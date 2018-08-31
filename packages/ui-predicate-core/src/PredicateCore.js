@@ -278,7 +278,7 @@ module.exports = function({ dataclasses, invariants, errors, rules, UITypes }) {
    * @memberof core
    */
   function PredicateCore(args) {
-    const { data, columns, ui, options } = args;
+    const { data, columns, ui: _ui, options } = args;
 
     return new Promise((resolve, reject) => {
       try {
@@ -568,7 +568,7 @@ module.exports = function({ dataclasses, invariants, errors, rules, UITypes }) {
             )
             .map(argumentType => argumentType.component)
             .valueOrElse(() =>
-              _options.getDefaultArgumentComponent(_columns, _options)
+              _options.getDefaultArgumentComponent(_columns, _options, _ui)
             );
         }
 
