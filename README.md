@@ -24,6 +24,10 @@ MacOS Finder | iTunes smart playlist
 ------------ | ------------- |
 ![MacOS Finder](docs/finder-filtering.gif) | ![iTunes smart playlist](docs/itunes-filtering.gif)
 
+Google Issue tracker |
+-------------------- |
+![Google Issue Tracker](docs/google-issuetracker.gif)
+
 
 # 🌏 Browser Support
 
