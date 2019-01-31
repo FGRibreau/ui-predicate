@@ -116,7 +116,7 @@ export default {
         vm.$emit('initialized', ctrl);
       },
       err => {
-        console.error(err);
+        vm.$emit('initErrorCaptured', err);
       }
     );
 
