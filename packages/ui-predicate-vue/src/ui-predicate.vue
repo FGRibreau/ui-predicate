@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { InitialisationFailed } from './errors';
 import { UITypes } from 'ui-predicate-core';
 import { UIPredicateCoreVue } from './UIPredicateCoreVue';
 
@@ -99,6 +100,9 @@ export default {
   created() {
     const vm = this;
 
+    window.addEventListener('keyup', this.onAltReleased);
+    window.addEventListener('keydown', this.onAltPressed);
+
     UIPredicateCoreVue({
       data: this.data,
       columns: this.columns,
@@ -116,12 +120,17 @@ export default {
         vm.$emit('initialized', ctrl);
       },
       err => {
-        vm.$emit('initErrorCaptured', err);
+        // wrap ui-predicate-core error in InitialisationFailed error
+        const initialisationFailedError =
+          Object.assign(new InitialisationFailed(), {cause: err});
+
+        // prior to Vue 2.6, we should use emit error to notify that component initialisation failed
+        vm.$emit('error', initialisationFailedError);
+
+        // since Vue 2.6, Promise can be also returned from lifecycle hooks to notify error
+        return Promise.reject(initialisationFailedError);
       }
     );
-
-    window.addEventListener('keyup', this.onAltReleased);
-    window.addEventListener('keydown', this.onAltPressed);
   },
   destroyed() {
     if (this.ctrl) this.ctrl.off();

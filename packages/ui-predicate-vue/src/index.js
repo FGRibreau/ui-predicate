@@ -1,3 +1,4 @@
+const errors = require('./errors');
 const UIPredicateOptions = require('./ui-predicate-options.vue');
 const UIPredicateComparison = require('./ui-predicate-comparison.vue');
 const UIPredicateComparisonArgument = require('./ui-predicate-comparison-argument');
@@ -39,6 +40,7 @@ module.exports = {
   UIPredicateComparisonArgument,
   UIPredicateCompound,
   UIPredicate,
+  errors
 };
 
 module.exports.default = module.exports;
