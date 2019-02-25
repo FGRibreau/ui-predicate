@@ -24,9 +24,9 @@ MacOS Finder | iTunes smart playlist
 ------------ | ------------- |
 ![MacOS Finder](docs/finder-filtering.gif) | ![iTunes smart playlist](docs/itunes-filtering.gif)
 
-Google Issue tracker |
--------------------- |
-![Google Issue Tracker](docs/google-issuetracker.gif)
+Google Issue tracker | Microsoft flow
+-------------------- | ------------- |
+![Google Issue Tracker](docs/google-issuetracker.gif) | ![Microsoft Flow](docs/microsoft-flow.gif)
 
 
 # 🌏 Browser Support
