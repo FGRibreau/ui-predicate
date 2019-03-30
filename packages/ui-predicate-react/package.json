@@ -2,35 +2,26 @@
   "name": "ui-predicate-react",
   "version": "0.2.0",
   "description": "Finally a predicate UI component for the Web, for React",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo 'not ready for prime-time';true",
-    "build": "echo 'not ready for prime-time';parcel build --out-file=ui-predicate-vue --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
+    "clean": "rm -rf lib && mkdir lib",
+    "lib": "npm run clean && NODE_ENV=production babel src -d lib",
+    "prepublish": "npm run lib",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
     "test:watch": "jest --watch --coverage=false",
     "test:watch:coverage": "npm run --silent test:watch -- --coverage",
     "test:coverage": "true",
-    "test:image-snapshots": "npm run docs:storybook:build && npm run test:image-snapshots:run",
-    "test:image-snapshots:run": "jest --projects=./image-snapshots",
     "lint": "eslint --fix examples src",
     "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
     "docs:storybook:watch": "start-storybook -p 9001",
-    "docs:getting-started:build": "parcel build --no-cache --public-url=./ --out-dir=../../docs/packages/$npm_package_name/$npm_package_version/getting-started getting-started/index.html",
-    "storybook": "start-storybook -p 9009",
-    "build-storybook": "build-storybook"
+    "docs:getting-started:build": "NODE_ENV=production SKIP_PREFLIGHT_CHECK=true PUBLIC_URL=./ react-scripts build && mv build ../../docs/packages/$npm_package_name/$npm_package_version/getting-started"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^22.4.2",
-    "jsdoc": "^3.5.5",
-    "parcel-bundler": "^1.7.0",
-    "react-scripts": "2.1.8",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "@storybook/react": "4.1.16",
     "@storybook/addon-actions": "4.1.16",
     "@storybook/addon-backgrounds": "4.1.16",
     "@storybook/addon-centered": "4.1.16",
@@ -43,10 +34,26 @@
     "@storybook/addon-storysource": "4.1.16",
     "@storybook/addon-viewport": "4.1.16",
     "@storybook/addons": "4.1.16",
-    "@babel/core": "^7.4.0",
-    "babel-loader": "^8.0.5"
+    "@storybook/react": "4.1.16",
+    "jsdoc": "^3.5.5",
+    "react-scripts": "^2.1.8"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0"
   },
   "dependencies": {
     "ui-predicate-core": "^0.6.1"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
