@@ -27,6 +27,9 @@
     "jest": "^22.4.2",
     "jsdoc": "^3.5.5",
     "parcel-bundler": "^1.7.0",
+    "react-scripts": "2.1.8",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "@storybook/react": "4.1.16",
     "@storybook/addon-actions": "4.1.16",
     "@storybook/addon-backgrounds": "4.1.16",
@@ -44,9 +47,6 @@
     "babel-loader": "^8.0.5"
   },
   "dependencies": {
-    "ui-predicate-core": "^0.6.1",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-scripts": "2.1.8"
+    "ui-predicate-core": "^0.6.1"
   }
 }
