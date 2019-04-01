@@ -10,13 +10,13 @@ class UIPredicateOptions extends Component {
       getUIComponent,
       getAddCompoundMode,
     } = this.props;
-    const RemoveComponent = getUIComponent(UITypes.PREDICATE_REMOVE);
-    const AddComponent = getUIComponent(UITypes.PREDICATE_ADD);
+    const RemovePredicateComponent = getUIComponent(UITypes.PREDICATE_REMOVE);
+    const AddPredicateComponent = getUIComponent(UITypes.PREDICATE_ADD);
 
     return (
       <div className="ui-predicate__options">
         <div className="ui-predicate__option">
-          <RemoveComponent
+          <RemovePredicateComponent
             {...this.props}
             onClick={() => remove(predicate)}
             predicate={predicate}
@@ -24,7 +24,7 @@ class UIPredicateOptions extends Component {
           />
         </div>
         <div className="ui-predicate__option">
-          <AddComponent
+          <AddPredicateComponent
             {...this.props}
             onClick={() => add(predicate)}
             predicate={predicate}
