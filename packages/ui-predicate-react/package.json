@@ -2,26 +2,43 @@
   "name": "ui-predicate-react",
   "version": "0.2.0",
   "description": "Finally a predicate UI component for the Web, for React",
-  "main": "lib/index.js",
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "MIT",
+  "main": "lib/ui-predicate-react.js",
+  "style": "lib/ui-predicate-react.css",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
   "scripts": {
+    "build": "parcel build --out-file=ui-predicate-react --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
+    "prepare": "npm run build",
+    "predeploy": "cd example && npm install && npm run build",
     "test": "echo 'not ready for prime-time';true",
-    "clean": "rm -rf lib && mkdir lib",
-    "lib": "npm run clean && NODE_ENV=production babel src -d lib",
-    "prepublish": "npm run lib",
+    "clean": "rm -rf dist",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
     "test:watch": "jest --watch --coverage=false",
     "test:watch:coverage": "npm run --silent test:watch -- --coverage",
     "test:coverage": "true",
+    "parcel": "parcel",
     "lint": "eslint --fix examples src",
     "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
     "docs:storybook:watch": "start-storybook -p 9001",
-    "docs:getting-started:build": "NODE_ENV=production SKIP_PREFLIGHT_CHECK=true PUBLIC_URL=./ react-scripts build && mv build ../../docs/packages/$npm_package_name/$npm_package_version/getting-started"
+    "docs:getting-started:build": "parcel build --no-cache --public-url=./ --out-dir=../../docs/packages/$npm_package_name/$npm_package_version/getting-started getting-started/index.html",
+    "docs:getting-started:watch": "parcel --no-cache getting-started/index.html"
   },
-  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
-  "license": "MIT",
+  "peerDependencies": {
+    "prop-types": "^15.5.4",
+    "react": "^15.0.0 || ^16.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0"
+  },
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
     "@storybook/addon-actions": "4.1.16",
     "@storybook/addon-backgrounds": "4.1.16",
     "@storybook/addon-centered": "4.1.16",
@@ -35,24 +52,33 @@
     "@storybook/addon-viewport": "4.1.16",
     "@storybook/addons": "4.1.16",
     "@storybook/react": "4.1.16",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.1.4",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-react": "^6.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-standard": "^3.1.0",
     "jsdoc": "^3.5.5",
+    "parcel-bundler": "^1.12.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-scripts": "^2.1.8"
   },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
-  "peerDependencies": {
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0"
-  },
   "dependencies": {
-    "ui-predicate-core": "^0.6.1"
+    "ui-predicate-core": "^0.6.3"
   },
+  "files": [
+    "lib"
+  ],
   "browserslist": [
     ">0.2%",
-    "not dead",
     "not ie <= 11",
     "not op_mini all"
   ]

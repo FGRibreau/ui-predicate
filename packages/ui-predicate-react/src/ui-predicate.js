@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import UIPredicateCoreReact from './UIPredicateCoreReact';
 import { InitializationFailed } from './errors';
 import UIPredicateCompound from './ui-predicate-compound';
-import './ui-predicate.css';
+import './ui-predicate-react.css';
 
 class UIPredicate extends Component {
   constructor(props) {
