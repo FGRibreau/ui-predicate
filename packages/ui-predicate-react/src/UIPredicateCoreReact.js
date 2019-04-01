@@ -18,14 +18,14 @@ const defaults = {
      * @param {Object} [columns=PredicateCore.defaults.columns] columns
      * @param {Object} [options=PredicateCore.defaults.options] options
      * @param {Object} [ui=PredicateCore.defaults.ui] ui
-     * @return {Vue.component} the default Vue Component to use as argument specifier
+     * @return {(React.Component|React.PureComponent|React.FunctionComponent)} the default React Component to use as argument specifier
      * @see core.defaults.getDefaultArgumentComponent
-     * @memberof vue.defaults
+     * @memberof react.defaults
      */
     getDefaultArgumentComponent(columns, options, ui) {
       /*
         "ui" arg. results from DEFAULT_COMPONENTS
-        and :ui attribute passed to <ui-predicate>
+        and :ui attribute passed to <UIPredicate>
         all merged in UIPredicateCoreReact()
         and passed to PredicateCore
       */
@@ -35,13 +35,13 @@ const defaults = {
 };
 
 /**
- * UIPredicateCore adapter for VueJS
+ * UIPredicateCore adapter for React
  * @param {?dataclasses.CompoundPredicate} [data=PredicateCore.defaults.options.getDefaultData] data
  * @param {Object} [columns=PredicateCore.defaults.columns] columns
  * @param {Object} [ui=PredicateCore.defaults.ui] ui
  * @param {Object} [options=PredicateCore.defaults.options] options
  * @return {Promise<core.PredicateCoreAPI>} resolved promise yield a PredicateCoreAPI
- * @memberof vue
+ * @memberof react
  */
 function UIPredicateCoreReact({ data, columns, ui, options } = {}) {
   return PredicateCore({
