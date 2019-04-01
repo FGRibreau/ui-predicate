@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import fs from 'fs';
 import UIPredicateCoreReact from './UIPredicateCoreReact';
 import { InitializationFailed } from './errors';
 import UIPredicateCompound from './ui-predicate-compound';
 import './ui-predicate-react.css';
+
+const css = fs.readFileSync(`${__dirname}/ui-predicate-react.css`, 'utf8');
+const style = document.createElement('style');
+style.type = 'text/css';
+style.appendChild(document.createTextNode(css));
+document.head.appendChild(style);
 
 class UIPredicate extends Component {
   constructor(props) {
