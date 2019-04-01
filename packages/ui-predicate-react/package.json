@@ -12,8 +12,6 @@
   },
   "scripts": {
     "build": "parcel build --out-file=ui-predicate-react --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
-    "prepare": "npm run build",
-    "predeploy": "cd example && npm install && npm run build",
     "test": "echo 'not ready for prime-time';true",
     "clean": "rm -rf dist",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
@@ -22,7 +20,7 @@
     "test:coverage": "true",
     "parcel": "parcel",
     "lint": "eslint --fix examples src",
-    "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
+    "docs:build": "npm run --sient docs:jsdoc:build && npm run --sient docs:storybook:build && npm run --silent docs:getting-started:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
     "docs:storybook:watch": "start-storybook -p 9001",
