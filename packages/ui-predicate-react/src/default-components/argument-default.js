@@ -1,15 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ArgumentDefault extends Component {
-  render() {
-    const { value } = this.props;
-    return (
-      <input
-        value={value}
-        onChange={ev => this.props.onChange(ev.target.value)}
-      />
-    );
-  }
+export default function ArgumentDefault({ value, onChange }) {
+  return <input value={value} onChange={ev => onChange(ev.target.value)} />;
 }
-
-export default ArgumentDefault;

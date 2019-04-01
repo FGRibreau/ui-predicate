@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class PredicateRemove extends Component {
-  render() {
-    const { disabled, onClick } = this.props;
-    return (
-      <button type="button" onClick={onClick} disabled={disabled}>
-        -
-      </button>
-    );
-  }
+export default function PredicateRemove({ disabled, onClick }) {
+  return (
+    <button type="button" onClick={onClick} disabled={disabled}>
+      -
+    </button>
+  );
 }
-
-export default PredicateRemove;
