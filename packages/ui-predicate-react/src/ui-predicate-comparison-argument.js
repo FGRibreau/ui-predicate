@@ -14,7 +14,7 @@ class UIPredicateComparisonArgument extends Component {
     return (
       <ArgumentComponent
         {...this.props}
-        value={predicate.argument}
+        value={predicate.argument || ''}
         predicate={predicate}
         onChange={value => setArgumentValue(predicate, value)}
       />
