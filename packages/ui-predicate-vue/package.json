@@ -44,7 +44,7 @@
     "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-plugin-vue": "^4.5.0",
-    "file-loader": "^1.1.11",
+    "file-loader": "^4.2.0",
     "jest": "^22.4.3",
     "jest-serializer-vue": "^1.0.0",
     "jest-vue-preprocessor": "^1.4.0",
