@@ -46,7 +46,7 @@
     "eslint-plugin-vue": "^4.5.0",
     "file-loader": "^1.1.11",
     "jest": "^22.4.3",
-    "jest-serializer-vue": "^1.0.0",
+    "jest-serializer-vue": "^2.0.2",
     "jest-vue-preprocessor": "^1.4.0",
     "jsdoc": "^3.5.5",
     "parcel-bundler": "^1.7.1",
