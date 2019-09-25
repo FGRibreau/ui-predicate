@@ -24,7 +24,7 @@
   "devDependencies": {
     "@storybook/addon-actions": "4.0.0-alpha.16",
     "@storybook/addon-backgrounds": "4.0.0-alpha.16",
-    "@storybook/addon-centered": "4.0.0-alpha.16",
+    "@storybook/addon-centered": "5.1.9",
     "@storybook/addon-jest": "4.0.0-alpha.16",
     "@storybook/addon-knobs": "4.0.0-alpha.16",
     "@storybook/addon-links": "4.0.0-alpha.16",
