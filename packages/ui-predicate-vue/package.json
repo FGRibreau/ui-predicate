@@ -22,7 +22,7 @@
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
-    "@storybook/addon-actions": "4.0.0-alpha.16",
+    "@storybook/addon-actions": "5.2.1",
     "@storybook/addon-backgrounds": "4.0.0-alpha.16",
     "@storybook/addon-centered": "4.0.0-alpha.16",
     "@storybook/addon-jest": "4.0.0-alpha.16",
