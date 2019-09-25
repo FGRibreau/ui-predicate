@@ -34,7 +34,7 @@
     "@storybook/addon-storysource": "4.0.0-alpha.16",
     "@storybook/addon-viewport": "4.0.0-alpha.16",
     "@storybook/addons": "4.0.0-alpha.16",
-    "@storybook/vue": "4.0.0-alpha.16",
+    "@storybook/vue": "5.2.1",
     "@vue/component-compiler-utils": "^1.2.1",
     "@vue/test-utils": "^1.0.0-beta.24",
     "babel-core": "^6.26.0",
