@@ -21,7 +21,7 @@
     "codecov": "^3.0.0",
     "hotdoc": "^0.7.2",
     "jsdoc": "^3.5.5",
-    "lerna": "^2.10.2",
+    "lerna": "^3.18.2",
     "parcel-bundler": "^1.7.0",
     "updtr": "^2.0.0"
   }
