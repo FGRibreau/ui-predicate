@@ -27,7 +27,7 @@
     "@storybook/addon-centered": "5.1.9",
     "@storybook/addon-jest": "4.0.0-alpha.16",
     "@storybook/addon-knobs": "4.0.0-alpha.16",
-    "@storybook/addon-links": "4.0.0-alpha.16",
+    "@storybook/addon-links": "5.3.5",
     "@storybook/addon-notes": "4.0.0-alpha.16",
     "@storybook/addon-options": "4.0.0-alpha.16",
     "@storybook/addon-storyshots": "4.0.0-alpha.16",
