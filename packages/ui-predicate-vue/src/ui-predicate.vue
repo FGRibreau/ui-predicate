@@ -18,7 +18,7 @@ export default {
   props: {
     data: {
       type: Object,
-      defaut: () => ({}),
+      default: () => ({}),
     },
     columns: {
       type: Object,
