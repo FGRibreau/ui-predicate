@@ -13,7 +13,7 @@
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^22.4.3",
+    "jest": "^25.1.0",
     "jsdoc": "^3.5.5",
     "parcel-bundler": "^1.7.1"
   },
