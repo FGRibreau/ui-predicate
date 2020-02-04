@@ -32,7 +32,7 @@
     "@storybook/addon-options": "4.0.0-alpha.16",
     "@storybook/addon-storyshots": "4.0.0-alpha.16",
     "@storybook/addon-storysource": "4.0.0-alpha.16",
-    "@storybook/addon-viewport": "4.0.0-alpha.16",
+    "@storybook/addon-viewport": "5.3.10",
     "@storybook/addons": "4.0.0-alpha.16",
     "@storybook/vue": "4.0.0-alpha.16",
     "@vue/component-compiler-utils": "^1.2.1",
