@@ -10,7 +10,7 @@
     "test:watch": "jest  --coverage --watch",
     "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
     "lint": "eslint src",
-    "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:examples:build",
+    "docs:build": "npm run --silent build && npm run --silent docs:jsdoc:build && npm run --silent docs:examples:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/index.html --public-url ./ --no-cache -d $DIR -t browser"
   },
@@ -21,7 +21,8 @@
     "eslint": "^4.19.1",
     "jest": "^22.4.3",
     "jsdoc": "^3.5.5",
-    "parcel": "^1.9.7"
+    "parcel": "^1.12.4",
+    "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
   "jest": {
     "coverageThreshold": {

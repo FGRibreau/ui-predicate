@@ -1,4 +1,5 @@
-const { merge, mergeAll } = require('ramda');
+const merge = require('ramda/src/merge');
+const mergeAll = require('ramda/src/mergeAll');
 const $_type = require('./$_type');
 
 module.exports = ({ invariants, errors }) => {

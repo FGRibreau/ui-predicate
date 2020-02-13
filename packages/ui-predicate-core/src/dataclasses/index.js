@@ -1,4 +1,4 @@
-const { merge } = require('ramda');
+const merge = require('ramda/src/merge');
 
 /**
  * Data classes

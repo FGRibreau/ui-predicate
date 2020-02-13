@@ -5,7 +5,7 @@
  * @note errors are 100% tested from PredicateCore.test.js
  */
 
-const { mergeAll } = require('ramda');
+const mergeAll = require('ramda/src/mergeAll');
 const errorEx = require('error-ex');
 
 function err(name) {

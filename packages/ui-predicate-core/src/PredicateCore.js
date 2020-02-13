@@ -8,16 +8,14 @@
  * @note rules are 100% tested from PredicateCore.test.js
  */
 
-const {
-  merge,
-  find,
-  curry,
-  pipe,
-  filter,
-  map,
-  takeLast,
-  insert,
-} = require('ramda');
+const merge = require('ramda/src/merge');
+const find = require('ramda/src/find');
+const curry = require('ramda/src/curry');
+const pipe = require('ramda/src/pipe');
+const filter = require('ramda/src/filter');
+const map = require('ramda/src/map');
+const takeLast = require('ramda/src/takeLast');
+const insert = require('ramda/src/insert');
 
 const option = require('option');
 

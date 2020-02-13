@@ -1,4 +1,5 @@
-const { mergeAll, trim } = require('ramda');
+const mergeAll = require('ramda/src/mergeAll');
+const trim = require('ramda/src/trim');
 const $_type = require('./$_type');
 
 /**

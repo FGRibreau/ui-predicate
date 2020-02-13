@@ -15,7 +15,7 @@ const {
   errors,
 } = require('./index');
 
-const { prop } = require('ramda');
+const prop = require('ramda/src/prop');
 
 describe('UIPredicateCore', () => {
   describe('constructor', () => {
