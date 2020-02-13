@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.4"></a>
+## [0.6.4](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.6.3...ui-predicate-core@0.6.4) (2020-02-13)
+
+
+### Bug Fixes
+
+* only require what's necessary from ramda fixes [#4](https://github.com/FGRibreau/ui-predicate/issues/4) ([fc101d9](https://github.com/FGRibreau/ui-predicate/commit/fc101d9))
+
+
+
+
 <a name="0.6.3"></a>
 ## [0.6.3](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-core@0.6.2...ui-predicate-core@0.6.3) (2018-08-31)
 
