@@ -23,7 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@storybook/addon-actions": "5.2.1",
-    "@storybook/addon-backgrounds": "4.0.0-alpha.16",
+    "@storybook/addon-backgrounds": "5.3.14",
     "@storybook/addon-centered": "5.1.9",
     "@storybook/addon-jest": "4.0.0-alpha.16",
     "@storybook/addon-knobs": "4.0.0-alpha.16",
