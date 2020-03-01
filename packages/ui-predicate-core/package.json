@@ -17,7 +17,7 @@
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^8.2.3",
+    "babel-eslint": "^10.1.0",
     "eslint": "^4.19.1",
     "jest": "^22.4.3",
     "jsdoc": "^3.5.5",
