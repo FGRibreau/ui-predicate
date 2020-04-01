@@ -29,7 +29,7 @@
     "@storybook/addon-knobs": "4.0.0-alpha.16",
     "@storybook/addon-links": "4.0.0-alpha.16",
     "@storybook/addon-notes": "4.0.0-alpha.16",
-    "@storybook/addon-options": "4.0.0-alpha.16",
+    "@storybook/addon-options": "5.3.18",
     "@storybook/addon-storyshots": "4.0.0-alpha.16",
     "@storybook/addon-storysource": "4.0.0-alpha.16",
     "@storybook/addon-viewport": "4.0.0-alpha.16",
