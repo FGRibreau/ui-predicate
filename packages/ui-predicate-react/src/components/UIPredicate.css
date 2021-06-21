@@ -1,0 +1,13 @@
+.ui-predicate__main {
+  display: flex;
+}
+.ui-predicate__row {
+  flex-direction: row;
+}
+.ui-predicate__col {
+  display: inline-block;
+  margin: 0 2px;
+}
+.ui-predicate__options {
+  display: flex;
+}

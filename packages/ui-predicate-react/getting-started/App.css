@@ -1,0 +1,8 @@
+/** ui-predicate-react do not include any css for styling purpose so we have to override it */
+.ui-predicate.compound {
+  margin-left: 10px;
+}
+/** css below is only for the getting-started part */
+pre {
+  max-height: 50vh;
+}
