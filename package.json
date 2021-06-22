@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "title": "ui-predicate",
   "description": "Finally a rules editor (or predicates), framework agnostic, component for the Web",
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "contributors": [
+    "Romain Baumier <baumier.romain@gmail.com> (https://rbaumier.com/)"
+  ],
+  "license": "MIT",
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test": "lerna run --stream test",
@@ -15,8 +20,6 @@
     "docs:build": "lerna run --stream docs:build && node scripts/docs-build-index.js",
     "updtr": "lerna exec --concurrency 1 -- updtr"
   },
-  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
-  "license": "MIT",
   "engines": {
     "node": "=10.19"
   },

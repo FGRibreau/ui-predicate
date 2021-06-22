@@ -2,24 +2,25 @@
   "name": "ui-predicate-react",
   "version": "0.0.1",
   "description": "Finally a predicate UI component for ReactJS",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "contributors": [
+    "Romain Baumier <baumier.romain@gmail.com> (https://rbaumier.com/)"
+  ],
   "license": "MIT",
   "scripts": {
-    "build": "parcel build --out-file=ui-predicate-react --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
+    "test": "true",
+    "lint": "eslint --fix getting-started src",
+    "test:coverage": "true",
+    "build": "parcel build --dist-dir=lib --no-cache --detailed-report --target=browser src/index.js",
     "docs:getting-started:start": "parcel serve ./getting-started/index.html",
     "docs:getting-started:build": "parcel build ./getting-started/index.html",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
     "docs:build": "npm run --silent build && npm run --silent docs:jsdoc:build && npm run --silent docs:examples:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
-    "docs:examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/index.html --public-url ./ --no-cache -d $DIR -t browser",
-    "lint": "eslint --fix getting-started src"
+    "docs:storybook:watch": "start-storybook -p 9001"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "ui-predicate-core": "^0.6.4"
   },
   "devDependencies": {
@@ -32,6 +33,19 @@
     "babel-loader": "^8.2.2",
     "eslint": "^7.29.0",
     "eslint-plugin-react": "^7.24.0",
-    "parcel": "^2.0.0-beta.3.1"
+    "jsdoc": "^3.5.5",
+    "parcel": "^2.0.0-beta.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17"
+  },
+  "targets": {
+    "browser": {
+      "engines": {
+        "browsers": "> 0.25%"
+      }
+    }
   }
 }
