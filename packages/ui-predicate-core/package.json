@@ -22,6 +22,7 @@
     "jest": "^22.4.3",
     "jsdoc": "^3.5.5",
     "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.3",
     "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
   "jest": {
