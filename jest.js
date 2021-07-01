@@ -8,4 +8,6 @@ module.exports = {
   coverageDirectory,
   coverageReporters: ['lcov'],
   rootDir,
+  verbose: true,
+  testURL: 'http://localhost/',
 };
