@@ -17,11 +17,12 @@
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.14.6",
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
     "jest": "^22.4.3",
     "jsdoc": "^3.5.5",
-    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.3",
     "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
   "jest": {

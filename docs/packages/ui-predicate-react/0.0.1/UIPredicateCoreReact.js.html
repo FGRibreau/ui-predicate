@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UIPredicateCoreReact.js - Documentation</title>
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="nav">
+    <h2 class="home-link"><a href="index.html">ui-predicate</a></h2><h3>Namespaces</h3><ul><li><details open><summary><a href="React.html">React</a></summary><ul class='methods'><li data-type='method'><a href="React.html#.UIPredicateCoreReact">UIPredicateCoreReact</a></li></ul></details></li></ul>
+</nav>
+
+<div id="main" class="main-container">
+    
+        <h1 class="page-title">UIPredicateCoreReact.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="source linenums"><code><ol class="lines"><li id="line1" class="line"><span class="hljs-comment">/* eslint no-unused-vars: "off"*/</span></li><li id="line2" class="line"></li><li id="line3" class="line"><span class="hljs-comment">/**</span></li><li id="line4" class="line"><span class="hljs-comment"> * ReactJS adapter for ui-predicate-core</span></li><li id="line5" class="line"><span class="hljs-comment"> * @namespace React</span></li><li id="line6" class="line"><span class="hljs-comment"> * @since 1.0.0</span></li><li id="line7" class="line"><span class="hljs-comment"> */</span></li><li id="line8" class="line"></li><li id="line9" class="line"><span class="hljs-keyword">import</span> assign <span class="hljs-keyword">from</span> <span class="hljs-string">"lodash/assign"</span>;</li><li id="line10" class="line"><span class="hljs-keyword">import</span> { PredicateCore, UITypes } <span class="hljs-keyword">from</span> <span class="hljs-string">"ui-predicate-core"</span>;</li><li id="line11" class="line"><span class="hljs-keyword">import</span> DEFAULT_COMPONENTS <span class="hljs-keyword">from</span> <span class="hljs-string">"../components/default-components"</span>;</li><li id="line12" class="line"></li><li id="line13" class="line"><span class="hljs-keyword">const</span> defaults = {</li><li id="line14" class="line">  <span class="hljs-attr">options</span>: {</li><li id="line15" class="line">    <span class="hljs-comment">/**</span></li><li id="line16" class="line"><span class="hljs-comment">     * UIPredicate React Adapter own default argument component</span></li><li id="line17" class="line"><span class="hljs-comment">     * @param {Object} [columns=PredicateCore.defaults.columns] columns</span></li><li id="line18" class="line"><span class="hljs-comment">     * @param {Object} [options=PredicateCore.defaults.options] options</span></li><li id="line19" class="line"><span class="hljs-comment">     * @param {Object} [ui=PredicateCore.defaults.ui] ui</span></li><li id="line20" class="line"><span class="hljs-comment">     * @return {React.component} the default React Component to use as argument specifier</span></li><li id="line21" class="line"><span class="hljs-comment">     * @see core.defaults.getDefaultArgumentComponent</span></li><li id="line22" class="line"><span class="hljs-comment">     * @memberof React.defaults</span></li><li id="line23" class="line"><span class="hljs-comment">     */</span></li><li id="line24" class="line">    getDefaultArgumentComponent(columns, options, ui) {</li><li id="line25" class="line">      <span class="hljs-comment">/*</span></li><li id="line26" class="line"><span class="hljs-comment">        "ui" arg. results from DEFAULT_COMPONENTS</span></li><li id="line27" class="line"><span class="hljs-comment">        and :ui attribute passed to &lt;ui-predicate&gt;</span></li><li id="line28" class="line"><span class="hljs-comment">        all merged in UIPredicateCoreReact()</span></li><li id="line29" class="line"><span class="hljs-comment">        and passed to PredicateCore</span></li><li id="line30" class="line"><span class="hljs-comment">      */</span></li><li id="line31" class="line">      <span class="hljs-keyword">return</span> ui[UITypes.ARGUMENT_DEFAULT];</li><li id="line32" class="line">    }</li><li id="line33" class="line">  }</li><li id="line34" class="line">};</li><li id="line35" class="line"></li><li id="line36" class="line"><span class="hljs-comment">/**</span></li><li id="line37" class="line"><span class="hljs-comment"> * UIPredicateCore adapter for ReactJS</span></li><li id="line38" class="line"><span class="hljs-comment"> * @param {?dataclasses.CompoundPredicate} [data=PredicateCore.defaults.options.getDefaultData] data</span></li><li id="line39" class="line"><span class="hljs-comment"> * @param {Object} [columns=PredicateCore.defaults.columns] columns</span></li><li id="line40" class="line"><span class="hljs-comment"> * @param {Object} [ui=PredicateCore.defaults.ui] ui</span></li><li id="line41" class="line"><span class="hljs-comment"> * @param {Object} [options=PredicateCore.defaults.options] options</span></li><li id="line42" class="line"><span class="hljs-comment"> * @return {Promise&lt;core.PredicateCoreAPI&gt;} resolved promise yield a PredicateCoreAPI</span></li><li id="line43" class="line"><span class="hljs-comment"> * @memberof React</span></li><li id="line44" class="line"><span class="hljs-comment"> */</span></li><li id="line45" class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">UIPredicateCoreReact</span>(<span class="hljs-params">{ data, columns, ui, options } = {}</span>) </span>{</li><li id="line46" class="line">  <span class="hljs-keyword">return</span> PredicateCore({</li><li id="line47" class="line">    data,</li><li id="line48" class="line">    columns,</li><li id="line49" class="line">    <span class="hljs-attr">ui</span>: assign({}, DEFAULT_COMPONENTS, ui),</li><li id="line50" class="line">    <span class="hljs-attr">options</span>: assign({}, defaults.options, options)</li><li id="line51" class="line">  });</li><li id="line52" class="line">}</li><li id="line53" class="line"></li><li id="line54" class="line">UIPredicateCoreReact.defaults = defaults;</li><li id="line55" class="line"></li><li id="line56" class="line"><span class="hljs-keyword">export</span> { UIPredicateCoreReact };</li><li id="line57" class="line"></li></ol></code></pre>
+        </article>
+    </section>
+
+
+
+
+
+</div>
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>
