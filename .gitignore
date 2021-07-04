@@ -10,3 +10,4 @@ npm-debug.log
 old
 dist
 .env
+.parcel-cache

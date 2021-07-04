@@ -21,14 +21,14 @@
     "updtr": "lerna exec --concurrency 1 -- updtr"
   },
   "engines": {
-    "node": "=10.19"
+    "node": ">=14.16.0"
   },
   "devDependencies": {
     "codecov": "^3.0.0",
-    "hotdoc": "^0.7.2",
-    "jsdoc": "^3.5.5",
+    "docdash": "^1.2.0",
+    "jsdoc": "^3.6.7",
     "lerna": "^2.10.2",
-    "parcel": "^1.12.4",
+    "parcel": "^2.0.0-beta.3.1",
     "updtr": "^3.1.0"
   }
 }

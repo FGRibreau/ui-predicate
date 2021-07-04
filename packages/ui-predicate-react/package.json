@@ -19,7 +19,6 @@
     "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples"
   },
   "dependencies": {
-    "node-sass": "^4.14.0",
     "prop-types": "^15.7.2",
     "ui-predicate-core": "^0.6.4"
   },

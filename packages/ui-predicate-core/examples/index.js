@@ -1,4 +1,4 @@
-const PredicateCore = require('..');
+const {PredicateCore} = require('..');
 
 PredicateCore({
   // data:{},
