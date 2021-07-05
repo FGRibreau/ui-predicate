@@ -1,28 +1,17 @@
 module.exports = {
-  moduleNameMapper: { '^vue$': 'vue/dist/vue.common.js' },
+  moduleFileExtensions: ['js', 'jsx', 'json', 'vue'],
   transform: {
-    // Although latest versions of Node already supports most ES2015 features, you may still want to use ES modules syntax and stage-x features in your tests.
-    '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
-    // '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor',
-    '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest',
+    "^.+\\.js$": "babel-jest",
+    ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
   },
-  snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
-  transformIgnorePatterns: ['/node_modules/(?!(@storybook/.*\\.vue$))'],
-  moduleFileExtensions: ['vue', 'js', 'jsx', 'json', 'node'],
-
-  // support the same @ -> src alias mapping in source code
-  moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100,
-    },
+  moduleNameMapper: {
+    "^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
   },
-  collectCoverage: true,
-  coverageReporters: ['html', 'text-summary'],
-  collectCoverageFrom: ['**/*.{js,vue}', '!**/node_modules/**'],
-  verbose: true,
-  testURL: 'http://localhost/',
+  snapshotSerializers: [
+    "<rootDir>/node_modules/jest-serializer-vue"
+  ],
+  testMatch: [
+    '<rootDir>/tests/**/*.spec.(js|jsx|ts|tsx)|<rootDir>/**/__tests__/*.(js|jsx|ts|tsx)'
+  ],
+  transformIgnorePatterns: ['<rootDir>/node_modules/']
 };

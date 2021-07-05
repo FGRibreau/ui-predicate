@@ -40,7 +40,7 @@ module.exports = {
   UIPredicateComparisonArgument,
   UIPredicateCompound,
   UIPredicate,
-  errors
+  errors,
 };
 
 module.exports.default = module.exports;

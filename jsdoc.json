@@ -3,13 +3,21 @@
     "include": ["src", "package.json", "README.md"]
   },
   "opts": {
-    "template": "node_modules/hotdoc/template",
+    "template": "node_modules/docdash",
+    "encoding": "utf8",
     "destination": "../../docs/packages",
     "recurse": true
   },
-  "hotdoc": {
-    "github": "https://github.com/fgribreau/ui-predicate/",
+  "docdash": {
     "home": "ui-predicate",
-    "customOverrides": "../../docs/hotdoc-overrides.scss"
+    "scripts": ["../../docs/docdash-overrides.scss"],
+    "menu": {
+      "Github": {
+        "href":"https://github.com/fgribreau/ui-predicate/",
+        "target":"_blank",
+        "class":"menu-item",
+        "id":"github_link"
+      }
+    }
   }
 }

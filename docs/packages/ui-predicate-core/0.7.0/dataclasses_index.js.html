@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>dataclasses/index.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/fgribreau/ui-predicate/" target="_blank" class="menu-item" id="github_link" >Github</a></h2><h3>Namespaces</h3><ul><li><a href="core.html">core</a><ul class='methods'><li data-type='method'><a href="core.html#.PredicateCore">PredicateCore</a></li></ul></li><li></li><li><a href="core.api.html">api</a><ul class='methods'><li data-type='method'><a href="core.api.html#.add">add</a></li><li data-type='method'><a href="core.api.html#.getArgumentTypeComponentById">getArgumentTypeComponentById</a></li><li data-type='method'><a href="core.api.html#.getUIComponent">getUIComponent</a></li><li data-type='method'><a href="core.api.html#.off">off</a></li><li data-type='method'><a href="core.api.html#.on">on</a></li><li data-type='method'><a href="core.api.html#.once">once</a></li><li data-type='method'><a href="core.api.html#.remove">remove</a></li><li data-type='method'><a href="core.api.html#.setArgumentValue">setArgumentValue</a></li><li data-type='method'><a href="core.api.html#.setData">setData</a></li><li data-type='method'><a href="core.api.html#.setPredicateLogicalType_id">setPredicateLogicalType_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateOperator_id">setPredicateOperator_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateTarget_id">setPredicateTarget_id</a></li><li data-type='method'><a href="core.api.html#.toJSON">toJSON</a></li></ul></li><li><a href="core.defaults.html">defaults</a></li><li><a href="core.defaults.options.html">options</a><ul class='methods'><li data-type='method'><a href="core.defaults.options.html#.getDefaultArgumentComponent">getDefaultArgumentComponent</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultComparisonPredicate">getDefaultComparisonPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultCompoundPredicate">getDefaultCompoundPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultData">getDefaultData</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultLogicalType">getDefaultLogicalType</a></li></ul></li><li><a href="dataclasses.html">dataclasses</a><ul class='methods'><li data-type='method'><a href="dataclasses.html#.ArgumentType">ArgumentType</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate">ComparisonPredicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate.is">ComparisonPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate">CompoundPredicate</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.forEach">CompoundPredicate.forEach</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.is">CompoundPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.reduce">CompoundPredicate.reduce</a></li><li data-type='method'><a href="dataclasses.html#.LogicalType">LogicalType</a></li><li data-type='method'><a href="dataclasses.html#.Operator">Operator</a></li><li data-type='method'><a href="dataclasses.html#.Predicate">Predicate</a></li><li data-type='method'><a href="dataclasses.html#.Target">Target</a></li><li data-type='method'><a href="dataclasses.html#.Type">Type</a></li></ul></li><li><a href="errors.html">errors</a></li><li><a href="invariants.html">invariants</a><ul class='methods'><li data-type='method'><a href="invariants.html#.AddOnlySupportsAfter">AddOnlySupportsAfter</a></li><li data-type='method'><a href="invariants.html#.CompoundPredicateMustHaveAtLeastOneSubPredicate">CompoundPredicateMustHaveAtLeastOneSubPredicate</a></li><li data-type='method'><a href="invariants.html#.LogicalType_idMustReferToADefinedLogicalType">LogicalType_idMustReferToADefinedLogicalType</a></li><li data-type='method'><a href="invariants.html#.Operator_idMustReferToADefinedOperator">Operator_idMustReferToADefinedOperator</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeAComparisonPredicate">PredicateMustBeAComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeACompoundPredicate">PredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateTypeMustBeValid">PredicateTypeMustBeValid</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateCannotBeTheLastComparisonPredicate">RemovePredicateCannotBeTheLastComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateMustDifferFromRootPredicate">RemovePredicateMustDifferFromRootPredicate</a></li><li data-type='method'><a href="invariants.html#.RootPredicateMustBeACompoundPredicate">RootPredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.Target_idMustReferToADefinedTarget">Target_idMustReferToADefinedTarget</a></li><li data-type='method'><a href="invariants.html#.TargetMustReferToADefinedType">TargetMustReferToADefinedType</a></li></ul></li><li><a href="rules.html">rules</a><ul class='methods'><li data-type='method'><a href="rules.html#.predicateToRemoveIsRootPredicate">predicateToRemoveIsRootPredicate</a></li><li data-type='method'><a href="rules.html#.predicateToRemoveIsTheLastComparisonPredicate">predicateToRemoveIsTheLastComparisonPredicate</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">dataclasses/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const merge = require('ramda/src/merge');
+
+/**
+ * Data classes
+ * @namespace dataclasses
+ * @param {object} errors ui-predicate errors object
+ * @return {object} ui-predicate available data classes
+ * @since 1.0.0
+ */
+module.exports = errors =>
+  merge(require('./columns'), require('./predicates')(errors));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sun Jul 04 2021 12:32:34 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+    <script src="../../docs/docdash-overrides.scss"></script>
+    
+</body>
+</html>

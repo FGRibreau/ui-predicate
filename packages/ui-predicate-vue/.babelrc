@@ -1,8 +1,0 @@
-{
-  "presets": [["env", { "modules": "commonjs" }], "stage-0", "vue"],
-  "env": {
-    "test": {
-      "presets": [["env", { "targets": { "node": "current" } }]]
-    }
-  }
-}
