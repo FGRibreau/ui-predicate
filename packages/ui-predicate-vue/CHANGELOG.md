@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@1.0.0...ui-predicate-vue@1.1.0) (2021-07-06)
+
+
+### Features
+
+* **circleci -> github actions:** use it to run test:coverage ([#139](https://github.com/FGRibreau/ui-predicate/issues/139)) ([bf5e1e0](https://github.com/FGRibreau/ui-predicate/commit/bf5e1e0))
+
+
+
+
 <a name="0.6.2"></a>
 ## [0.6.2](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-vue@0.6.1...ui-predicate-vue@0.6.2) (2018-08-31)
 

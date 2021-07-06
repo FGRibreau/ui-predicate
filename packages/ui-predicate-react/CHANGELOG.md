@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-react@1.0.0...ui-predicate-react@1.0.2) (2021-07-06)
+
+
+
+
+**Note:** Version bump only for package ui-predicate-react
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-react@0.1.0...ui-predicate-react@1.0.0) (2021-07-05)
 
