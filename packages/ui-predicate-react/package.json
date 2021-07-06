@@ -1,6 +1,6 @@
 {
   "name": "ui-predicate-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Finally a predicate UI component for ReactJS",
   "main": "lib/index.js",
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
@@ -11,7 +11,7 @@
   "scripts": {
     "test": "true",
     "lint": "eslint --fix getting-started src",
-    "build": "parcel build --dist-dir=lib --no-cache --detailed-report --target=browser src/index.js",
+    "build": "parcel build --out-dir=lib --no-cache --detailed-report --target=browser src/index.js",
     "test:coverage": "true",
     "docs:jsdoc:build": "true",
     "docs:getting-started:start": "parcel serve ./getting-started/index.html",
@@ -33,7 +33,7 @@
     "eslint": "^7.29.0",
     "eslint-plugin-react": "^7.24.0",
     "jsdoc": "^3.5.5",
-    "parcel": "^2.0.0-beta.3.1",
+    "parcel-bundler": "^1.12.5",
     "postcss": "^8.3.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
