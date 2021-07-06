@@ -1,18 +1,18 @@
 {
   "name": "ui-predicate-core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Finally a predicate UI component for the Web",
   "main": "lib/ui-predicate-core.js",
   "scripts": {
     "test": "jest -c ../../jest.js --coverage",
     "test:debugger": "node --inspect-brk node_modules/.bin/jest --watch",
-    "build": "parcel build src/index.js --no-cache --detailed-report --target=browser --dist-dir=lib && mv lib/index.js lib/ui-predicate-core.js && mv lib/index.js.map lib/ui-predicate-core.js.map",
+    "build": "parcel build src/index.js --no-cache --detailed-report --target=browser --out-dir=lib --out-file=ui-predicate-core",
     "test:watch": "jest  --coverage --watch",
     "test:coverage": "jest -c ../../jest.js --maxWorkers=2 --coverage",
     "lint": "eslint src",
     "docs:build": "npm run --silent build && npm run --silent docs:jsdoc:build && npm run --silent docs:examples:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
-    "docs:examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/index.html --public-url ./ --no-cache --dist-dir=$DIR --target=browser"
+    "docs:examples:build": "DIR=../../docs/packages/$npm_package_name/$npm_package_version/examples; rm -rf $DIR; parcel build examples/index.html --public-url ./ --no-cache --out-dir=$DIR --target=browser"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "eslint": "^4.19.1",
     "jest": "^27.0.6",
     "jsdoc": "^3.6.7",
-    "parcel": "2.0.0-beta.3.1"
+    "parcel-bundler": "^1.12.5"
   },
   "jest": {
     "coverageThreshold": {
@@ -37,13 +37,5 @@
     "error-ex": "^1.3.1",
     "option": "^0.2.4",
     "ramda": "^0.26.1"
-  },
-  "targets": {
-    "browser": {
-      "outputFormat": "commonjs",
-      "engines": {
-        "browsers": "> 0.25%"
-      }
-    }
   }
 }
