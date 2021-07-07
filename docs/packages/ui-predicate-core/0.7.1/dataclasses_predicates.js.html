@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>dataclasses/predicates.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/fgribreau/ui-predicate/" target="_blank" class="menu-item" id="github_link" >Github</a></h2><h3>Namespaces</h3><ul><li><a href="core.html">core</a><ul class='methods'><li data-type='method'><a href="core.html#.PredicateCore">PredicateCore</a></li></ul></li><li></li><li><a href="core.api.html">api</a><ul class='methods'><li data-type='method'><a href="core.api.html#.add">add</a></li><li data-type='method'><a href="core.api.html#.getArgumentTypeComponentById">getArgumentTypeComponentById</a></li><li data-type='method'><a href="core.api.html#.getUIComponent">getUIComponent</a></li><li data-type='method'><a href="core.api.html#.off">off</a></li><li data-type='method'><a href="core.api.html#.on">on</a></li><li data-type='method'><a href="core.api.html#.once">once</a></li><li data-type='method'><a href="core.api.html#.remove">remove</a></li><li data-type='method'><a href="core.api.html#.setArgumentValue">setArgumentValue</a></li><li data-type='method'><a href="core.api.html#.setData">setData</a></li><li data-type='method'><a href="core.api.html#.setPredicateLogicalType_id">setPredicateLogicalType_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateOperator_id">setPredicateOperator_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateTarget_id">setPredicateTarget_id</a></li><li data-type='method'><a href="core.api.html#.toJSON">toJSON</a></li></ul></li><li><a href="core.defaults.html">defaults</a></li><li><a href="core.defaults.options.html">options</a><ul class='methods'><li data-type='method'><a href="core.defaults.options.html#.getDefaultArgumentComponent">getDefaultArgumentComponent</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultComparisonPredicate">getDefaultComparisonPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultCompoundPredicate">getDefaultCompoundPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultData">getDefaultData</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultLogicalType">getDefaultLogicalType</a></li></ul></li><li><a href="dataclasses.html">dataclasses</a><ul class='methods'><li data-type='method'><a href="dataclasses.html#.ArgumentType">ArgumentType</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate">ComparisonPredicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate.is">ComparisonPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate">CompoundPredicate</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.forEach">CompoundPredicate.forEach</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.is">CompoundPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.reduce">CompoundPredicate.reduce</a></li><li data-type='method'><a href="dataclasses.html#.LogicalType">LogicalType</a></li><li data-type='method'><a href="dataclasses.html#.Operator">Operator</a></li><li data-type='method'><a href="dataclasses.html#.Predicate">Predicate</a></li><li data-type='method'><a href="dataclasses.html#.Target">Target</a></li><li data-type='method'><a href="dataclasses.html#.Type">Type</a></li></ul></li><li><a href="errors.html">errors</a></li><li><a href="invariants.html">invariants</a><ul class='methods'><li data-type='method'><a href="invariants.html#.AddOnlySupportsAfter">AddOnlySupportsAfter</a></li><li data-type='method'><a href="invariants.html#.CompoundPredicateMustHaveAtLeastOneSubPredicate">CompoundPredicateMustHaveAtLeastOneSubPredicate</a></li><li data-type='method'><a href="invariants.html#.LogicalType_idMustReferToADefinedLogicalType">LogicalType_idMustReferToADefinedLogicalType</a></li><li data-type='method'><a href="invariants.html#.Operator_idMustReferToADefinedOperator">Operator_idMustReferToADefinedOperator</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeAComparisonPredicate">PredicateMustBeAComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeACompoundPredicate">PredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateTypeMustBeValid">PredicateTypeMustBeValid</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateCannotBeTheLastComparisonPredicate">RemovePredicateCannotBeTheLastComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateMustDifferFromRootPredicate">RemovePredicateMustDifferFromRootPredicate</a></li><li data-type='method'><a href="invariants.html#.RootPredicateMustBeACompoundPredicate">RootPredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.Target_idMustReferToADefinedTarget">Target_idMustReferToADefinedTarget</a></li><li data-type='method'><a href="invariants.html#.TargetMustReferToADefinedType">TargetMustReferToADefinedType</a></li></ul></li><li><a href="rules.html">rules</a><ul class='methods'><li data-type='method'><a href="rules.html#.predicateToRemoveIsRootPredicate">predicateToRemoveIsRootPredicate</a></li><li data-type='method'><a href="rules.html#.predicateToRemoveIsTheLastComparisonPredicate">predicateToRemoveIsTheLastComparisonPredicate</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">dataclasses/predicates.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const merge = require('ramda/src/merge');
+const mergeAll = require('ramda/src/mergeAll');
+const $_type = require('./$_type');
+
+module.exports = ({ invariants, errors }) => {
+  const { Target, Operator, LogicalType } = require('./columns');
+  /**
+   * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+   * @typedef {object} Predicate
+   * @memberof dataclasses
+   */
+
+  /**
+   * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+   * @param {Function} type - Predicate subtype function constructor
+   * @return {dataclasses.Predicate} predicate
+   * @memberof dataclasses
+   */
+  function Predicate(type) {
+    return invariants
+      .PredicateTypeMustBeValid(type.$name, Predicate.Types)
+      .then(() =>
+        merge($_type(type.$name), {
+          /**
+           * $canBeRemoved specify if the predicate can be removed or not from the Predicates tree
+           * @type {Boolean}
+           *  @memberof Predicate
+           */
+          $canBeRemoved: true,
+        })
+      );
+  }
+
+  /**
+   * [description]
+   * @param  {dataclasses.Predicate} predicate predicate
+   * @return {Object} serializable object
+   */
+  Predicate.toJSON = function(predicate) {
+    if (ComparisonPredicate.is(predicate))
+      return ComparisonPredicate.toJSON(predicate);
+
+    return CompoundPredicate.toJSON(predicate);
+  };
+
+  /**
+   * @param  {object} json json
+   * @param  {object} internalAPI internalAPI
+   * @return {Promise&lt;Predicate, errors&lt;*>>} Promise
+   */
+  Predicate.fromJSON = function(json, internalAPI) {
+    if (ComparisonPredicate.isFromJSON(json))
+      return ComparisonPredicate.fromJSON(json, internalAPI);
+
+    if (CompoundPredicate.isFromJSON(json))
+      return CompoundPredicate.fromJSON(json, internalAPI);
+
+    return Promise.reject(new errors.UnknownJSONData());
+  };
+
+  Predicate.Types = {
+    ComparisonPredicate: 'ComparisonPredicate',
+    CompoundPredicate: 'CompoundPredicate',
+  };
+
+  /**
+   * Abstract Predicate type, a Predicate is the union type of CompoundPredicate | ComparisonPredicate
+   * @typedef {object} ComparisonPredicate
+   * @param {string} target - unique id for this target
+   * @param {string} operator - label that will be displayed for this target
+   * @param {string} argument - the type_id name this target has
+   * @memberof dataclasses
+   */
+
+  /**
+   * A specialized predicate that you use to compare expressions.
+   * @param  {dataclasses.Target} target target
+   * @param  {dataclasses.Operator} operator operator
+   * @param  {*} argument argument
+   * @return {Promise&lt;dataclasses.ComparisonPredicate>} yield a ComparisonPredicate or a rejected promise
+   * @memberof dataclasses
+   */
+  function ComparisonPredicate(target, operator, argument = null) {
+    return Predicate(ComparisonPredicate).then(predicate =>
+      merge(predicate, {
+        target,
+        operator,
+        argument,
+      })
+    );
+  }
+
+  // by pass var. mangling from minify
+  ComparisonPredicate.$name = Predicate.Types.ComparisonPredicate;
+
+  /**
+   * @param  {ComparisonPredicate} predicate predicate
+   * @return {Object} JSON serializable object
+   */
+  ComparisonPredicate.toJSON = function(predicate) {
+    return mergeAll([
+      Target.toJSON(predicate.target),
+      Operator.toJSON(predicate.operator),
+      {
+        argument: predicate.argument,
+      },
+    ]);
+  };
+
+  /**
+   * @param  {object} json json
+   * @param  {object} internalAPI internalAPI
+   * @return {Promise&lt;Predicate, errors&lt;*>>} Promise
+   */
+  ComparisonPredicate.fromJSON = function(json, internalAPI) {
+    return Promise.all([
+      internalAPI.getTargetById(json.target_id),
+      internalAPI.getOperatorById(json.operator_id),
+    ]).then(([target, operator]) =>
+      ComparisonPredicate(target, operator, json.argument)
+    );
+  };
+
+  /**
+   * Yield true if `predicate` is a ComparisonPredicate
+   * @param  {dataclasses.Predicate}  predicate {@link dataclasses.Predicate}
+   * @return {Boolean} true if `predicate` is a ComparisonPredicate
+   * @memberof dataclasses
+   */
+  ComparisonPredicate.is = predicate => {
+    return (
+      predicate &amp;&amp; predicate.$_type === Predicate.Types.ComparisonPredicate
+    );
+  };
+
+  /**
+   * Yield true if `json` seems to be a ComparisonPredicate
+   * @param  {object} json json
+   * @private
+   * @return {Boolean} true if json seems to be a ComparisonPredicate
+   * @memberof dataclasses
+   */
+  ComparisonPredicate.isFromJSON = json => json &amp;&amp; json.target_id;
+
+  /**
+   * A specialized predicate that evaluates logical combinations of other predicates.
+   * @param {dataclasses.LogicalType} logic The predicate logic
+   * @param {Array&lt;dataclasses.Predicate>} predicates predicates predicates
+   * @return {Promise&lt;dataclasses.CompoundPredicate>} yield a {@link dataclasses.CompoundPredicate} or a {@link errors.CompoundPredicateMustHaveAtLeastOneSubPredicate} rejected promise
+   * @memberof dataclasses
+   */
+  function CompoundPredicate(logic, predicates) {
+    return invariants
+      .CompoundPredicateMustHaveAtLeastOneSubPredicate(
+        predicates,
+        CompoundPredicate
+      )
+      .then(() => Predicate(CompoundPredicate))
+      .then(predicate =>
+        merge(predicate, {
+          logic,
+          predicates,
+        })
+      );
+  }
+
+  // by pass var. mangling from minify
+  CompoundPredicate.$name = Predicate.Types.CompoundPredicate;
+
+  /**
+   * @param  {CompoundPredicate} predicate predicate
+   * @return {Object} JSON serializable object
+   */
+  CompoundPredicate.toJSON = function(predicate) {
+    return mergeAll([
+      LogicalType.toJSON(predicate.logic),
+      { predicates: predicate.predicates.map(Predicate.toJSON) },
+    ]);
+  };
+
+  /**
+   * @param  {CompoundPredicate} predicate predicate
+   * @param  {object} internalAPI ui-predicate-core internal api object
+   * @return {Promise&lt;CompoundPredicate, errors&lt;*>>} Promise
+   */
+  CompoundPredicate.fromJSON = function(predicate, internalAPI) {
+    return invariants
+      .CompoundPredicateMustHaveAtLeastOneSubPredicate(
+        predicate.predicates,
+        CompoundPredicate
+      )
+      .then(() => internalAPI.getLogicalTypeById(predicate.logicalType_id))
+      .then(logicalType =>
+        Promise.all(
+          predicate.predicates.map(predicate =>
+            Predicate.fromJSON(predicate, internalAPI)
+          )
+        ).then(predicates => CompoundPredicate(logicalType, predicates))
+      );
+  };
+
+  /**
+   * Reduce through the predicates tree
+   * @param       {dataclasses.CompoundPredicate} compoundPredicate starter node
+   * @param       {function} f accumulation function, f(acc, predicate, parents)
+   * @param       {T} acc               accumulator
+   * @param       {Array}  [parents=[]]      path to the node, array of parents
+   * @return      {T} yield the accumulator
+   * @memberof dataclasses
+   */
+  CompoundPredicate.reduce = function(compoundPredicate, f, acc, parents = []) {
+    const accumulator = f(acc, compoundPredicate, parents);
+    return compoundPredicate.predicates.reduce((_acc, predicate, i) => {
+      const _parents = parents.concat([compoundPredicate, [predicate, i]]);
+      return CompoundPredicate.is(predicate)
+        ? CompoundPredicate.reduce(predicate, f, _acc, _parents)
+        : f(_acc, predicate, _parents);
+    }, accumulator);
+  };
+
+  /**
+   * Walk through the predicates tree
+   * @param       {dataclasses.CompoundPredicate} compoundPredicate starter node
+   * @param       {Function} f(predicate) iterator function
+   * @return {undefined}
+   * @memberof dataclasses
+   */
+  CompoundPredicate.forEach = (compoundPredicate, f) => {
+    CompoundPredicate.reduce(
+      compoundPredicate,
+      (_, predicate) => {
+        f(predicate);
+      },
+      null
+    );
+  };
+
+  /**
+   * Yield true if `predicate` is a CompoundPredicate
+   * @param  {dataclasses.Predicate}  predicate predicate
+   * @return {Boolean} true if `predicate` is a CompoundPredicate
+   * @memberof dataclasses
+   */
+  CompoundPredicate.is = predicate =>
+    predicate &amp;&amp; predicate.$_type === Predicate.Types.CompoundPredicate;
+
+  /**
+   * Yield true if `json` seems to be a CompoundPredicate
+   * @param  {object}  json json
+   * @private
+   * @return {Boolean} true if json seems to be a CompoundPredicate json
+   * @memberof dataclasses
+   */
+  CompoundPredicate.isFromJSON = json => json &amp;&amp; json.logicalType_id;
+
+  return {
+    Predicate,
+    ComparisonPredicate,
+    CompoundPredicate,
+  };
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Jul 07 2021 18:17:04 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+    <script src="../../docs/docdash-overrides.scss"></script>
+    
+</body>
+</html>
