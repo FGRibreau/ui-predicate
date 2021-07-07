@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>invariants.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/fgribreau/ui-predicate/" target="_blank" class="menu-item" id="github_link" >Github</a></h2><h3>Namespaces</h3><ul><li><a href="core.html">core</a><ul class='methods'><li data-type='method'><a href="core.html#.PredicateCore">PredicateCore</a></li></ul></li><li></li><li><a href="core.api.html">api</a><ul class='methods'><li data-type='method'><a href="core.api.html#.add">add</a></li><li data-type='method'><a href="core.api.html#.getArgumentTypeComponentById">getArgumentTypeComponentById</a></li><li data-type='method'><a href="core.api.html#.getUIComponent">getUIComponent</a></li><li data-type='method'><a href="core.api.html#.off">off</a></li><li data-type='method'><a href="core.api.html#.on">on</a></li><li data-type='method'><a href="core.api.html#.once">once</a></li><li data-type='method'><a href="core.api.html#.remove">remove</a></li><li data-type='method'><a href="core.api.html#.setArgumentValue">setArgumentValue</a></li><li data-type='method'><a href="core.api.html#.setData">setData</a></li><li data-type='method'><a href="core.api.html#.setPredicateLogicalType_id">setPredicateLogicalType_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateOperator_id">setPredicateOperator_id</a></li><li data-type='method'><a href="core.api.html#.setPredicateTarget_id">setPredicateTarget_id</a></li><li data-type='method'><a href="core.api.html#.toJSON">toJSON</a></li></ul></li><li><a href="core.defaults.html">defaults</a></li><li><a href="core.defaults.options.html">options</a><ul class='methods'><li data-type='method'><a href="core.defaults.options.html#.getDefaultArgumentComponent">getDefaultArgumentComponent</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultComparisonPredicate">getDefaultComparisonPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultCompoundPredicate">getDefaultCompoundPredicate</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultData">getDefaultData</a></li><li data-type='method'><a href="core.defaults.options.html#.getDefaultLogicalType">getDefaultLogicalType</a></li></ul></li><li><a href="dataclasses.html">dataclasses</a><ul class='methods'><li data-type='method'><a href="dataclasses.html#.ArgumentType">ArgumentType</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate">ComparisonPredicate</a></li><li data-type='method'><a href="dataclasses.html#.ComparisonPredicate.is">ComparisonPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate">CompoundPredicate</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.forEach">CompoundPredicate.forEach</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.is">CompoundPredicate.is</a></li><li data-type='method'><a href="dataclasses.html#.CompoundPredicate.reduce">CompoundPredicate.reduce</a></li><li data-type='method'><a href="dataclasses.html#.LogicalType">LogicalType</a></li><li data-type='method'><a href="dataclasses.html#.Operator">Operator</a></li><li data-type='method'><a href="dataclasses.html#.Predicate">Predicate</a></li><li data-type='method'><a href="dataclasses.html#.Target">Target</a></li><li data-type='method'><a href="dataclasses.html#.Type">Type</a></li></ul></li><li><a href="errors.html">errors</a></li><li><a href="invariants.html">invariants</a><ul class='methods'><li data-type='method'><a href="invariants.html#.AddOnlySupportsAfter">AddOnlySupportsAfter</a></li><li data-type='method'><a href="invariants.html#.CompoundPredicateMustHaveAtLeastOneSubPredicate">CompoundPredicateMustHaveAtLeastOneSubPredicate</a></li><li data-type='method'><a href="invariants.html#.LogicalType_idMustReferToADefinedLogicalType">LogicalType_idMustReferToADefinedLogicalType</a></li><li data-type='method'><a href="invariants.html#.Operator_idMustReferToADefinedOperator">Operator_idMustReferToADefinedOperator</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeAComparisonPredicate">PredicateMustBeAComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateMustBeACompoundPredicate">PredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.PredicateTypeMustBeValid">PredicateTypeMustBeValid</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateCannotBeTheLastComparisonPredicate">RemovePredicateCannotBeTheLastComparisonPredicate</a></li><li data-type='method'><a href="invariants.html#.RemovePredicateMustDifferFromRootPredicate">RemovePredicateMustDifferFromRootPredicate</a></li><li data-type='method'><a href="invariants.html#.RootPredicateMustBeACompoundPredicate">RootPredicateMustBeACompoundPredicate</a></li><li data-type='method'><a href="invariants.html#.Target_idMustReferToADefinedTarget">Target_idMustReferToADefinedTarget</a></li><li data-type='method'><a href="invariants.html#.TargetMustReferToADefinedType">TargetMustReferToADefinedType</a></li></ul></li><li><a href="rules.html">rules</a><ul class='methods'><li data-type='method'><a href="rules.html#.predicateToRemoveIsRootPredicate">predicateToRemoveIsRootPredicate</a></li><li data-type='method'><a href="rules.html#.predicateToRemoveIsTheLastComparisonPredicate">predicateToRemoveIsTheLastComparisonPredicate</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">invariants.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Invariants
+ * @namespace invariants
+ * @since 1.0.0
+ * @note invariants are 100% tested from PredicateCore.test.js
+ */
+
+module.exports = ({ errors, rules }) => ({
+  /**
+   * [CompoundPredicateMustHaveAtLeastOneSubPredicate description]
+   * @param {?Array&lt;Predicate>} predicates list of predicates to add to a CompoundPredicate at creation time
+   * @return {Promise&lt;undefined, errors.CompoundPredicateMustHaveAtLeastOneSubPredicate>} resolve the promise if the invariant pass or yield a `CompoundPredicateMustHaveAtLeastOneSubPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  CompoundPredicateMustHaveAtLeastOneSubPredicate: predicates =>
+    !Array.isArray(predicates) || predicates.length === 0
+      ? Promise.reject(
+          new errors.CompoundPredicateMustHaveAtLeastOneSubPredicate()
+        )
+      : Promise.resolve(),
+
+  /**
+   * @param {String} type Predicate type
+   * @param {Object} acceptedTypes list of accepted types
+   * @return {Promise&lt;undefined, errors.InvalidPredicateType>} resolve the promise if the invariant pass or yield a `InvalidPredicateType` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  PredicateTypeMustBeValid: (type, acceptedTypes) =>
+    !Object.keys(acceptedTypes).includes(type)
+      ? Promise.reject(new errors.InvalidPredicateType())
+      : Promise.resolve(),
+
+  /**
+   * @param {dataclasses.CompoundPredicate} root root
+   * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate
+   * @return {Promise&lt;dataclasses.CompoundPredicate, errors.RootPredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `RootPredicateMustBeACompoundPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  RootPredicateMustBeACompoundPredicate: (root, CompoundPredicate) =>
+    !CompoundPredicate.is(root)
+      ? Promise.reject(new errors.RootPredicateMustBeACompoundPredicate())
+      : Promise.resolve(root),
+
+  /**
+   * @param {dataclasses.Predicate} predicate predicate
+   * @param {dataclasses.ComparisonPredicate} ComparisonPredicate ComparisonPredicate constructor
+   * @return {Promise&lt;undefined, errors.PredicateMustBeAComparisonPredicate>} resolve the promise if the invariant pass or yield a `PredicateMustBeAComparisonPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+
+  PredicateMustBeAComparisonPredicate: (predicate, ComparisonPredicate) =>
+    !ComparisonPredicate.is(predicate)
+      ? Promise.reject(new errors.PredicateMustBeAComparisonPredicate())
+      : Promise.resolve(),
+
+  /**
+   * @param {dataclasses.Predicate} predicate predicate
+   * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate constructor
+   * @return {Promise&lt;undefined, errors.PredicateMustBeACompoundPredicate>} resolve the promise if the invariant pass or yield a `PredicateMustBeACompoundPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  PredicateMustBeACompoundPredicate: (predicate, CompoundPredicate) =>
+    !CompoundPredicate.is(predicate)
+      ? Promise.reject(new errors.PredicateMustBeACompoundPredicate())
+      : Promise.resolve(),
+
+  /**
+   * @param {string} how how
+   * @return {Promise&lt;undefined, errors.AddCurrentlyOnlySupportAfterInsertion>} resolve the promise if the invariant pass or yield a `AddOnlySupportsAfter` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  AddOnlySupportsAfter: how =>
+    how !== 'after'
+      ? Promise.reject(new errors.AddCurrentlyOnlySupportAfterInsertion())
+      : Promise.resolve(),
+
+  /**
+   * @param {option&lt;dataclasses.Type>} type type
+   * @param {dataclasses.Target} target target
+   * @return {Promise&lt;dataclasses.Type, errors.TargetMustReferToADefinedType>} resolve the promise if the invariant pass or yield a `TargetMustReferToADefinedType` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  TargetMustReferToADefinedType: (type, target) => {
+    if (type.isNone()) {
+      return Promise.reject(
+        new errors.TargetMustReferToADefinedType(
+          `target ${JSON.stringify(
+            target.target_id
+          )} does not refer to a defined type, target.type_id=${JSON.stringify(
+            target.type_id
+          )}`
+        )
+      );
+    }
+    return Promise.resolve(type.value());
+  },
+
+  /**
+   * @param {Option&lt;dataclasses.LogicalType>} logicalType logicalType
+   * @return {Promise&lt;dataclasses.LogicalType, errors.LogicalType_idMustReferToADefinedLogicalType>} resolve the promise if the invariant pass or yield a `LogicalType_idMustReferToADefinedLogicalType` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  LogicalType_idMustReferToADefinedLogicalType: logicalType =>
+    !logicalType
+      ? Promise.reject(
+          new errors.LogicalType_idMustReferToADefinedLogicalType()
+        )
+      : Promise.resolve(logicalType),
+
+  /**
+   * @param {Option&lt;dataclasses.Target>} target target
+   * @return {Promise&lt;dataclasses.Target, errors.Target_idMustReferToADefinedTarget>} resolve the promise if the invariant pass or yield a `Target_idMustReferToADefinedTarget` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  Target_idMustReferToADefinedTarget: target =>
+    !target
+      ? Promise.reject(new errors.Target_idMustReferToADefinedTarget())
+      : Promise.resolve(target),
+
+  /**
+   * @param {Option&lt;dataclasses.Operator>} operator operator
+   * @return {Promise&lt;dataclasses.Operator, errors.Operator_idMustReferToADefinedOperator>} resolve the promise if the invariant pass or yield a `Operator_idMustReferToADefinedOperator` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  Operator_idMustReferToADefinedOperator: operator =>
+    !operator
+      ? Promise.reject(new errors.Operator_idMustReferToADefinedOperator())
+      : Promise.resolve(operator),
+
+  /**
+   * @param {dataclasses.CompoundPredicate} root root
+   * @param {dataclasses.Predicate} predicateToRemove predicateToRemove
+   * @return {Promise&lt;predicateToRemove, errors.ForbiddenCannotRemoveRootCompoundPredicate>} resolve the promise if the invariant pass or yield a `ForbiddenCannotRemoveRootCompoundPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  RemovePredicateMustDifferFromRootPredicate: (root, predicateToRemove) =>
+    rules.predicateToRemoveIsRootPredicate(root, predicateToRemove)
+      ? Promise.reject(new errors.ForbiddenCannotRemoveRootCompoundPredicate())
+      : Promise.resolve(predicateToRemove),
+
+  /**
+   * @param {dataclasses.CompoundPredicate} root root
+   * @param {dataclasses.Predicate} predicateToRemove predicateToRemove
+   * @param {dataclasses.CompoundPredicate} CompoundPredicate CompoundPredicate
+   * @param {dataclasses.ComparisonPredicate} ComparisonPredicate ComparisonPredicate
+   * @return {Promise&lt;undefined, errors.ForbiddenCannotRemoveLastComparisonPredicate>} resolve the promise if the invariant pass or yield a `RootPredicateMustBeACompoundPredicate` error otherwise
+   * @memberof invariants
+   * @since 1.0.0
+   */
+  RemovePredicateCannotBeTheLastComparisonPredicate: (
+    root,
+    predicateToRemove,
+    CompoundPredicate,
+    ComparisonPredicate
+  ) =>
+    ComparisonPredicate.is(predicateToRemove) &amp;&amp;
+    rules.predicateToRemoveIsTheLastComparisonPredicate(
+      root,
+      CompoundPredicate,
+      ComparisonPredicate
+    )
+      ? Promise.reject(
+          new errors.ForbiddenCannotRemoveLastComparisonPredicate()
+        )
+      : Promise.resolve(),
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Jul 07 2021 18:18:50 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+    <script src="../../docs/docdash-overrides.scss"></script>
+    
+</body>
+</html>
