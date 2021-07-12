@@ -11,3 +11,5 @@ old
 dist
 .env
 .parcel-cache
+packages/ui-predicate-react/build
+
