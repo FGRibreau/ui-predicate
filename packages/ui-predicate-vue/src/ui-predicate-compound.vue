@@ -9,6 +9,7 @@
             :predicate="predicate"
             :columns="columns"
             @change="changeLogic($event)"
+            v-model:logical_type="logical_type_id"
           />
         </div>
         <div class="ui-predicate__col">
@@ -45,10 +46,15 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      logical_type_id: this.predicate.logic.logicalType_id,
+    }
+  },
   inject: ['add', 'setPredicateLogicalType_id', 'UITypes', 'getUIComponent'],
   methods: {
-    changeLogic(logicalType_id) {
-      this.setPredicateLogicalType_id(this.predicate, logicalType_id);
+    changeLogic(event) {
+      this.setPredicateLogicalType_id(this.predicate, this.logical_type_id);
     },
   },
 };

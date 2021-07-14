@@ -1,11 +1,11 @@
-const errors = require('./errors');
-const UIPredicateOptions = require('./ui-predicate-options.vue');
-const UIPredicateComparison = require('./ui-predicate-comparison.vue');
-const UIPredicateComparisonArgument = require('./ui-predicate-comparison-argument');
-const UIPredicateCompound = require('./ui-predicate-compound.vue');
-const UIPredicate = require('./ui-predicate.vue');
+import errors from './errors';
+import UIPredicateOptions from './ui-predicate-options.vue';
+import UIPredicateComparison from './ui-predicate-comparison.vue';
+import UIPredicateComparisonArgument from './ui-predicate-comparison-argument.vue';
+import UIPredicateCompound from './ui-predicate-compound.vue';
+import UIPredicate from './ui-predicate.vue';
 
-// not single-source-of-truth, but need it for static refs
+// // not single-source-of-truth, but need it for static refs
 const components = {
   // https://w3c.github.io/webcomponents/spec/custom/#concepts
   // The custom element type identifies a custom element interface and is a sequence of characters that must match the NCName production,
@@ -20,7 +20,6 @@ const components = {
 // f(Vue, opts = {}) used by Vue.use()
 const install = function(Vue) {
   Object.keys(components).forEach(name => {
-    // console.log('Installing %s', name, components[name]);
     Vue.component(name, components[name].default || components[name]);
   });
 };
@@ -31,8 +30,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.UIPredicate = UIPredicate;
 }
 
-module.exports = {
-  version: require('../package.json').version,
+export default {
+  version: "1.0.0", //require("../package.json").version,
   install,
   components,
   UIPredicateOptions,
@@ -42,5 +41,3 @@ module.exports = {
   UIPredicate,
   errors,
 };
-
-module.exports.default = module.exports;

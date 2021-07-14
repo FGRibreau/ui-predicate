@@ -1,5 +1,7 @@
-const errorEx = require('error-ex');
+import errorEx from 'error-ex';
 
-module.exports = {
-  InitialisationFailed: errorEx('InitialisationFailed')
+const err =  {
+  InitialisationFailed: errorEx('error')
 };
+
+export default err

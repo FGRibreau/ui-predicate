@@ -1,22 +1,17 @@
 <template>
   <div>
-    <input type="text" @change="_onChange" :value="value">
+    <input type="text" @input="onChange" v-model="value" >
   </div>
 </template>
 
-<script>
-module.exports = {
-  name: 'text-argument',
-  methods: {
-    _onChange({ target: { value: newValue } }) {
-      this.$emit('change', newValue);
-    },
-  },
-  props: {
-    value: {
-      type: null,
-      required: true,
-    },
-  },
+<script setup>
+import { defineEmits, shallowRef } from "vue";
+
+const value = shallowRef("");
+
+const onChange = (event) => {
+  emit("change", event.target.value);
 };
+
+const emit = defineEmits(["change"]);
 </script>

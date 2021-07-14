@@ -1,5 +1,5 @@
 /* eslint no-console: "off"*/
-import UIPredicateCore, { UIPredicate } from '..';
+import UIPredicateCore, { UIPredicate } from '../src/';
 
 import { mount, createLocalVue /* , shallow*/ } from '@vue/test-utils';
 
@@ -17,12 +17,12 @@ describe('<ui-predicate/>', () => {
       const localVue = createLocalVue();
       localVue.use(UIPredicateCore);
       const wrapper = mount(UIPredicate, {
-        propsData: { config: DEFAULT_CONFIG },
+        props: { config: DEFAULT_CONFIG },
         // stubs: UIPredicateCore.components,
         localVue,
       });
 
-      console.log(wrapper.text());
+      //console.log(wrapper.text());
     });
   });
 });

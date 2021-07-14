@@ -1,22 +1,22 @@
 <template>
   <div>
-    <input type="date" @change="_onChange" :value="value">
+    <input type="date" @change="_onChange" :value="value" />
   </div>
 </template>
 
-<script>
-module.exports = {
-  name: 'date-argument',
-  methods: {
-    _onChange({ target: { value: newValue } }) {
-      this.$emit('change', newValue);
-    },
-  },
-  props: {
-    value: {
-      type: null,
-      required: true,
-    },
+<script setup>
+import { defineEmits, defineProps } from "vue";
+
+const props = {
+  value: {
+    type: null,
+    required: true,
   },
 };
+
+const _onChange = (event) => {
+  emit("change", event.target.value);
+};
+
+const emit = defineEmits(["change"]);
 </script>

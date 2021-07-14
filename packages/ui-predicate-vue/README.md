@@ -36,20 +36,3 @@ npm install ui-predicate-vue -S
 # yarn
 yarn add ui-predicate-vue
 ```
-
-
-# Setup
-
-```js
-const Vue = require('vue')
-const UIPredicate from 'ui-predicate-vue'
-
-Vue.use(UIPredicate)
-```
-
-```js
-import Vue from 'vue'
-import UIPredicate from 'ui-predicate-vue'
-
-Vue.use(UIPredicate)
-```

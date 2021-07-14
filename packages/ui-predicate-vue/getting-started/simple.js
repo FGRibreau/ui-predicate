@@ -1,14 +1,13 @@
-import Vue from 'vue';
+import { createApp } from "vue";
+import AppComp from "./simple.vue";
+import UIPredicateVue from "../modules/ui-predicate-vue3/src/index";
 
-import App from './simple.vue';
+const app = createApp(AppComp);
 
-import UIPredicateVue from '..';
-console.log(UIPredicateVue);
-Vue.use(UIPredicateVue);
+console.log("UIPredicateVue", UIPredicateVue);
+app.use(UIPredicateVue);
 
 // expose for debug purposes
 window.UIPredicateVue = UIPredicateVue;
-window.app = new Vue({
-  el: '#app',
-  render: h => h(App),
-});
+
+app.mount("#app");
