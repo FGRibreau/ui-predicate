@@ -19,8 +19,10 @@
     "lint": "eslint --fix getting-started src",
     "build": "rollup -c",
     "test:coverage": "true",
-    "docs:jsdoc:build": "true",
+    "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
+    "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:getting-started:start": "parcel serve ./getting-started/index.html",
+    "docs:getting-started:build": "parcel build --no-cache --public-url=./ --out-dir=../../docs/packages/$npm_package_name/$npm_package_version/getting-started getting-started/index.html",
     "docs:storybook:watch": "start-storybook -p 9001",
     "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples"
   },

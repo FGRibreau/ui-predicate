@@ -13,7 +13,7 @@
     "test:image-snapshots": "npm run docs:storybook:build && npm run test:image-snapshots:run",
     "test:image-snapshots:run": "jest --projects=./image-snapshots",
     "lint": "eslint --fix examples src",
-    "docs:build": "npm run --sient docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
+    "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:storybook:build": "build-storybook --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
     "docs:storybook:watch": "start-storybook -p 9001",
