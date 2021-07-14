@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-react@1.0.3...ui-predicate-react@1.1.0) (2021-07-14)
+
+
+### Features
+
+* **parcel -> rollup:** for production build ([#143](https://github.com/FGRibreau/ui-predicate/issues/143)) ([5d141fd](https://github.com/FGRibreau/ui-predicate/commit/5d141fd))
+
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/FGRibreau/ui-predicate/compare/ui-predicate-react@1.0.2...ui-predicate-react@1.0.3) (2021-07-07)
 
