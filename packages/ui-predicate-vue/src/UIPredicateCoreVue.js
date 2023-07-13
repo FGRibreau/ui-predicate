@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-// import Vue from 'vue';
+import Vue from 'vue';
 import assign from 'lodash/assign';
 import { PredicateCore, UITypes } from 'ui-predicate-core';
 import DEFAULT_COMPONENTS from './default-components';
@@ -52,7 +52,6 @@ function UIPredicateCoreVue({ data, columns, ui, options } = {}) {
   });
 }
 
-// UIPredicateCoreVue.defaults = defaults;
+UIPredicateCoreVue.defaults = defaults;
 
-// export { UIPredicateCoreVue };
-export default UIPredicateCoreVue;
+export { UIPredicateCoreVue };

@@ -3,7 +3,7 @@
     <div class="ui-predicate__option">
       <component
         :is="getUIComponent(UITypes.PREDICATE_REMOVE)"
-        @click="remove(predicate)"
+        @click.native="remove(predicate)"
         :predicate="predicate"
         :disabled="predicate.$canBeRemoved === false"
       />
@@ -11,9 +11,9 @@
     <div class="ui-predicate__option">
       <component
         :is="getUIComponent(UITypes.PREDICATE_ADD)"
-        @click="add(predicate)"
+        @click.native="add(predicate)"
         :predicate="predicate"
-        :isInAddCompoundMode="isInAddCompoundMode"
+        :is-in-add-compound-mode="isInAddCompoundMode"
       />
     </div>
   </div>

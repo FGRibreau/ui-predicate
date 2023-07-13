@@ -1,31 +1,7 @@
-<script>
-export default {
-    name: 'targets-component'
-}
-</script>
-<script setup>
-const props = defineProps({
-    columns: {
-        type: Object,
-        required: true
-    },
-    predicate: {
-        type: Object,
-        required: true,
-    },
-    target: {
-        type: String,
-        required: true,
-    },
-})
-
-defineEmits(['update:target']);
-</script>
-
 <template>
     <select
-        :value="target"
-        @change="$emit('update:target', $event.target.value)">
+        :value="predicate.target.target_id"
+        @change="$emit('change', $event.target.value)">
         <option
             v-for="target in columns.targets"
             :key="target.label"
@@ -33,3 +9,18 @@ defineEmits(['update:target']);
         </option>
     </select>
 </template>
+
+<script>
+export default {
+    props: {
+        columns: {
+            type: Object,
+            required: true,
+        },
+        predicate: {
+            type: Object,
+            required: true,
+        },
+  },
+}
+</script>

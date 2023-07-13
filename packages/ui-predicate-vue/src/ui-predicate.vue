@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import UIPredicateCoreVue from "./UIPredicateCoreVue";
-import InitialisationFailed from "./errors";
-import { UITypes } from "ui-predicate-core";
+import { InitialisationFailed } from './errors';
+import { UITypes } from 'ui-predicate-core';
+import { UIPredicateCoreVue } from './UIPredicateCoreVue';
 
 export default {
-  name: "ui-predicate",
+  name: 'ui-predicate',
   props: {
     data: {
       type: Object,
@@ -29,68 +29,16 @@ export default {
       required: false,
     },
   },
+  model: {
+    prop: 'data',
+    event: 'change',
+  },
   data() {
     return {
       isCoreReady: false,
       root: {},
       isInAddCompoundMode: false,
     };
-  },
-  created() {
-    const vm = this;
-    window.addEventListener("keyup", this.onAltReleased);
-    window.addEventListener("keydown", this.onAltPressed);
-
-    UIPredicateCoreVue({
-      data: this.data,
-      columns: this.columns,
-      ui: this.ui,
-    }).then(
-      (ctrl) => {
-
-        vm.ctrl = ctrl;
-        vm.root = ctrl.root;
-
-        ctrl.on("changed", vm.triggerChanged);
-
-        // Will allow to render root component when UiPredicateCore is ready.
-        vm.isCoreReady = true;
-
-        vm.$emit("initialized", ctrl);
-      },
-      (err) => {
-        // wrap ui-predicate-core error in InitialisationFailed error
-        const initialisationFailedError = Object.assign(
-          new InitialisationFailed(),
-          { cause: err }
-        );
-
-        // prior to Vue 2.6, we should use emit error to notify that component initialisation failed
-        vm.$emit("error", initialisationFailedError);
-
-        // since Vue 2.6, Promise can be also returned from lifecycle hooks to notify error
-        return Promise.reject(initialisationFailedError);
-      }
-    );
-  },
-  emits: ["initialized", "error", "change"],
-  methods: {
-    setIsInAddCompoundMode(state) {
-      this.isInAddCompoundMode = state;
-      this.$root.$emit("isInAddCompoundMode", state);
-    },
-    onAltPressed(event) {
-      // If alt was pressed...
-      if (event.keyCode === 18) this.setIsInAddCompoundMode(true);
-    },
-    onAltReleased(event) {
-      // If alt was released...
-      if (event.keyCode === 18) this.setIsInAddCompoundMode(false);
-    },
-    triggerChanged() {
-      // emit 'changed' event when some predicates where changed
-      this.$emit("change", this.ctrl.toJSON());
-    },
   },
   provide() {
     const vm = this;
@@ -131,11 +79,64 @@ export default {
       },
     };
   },
-  unmounted() {
+  methods: {
+    setIsInAddCompoundMode(state) {
+      this.isInAddCompoundMode = state;
+      this.$root.$emit('isInAddCompoundMode', state);
+    },
+    onAltPressed(event) {
+      // If alt was pressed...
+      if (event.keyCode == 18) this.setIsInAddCompoundMode(true);
+    },
+    onAltReleased(event) {
+      // If alt was released...
+      if (event.keyCode == 18) this.setIsInAddCompoundMode(false);
+    },
+    triggerChanged() {
+      // emit 'changed' event when some predicates where changed
+      this.$emit('change', this.ctrl.toJSON());
+    },
+  },
+  created() {
+    const vm = this;
+
+    window.addEventListener('keyup', this.onAltReleased);
+    window.addEventListener('keydown', this.onAltPressed);
+
+    UIPredicateCoreVue({
+      data: this.data,
+      columns: this.columns,
+      ui: this.ui,
+    }).then(
+      ctrl => {
+        vm.ctrl = ctrl;
+        vm.root = ctrl.root;
+
+        ctrl.on('changed', vm.triggerChanged);
+
+        // Will allow to render root component when UiPredicateCore is ready.
+        vm.isCoreReady = true;
+
+        vm.$emit('initialized', ctrl);
+      },
+      err => {
+        // wrap ui-predicate-core error in InitialisationFailed error
+        const initialisationFailedError =
+          Object.assign(new InitialisationFailed(), {cause: err});
+
+        // prior to Vue 2.6, we should use emit error to notify that component initialisation failed
+        vm.$emit('error', initialisationFailedError);
+
+        // since Vue 2.6, Promise can be also returned from lifecycle hooks to notify error
+        return Promise.reject(initialisationFailedError);
+      }
+    );
+  },
+  destroyed() {
     if (this.ctrl) this.ctrl.off();
 
-    window.removeEventListener("keyup", this.onAltReleased);
-    window.removeEventListener("keydown", this.onAltPressed);
+    window.removeEventListener('keyup', this.onAltReleased);
+    window.removeEventListener('keydown', this.onAltPressed);
   },
 };
 </script>

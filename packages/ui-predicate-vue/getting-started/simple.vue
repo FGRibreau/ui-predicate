@@ -1,54 +1,58 @@
 <template>
-  <div>
-    <div class="column">
-      <ui-predicate
-        v-model:data="predicate"
-        :columns="columns"
-        @change="onChange"
-        @initialized="onChange"
-      />
-    </div>
-    <div class="column">
-      <article class="message is-info">
-        <div class="message-header">
-          <p>Tips</p>
-        </div>
-        <div class="message-body">
-          Tips: Use <code>alt + click</code> to create a sub-group.
-        </div>
-      </article>
+    <div class="columns">
+      <div class="column">
+        <ui-predicate
+          v-model="predicate"
+          :columns="columns"
+          @changed="onChange"
+          @initialized="onChange"
+        />
+      </div>
 
-      <div class="card">
-        <header class="card-header">
-          <p class="card-header-title">Output</p>
-        </header>
-        <div class="card-content">
-          <pre>{{ ast }}</pre>
+      <div class="column">
+        <article class="message is-info">
+          <div class="message-header">
+            <p>Tips</p>
+          </div>
+          <div class="message-body">
+            Tips: Use <code>alt + click</code> to create a sub-group.
+          </div>
+        </article>
+
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Output
+            </p>
+          </header>
+          <div class="card-content">
+            <pre>{{ ast }}</pre>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
-import ColorArgument from './components/ColorArgument.vue';
-import DateArgument from './components/DateArgument.vue';
-import TextArgument from './components/TextArgument.vue';
-import { markRaw } from 'vue';
+import Vue from 'vue';
+import ColorArgument from './ColorArgument';
+import TextArgument from './TextArgument';
+import DateArgument from './DateArgument';
 
 export default {
-  name: 'App',
-  components: {},
+  name: 'app',
   data() {
     return {
-      ast: {},
+      ast: {
+        
+      },
       predicate: {
         logicalType_id: 'all',
         predicates: [
           {
-            target_id: 'article.videoCount',
-            operator_id: 'isEqualTo',
-            argument: 42,
+            "target_id": "article.videoCount",
+            "operator_id": "isEqualTo",
+            "argument": 42
           },
         ],
       },
@@ -158,19 +162,19 @@ export default {
         argumentTypes: [
           {
             argumentType_id: 'datepicker',
-            component: markRaw(DateArgument),
+            component: DateArgument,
           },
           {
             argumentType_id: 'colorpicker',
-            component: markRaw(ColorArgument),
+            component: ColorArgument,
           },
           {
             argumentType_id: 'smallString',
-            component: markRaw(TextArgument),
+            component: TextArgument,
           },
           {
             argumentType_id: 'number',
-            component: markRaw(TextArgument),
+            component: TextArgument,
           },
         ],
       },
@@ -184,12 +188,14 @@ export default {
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="css">
+  /** ui-predicate-vue do not include any css for styling purpose so we have to override it */
+  .ui-predicate.compound {
+    margin-left: 10px;
+  }
+
+  /** css below is only for the getting-started part */
+  pre{
+    max-height: 50vh;
+  }
 </style>

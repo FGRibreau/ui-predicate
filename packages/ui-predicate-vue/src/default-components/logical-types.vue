@@ -1,26 +1,7 @@
-<script setup>
-const props = defineProps({
-    columns: {
-        type: Object,
-        required: true
-    },
-    predicate: {
-        type: Object,
-        required: true,
-    },
-    logical_type: {
-        type: String,
-        required: true,
-    },
-});
-
-defineEmits(['update:logical_type']);
-</script>
-
 <template>
     <select
-    :value="logical_type"
-    @change="$emit('update:logical_type', $event.target.value)">
+    :value="predicate.logic.logicalType_id"
+    @change="$emit('change', $event.target.value)">
         <option
             v-for="logicalType in columns.logicalTypes"
             :key="logicalType.label"
@@ -29,3 +10,17 @@ defineEmits(['update:logical_type']);
     </select>
 </template>
 
+<script>
+export default {
+    props: {
+        predicate: {
+            type: Object,
+            required: true,
+        },
+        columns: {
+            type: Object,
+            required: true,
+        },
+    }
+}
+</script>
