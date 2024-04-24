@@ -14,25 +14,42 @@
 
 ## Introduction
 
-ui-predicate-vue is a rules editor, predicates component, for Vue JS. It aims to provide a clean, semantic and reusable component that make building your filtering or rules user interface a breeze.
+ui-predicate-vue is a rules editor, predicates component, for Vue JS 3. It aims to provide a clean, semantic and reusable component that make building your filtering or rules user interface a breeze.
 
 ## Documentation
 
-Checkout the [getting-started](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/getting-started), [storybook](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/examples) or the [API documentation](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest).
+Checkout the [getting-started](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest#/getting-started), [storybook](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest#/examples) or the [API documentation](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest).
 
 
 ## One minute Quick-start
 
-[Read the code](./getting-started) or [try it online](https://ui-predicate.fgribreau.com/ui-predicate-vue/latest#/getting-started).
+[Read the code](./getting-started) or [try it online](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest#/getting-started).
 
 ## Installation
 
 ``` bash
 # npm
-npm install ui-predicate-vue -S
+npm install ui-predicate-vue3 -S
 ```
 
 ``` bash
 # yarn
-yarn add ui-predicate-vue
+yarn add ui-predicate-vue3
+```
+
+
+# Setup
+
+```js
+import { createApp } from 'vue'
+
+import UIPredicate from 'ui-predicate-vue3'
+
+const app = createApp({
+    /* root component options */
+})
+
+app.use(UIPredicate)
+
+app.mount('#app')
 ```
