@@ -1,24 +1,16 @@
 <template>
   <div>
-    <input type="color" @change="_onChange" :value="value" />
+    <input type="color" @change="$emit('change', $event.target.value)" :value="value" />
   </div>
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
+defineEmits(["change"])
 
-const name = "color-argument";
-
-const _onChange = ({ target: { value: newValue } }) => {
-  emit("change", newValue);
-};
-
-const emit = defineEmits(["change"]);
-
-const props = {
+defineProps({
   value: {
     type: null,
     required: true,
   },
-};
+});
 </script>

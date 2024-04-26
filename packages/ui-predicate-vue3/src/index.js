@@ -1,9 +1,10 @@
 import errors from './errors';
 import UIPredicateOptions from './ui-predicate-options.vue';
 import UIPredicateComparison from './ui-predicate-comparison.vue';
-import UIPredicateComparisonArgument from './ui-predicate-comparison-argument.vue';
+import UIPredicateComparisonArgument from './ui-predicate-comparison-argument';
 import UIPredicateCompound from './ui-predicate-compound.vue';
 import UIPredicate from './ui-predicate.vue';
+import { version } from './../package.json';
 
 // // not single-source-of-truth, but need it for static refs
 const components = {
@@ -31,7 +32,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: "1.0.0", //require("../package.json").version,
+  version,
   install,
   components,
   UIPredicateOptions,

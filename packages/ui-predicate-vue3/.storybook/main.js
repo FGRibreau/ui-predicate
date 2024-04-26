@@ -7,7 +7,7 @@ const config = {
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
     '@storybook/addon-controls',
-    '@storybook/addon-notes/register-panel',
+    // '@storybook/addon-notes/register-panel',
   ],
   framework: {
     name: '@storybook/vue3-vite',

@@ -52,7 +52,6 @@ function UIPredicateCoreVue({ data, columns, ui, options } = {}) {
   });
 }
 
-// UIPredicateCoreVue.defaults = defaults;
+UIPredicateCoreVue.defaults = defaults;
 
-// export { UIPredicateCoreVue };
-export default UIPredicateCoreVue;
+export { UIPredicateCoreVue };

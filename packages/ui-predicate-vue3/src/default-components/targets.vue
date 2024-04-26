@@ -1,35 +1,26 @@
-<script>
-export default {
-    name: 'targets-component'
-}
-</script>
 <script setup>
-const props = defineProps({
-    columns: {
-        type: Object,
-        required: true
-    },
-    predicate: {
-        type: Object,
-        required: true,
-    },
-    target: {
-        type: String,
-        required: true,
-    },
-})
+defineEmits(['change']);
 
-defineEmits(['update:target']);
+defineProps({
+  columns: {
+    type: Object,
+    required: true,
+  },
+  predicate: {
+    type: Object,
+    required: true,
+  },
+})
 </script>
 
 <template>
-    <select
-        :value="predicate.target.target_id"
-        @change="$emit('update:target', $event.target.value)">
-        <option
-            v-for="target in columns.targets"
-            :key="target.label"
-            :value="target.target_id">{{target.label}}
-        </option>
-    </select>
+  <select
+    :value="predicate.target.target_id"
+    @change="$emit('change', $event.target.value)">
+    <option
+      v-for="target in columns.targets"
+      :key="target.label"
+      :value="target.target_id">{{target.label}}
+    </option>
+  </select>
 </template>

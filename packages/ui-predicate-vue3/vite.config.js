@@ -2,8 +2,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from "path";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+const isGettingStarted = process.env.VITE_APP === 'GETTING_STARTED';
+
+const viteConfig = {
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.js'),
@@ -21,5 +22,23 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      'ui-predicate-core': path.resolve(__dirname, './node_modules/ui-predicate-core/src/index.js')
+    }
+  },
+  define: {
+    'process.env': {}
+  },
   plugins: [vue()],
-})
+}
+
+if (isGettingStarted) {
+  viteConfig.root = path.resolve(__dirname,  './getting-started');
+  viteConfig.build.rollupOptions.input = {
+    main: path.resolve(__dirname, 'simple.js'),
+  };
+}
+
+// https://vitejs.dev/config/
+export default defineConfig(viteConfig)

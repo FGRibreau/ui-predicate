@@ -1,17 +1,16 @@
 <template>
   <div>
-    <input type="text" @input="onChange" v-model="value" >
+    <input type="text" @change="$emit('change', $event.target.value)" :value="value" >
   </div>
 </template>
 
 <script setup>
-import { defineEmits, shallowRef } from "vue";
+defineEmits(["change"])
 
-const value = shallowRef("");
-
-const onChange = (event) => {
-  emit("change", event.target.value);
-};
-
-const emit = defineEmits(["change"]);
+defineProps({
+  value: {
+    type: null,
+    required: true,
+  },
+});
 </script>

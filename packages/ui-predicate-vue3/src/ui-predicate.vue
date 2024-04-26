@@ -1,22 +1,20 @@
 <template>
   <div class="ui-predicate__main">
-    <ui-predicate-compound
-      v-if="isCoreReady"
-      :predicate="root"
-      :columns="columns"
-    />
+    <ui-predicate-compound v-if="isCoreReady" :predicate="root" :columns="columns" />
   </div>
 </template>
 
 <script>
-import UIPredicateCoreVue from "./UIPredicateCoreVue";
+import { UIPredicateCoreVue } from "./UIPredicateCoreVue";
 import InitialisationFailed from "./errors";
 import { UITypes } from "ui-predicate-core";
+import { toRaw, isProxy } from "vue";
 
 export default {
   name: "ui-predicate",
+  emits: ["initialized", "error", "change", 'update:modelValue'],
   props: {
-    data: {
+    modelValue: {
       type: Object,
       default: () => ({}),
     },
@@ -42,7 +40,7 @@ export default {
     window.addEventListener("keydown", this.onAltPressed);
 
     UIPredicateCoreVue({
-      data: this.data,
+      data: this.modelValue,
       columns: this.columns,
       ui: this.ui,
     }).then(
@@ -73,7 +71,6 @@ export default {
       }
     );
   },
-  emits: ["initialized", "error", "change"],
   methods: {
     setIsInAddCompoundMode(state) {
       this.isInAddCompoundMode = state;
@@ -87,9 +84,13 @@ export default {
       // If alt was released...
       if (event.keyCode === 18) this.setIsInAddCompoundMode(false);
     },
-    triggerChanged() {
+    triggerChanged(ctrl) {
+      console.log('triggerChanged', ctrl)
       // emit 'changed' event when some predicates where changed
-      this.$emit("change", this.ctrl.toJSON());
+      const ctrlData =  ctrl.toJSON();
+
+      this.$emit("change", ctrlData);
+      this.$emit('update:modelValue', ctrlData)
     },
   },
   provide() {
@@ -101,7 +102,7 @@ export default {
       },
       add(predicate) {
         return vm.ctrl.add({
-          where: predicate,
+          where: isProxy(predicate) ? toRaw(predicate) : predicate,
           how: 'after',
           type: vm.isInAddCompoundMode
             ? 'CompoundPredicate'
@@ -109,7 +110,7 @@ export default {
         });
       },
       remove(predicate) {
-        return vm.ctrl.remove(predicate);
+        return vm.ctrl.remove(isProxy(predicate) ? toRaw(predicate) : predicate);
       },
       setPredicateLogicalType_id(predicate, logicalType_id) {
         return vm.ctrl.setPredicateLogicalType_id(predicate, logicalType_id);
@@ -144,12 +145,15 @@ export default {
 .ui-predicate__main {
   display: flex;
 }
+
 .ui-predicate__row {
   flex-direction: row;
 }
+
 .ui-predicate__col {
   display: inline-block;
 }
+
 .ui-predicate__options {
   display: flex;
 }
