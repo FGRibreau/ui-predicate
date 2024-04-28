@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env VITE_APP=GETTING_STARTED vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
@@ -30,7 +30,7 @@
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:storybook:build": "storybook build --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
     "docs:storybook:watch": "storybook dev -p 9001",
-    "docs:getting-started:build": "vite build getting-started --empty-out-dir --out-dir=../../docs/packages/$npm_package_name/$npm_package_version/getting-started",
+    "docs:getting-started:build": "cross-env VITE_APP=GETTING_STARTED vite build --empty-out-dir --config=vite.config.js --out-dir=../../../docs/packages/$npm_package_name/$npm_package_version/getting-started",
     "docs:getting-started:dev": "cross-env VITE_APP=GETTING_STARTED vite"
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
@@ -55,9 +55,11 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/test-utils": "^2.4.5",
     "cross-env": "^7.0.3",
+    "docdash": "^2.0.2",
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vue": "^9.23.0",
+    "jsdoc": "^4.0.2",
     "jsdom": "^24.0.0",
     "storybook": "^8.0.9",
     "vite": "^5.2.8",

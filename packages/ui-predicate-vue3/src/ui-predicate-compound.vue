@@ -51,12 +51,5 @@ export default {
       this.setPredicateLogicalType_id(this.predicate, logicalType_id);
     },
   },
-  watch: {
-    predicate: {
-      handler(newVal) {
-        console.log('predicate changed', newVal);
-      },
-    },
-  },
 };
 </script>

@@ -7,11 +7,12 @@ const config = {
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
     '@storybook/addon-controls',
-    // '@storybook/addon-notes/register-panel',
   ],
   framework: {
     name: '@storybook/vue3-vite',
-    options: {},
+    options: {
+      // docgen: 'vue-component-meta',
+    },
   },
   docs: {
     autodocs: 'tag',

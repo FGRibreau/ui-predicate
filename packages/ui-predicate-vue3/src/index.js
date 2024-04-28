@@ -7,7 +7,7 @@ import UIPredicate from './ui-predicate.vue';
 import { version } from './../package.json';
 
 // // not single-source-of-truth, but need it for static refs
-const components = {
+export const components = {
   // https://w3c.github.io/webcomponents/spec/custom/#concepts
   // The custom element type identifies a custom element interface and is a sequence of characters that must match the NCName production,
   // must contain a U+002D HYPHEN-MINUS character, and must not contain any uppercase ASCII letters.

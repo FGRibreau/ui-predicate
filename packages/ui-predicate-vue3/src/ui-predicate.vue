@@ -1,6 +1,6 @@
 <template>
   <div class="ui-predicate__main">
-    <ui-predicate-compound v-if="isCoreReady" :predicate="root" :columns="columns" />
+    <ui-predicate-compound v-if="isCoreReady" :predicate="root" :key="compoundKey" :columns="columns" />
   </div>
 </template>
 
@@ -9,12 +9,15 @@ import { UIPredicateCoreVue } from "./UIPredicateCoreVue";
 import InitialisationFailed from "./errors";
 import { UITypes } from "ui-predicate-core";
 import { toRaw, isProxy } from "vue";
-
+/**
+* ui-predicate-vue is a rules editor, predicates component, for Vue JS 3.
+* It aims to provide a clean, semantic and reusable component that make building your filtering or rules user interface a breeze.
+*/
 export default {
   name: "ui-predicate",
-  emits: ["initialized", "error", "change", 'update:modelValue'],
+  emits: ["initialized", "error", "change"],
   props: {
-    modelValue: {
+    data: {
       type: Object,
       default: () => ({}),
     },
@@ -32,6 +35,7 @@ export default {
       isCoreReady: false,
       root: {},
       isInAddCompoundMode: false,
+      compoundKey: 0
     };
   },
   created() {
@@ -40,7 +44,7 @@ export default {
     window.addEventListener("keydown", this.onAltPressed);
 
     UIPredicateCoreVue({
-      data: this.modelValue,
+      data: this.data,
       columns: this.columns,
       ui: this.ui,
     }).then(
@@ -85,12 +89,17 @@ export default {
       if (event.keyCode === 18) this.setIsInAddCompoundMode(false);
     },
     triggerChanged(ctrl) {
-      console.log('triggerChanged', ctrl)
-      // emit 'changed' event when some predicates where changed
       const ctrlData =  ctrl.toJSON();
 
+      /**
+       * Emitted when the predicate is changed.
+       * @event change
+       * @type {Object}
+      */
       this.$emit("change", ctrlData);
-      this.$emit('update:modelValue', ctrlData)
+
+      // A small hack (for now) to handle reactivity (since nested objects changes are not being detected)
+      this.compoundKey = this.root.predicates.length
     },
   },
   provide() {

@@ -2,10 +2,10 @@
   <div>
     <div class="column">
       <ui-predicate
-        v-model="predicate"
+        :data="predicate"
         :columns="columns"
         @change="onChange"
-        @initialized="onChange"
+        @initialized="onInitialized"
       />
     </div>
     <div class="column">
@@ -23,7 +23,7 @@
           <p class="card-header-title">Output</p>
         </header>
         <div class="card-content">
-          <pre>{{ ast }}</pre>
+          <pre>{{ predicate }}</pre>
         </div>
       </div>
     </div>
@@ -36,8 +36,6 @@ import { ref } from 'vue';
 import ColorArgument from './ColorArgument.vue';
 import TextArgument from './TextArgument.vue';
 import DateArgument from './DateArgument.vue';
-
-const ast = ref({});
 
 const predicate = ref({
   logicalType_id: 'all',
@@ -174,9 +172,12 @@ const columns = {
 }
 
 const onChange = (data) => {
-  ast.value = data
+  predicate.value = data
 };
 
+const onInitialized = (ctrl) => {
+  // console.log('UIPredicate initialized', ctrl);
+}
 </script>
 
 <style lang="css">
