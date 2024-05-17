@@ -1,20 +1,21 @@
 <template>
   <div class="ui-predicate__main">
-    <ui-predicate-compound
-      v-if="isCoreReady"
-      :predicate="root"
-      :columns="columns"
-    />
+    <ui-predicate-compound v-if="isCoreReady" :predicate="root" :key="compoundKey" :columns="columns" />
   </div>
 </template>
 
 <script>
-import UIPredicateCoreVue from "./UIPredicateCoreVue";
+import { UIPredicateCoreVue } from "./UIPredicateCoreVue";
 import InitialisationFailed from "./errors";
 import { UITypes } from "ui-predicate-core";
-
+import { toRaw, isProxy } from "vue";
+/**
+* ui-predicate-vue is a rules editor, predicates component, for Vue JS 3.
+* It aims to provide a clean, semantic and reusable component that make building your filtering or rules user interface a breeze.
+*/
 export default {
   name: "ui-predicate",
+  emits: ["initialized", "error", "change"],
   props: {
     data: {
       type: Object,
@@ -34,6 +35,7 @@ export default {
       isCoreReady: false,
       root: {},
       isInAddCompoundMode: false,
+      compoundKey: 0
     };
   },
   created() {
@@ -73,7 +75,6 @@ export default {
       }
     );
   },
-  emits: ["initialized", "error", "change"],
   methods: {
     setIsInAddCompoundMode(state) {
       this.isInAddCompoundMode = state;
@@ -87,9 +88,18 @@ export default {
       // If alt was released...
       if (event.keyCode === 18) this.setIsInAddCompoundMode(false);
     },
-    triggerChanged() {
-      // emit 'changed' event when some predicates where changed
-      this.$emit("change", this.ctrl.toJSON());
+    triggerChanged(ctrl) {
+      const ctrlData =  ctrl.toJSON();
+
+      /**
+       * Emitted when the predicate is changed.
+       * @event change
+       * @type {Object}
+      */
+      this.$emit("change", ctrlData);
+
+      // A small hack (for now) to handle reactivity (since nested objects changes are not being detected)
+      this.compoundKey = this.root.predicates.length
     },
   },
   provide() {
@@ -101,7 +111,7 @@ export default {
       },
       add(predicate) {
         return vm.ctrl.add({
-          where: predicate,
+          where: isProxy(predicate) ? toRaw(predicate) : predicate,
           how: 'after',
           type: vm.isInAddCompoundMode
             ? 'CompoundPredicate'
@@ -109,7 +119,7 @@ export default {
         });
       },
       remove(predicate) {
-        return vm.ctrl.remove(predicate);
+        return vm.ctrl.remove(isProxy(predicate) ? toRaw(predicate) : predicate);
       },
       setPredicateLogicalType_id(predicate, logicalType_id) {
         return vm.ctrl.setPredicateLogicalType_id(predicate, logicalType_id);
@@ -144,12 +154,15 @@ export default {
 .ui-predicate__main {
   display: flex;
 }
+
 .ui-predicate__row {
   flex-direction: row;
 }
+
 .ui-predicate__col {
   display: inline-block;
 }
+
 .ui-predicate__options {
   display: flex;
 }

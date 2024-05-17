@@ -9,3 +9,4 @@ npm-debug.log
 .DS_Store
 docs
 dist
+*storybook.log

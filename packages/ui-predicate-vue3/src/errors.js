@@ -1,7 +1,5 @@
 import errorEx from 'error-ex';
 
-const err =  {
-  InitialisationFailed: errorEx('error')
-};
+const InitialisationFailed =  errorEx('error');
 
-export default err
+export default InitialisationFailed

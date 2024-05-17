@@ -1,12 +1,15 @@
 // https://eslint.org/docs/user-guide/configuring
 
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:vue/essential'],
+  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', 'plugin:storybook/recommended'],
   env: {
     browser: true,
     es6: true,
     node: true,
     jest: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest'
   },
   rules: {
     'array-bracket-spacing': 'error',

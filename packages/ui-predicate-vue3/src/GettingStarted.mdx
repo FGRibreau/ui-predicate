@@ -1,54 +1,42 @@
-<center>
-<h2 align="center">VueJS ui-predicate component</h2>
-<p align="center">
-<a href="https://www.npmjs.com/package/ui-predicate-vue"><img src="https://img.shields.io/npm/v/ui-predicate-vue.svg" /></a> <a href="https://www.jsdelivr.com/package/npm/ui-predicate-vue"><img src="https://data.jsdelivr.com/v1/package/npm/ui-predicate-vue/badge" /></a><br/>
-</p>
-</center>
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
+import * as PredicateStories from './ui-predicate.stories';
 
-<!--
-(todo - insert logo)
-(todo - insert screenshot)
--->
+<Meta title="Getting started" of={PredicateStories} />
 
 ## Introduction
 
 ui-predicate-vue is a rules editor, predicates component, for Vue JS 3. It aims to provide a clean, semantic and reusable component that make building your filtering or rules user interface a breeze.
 
-## Documentation
-
-Checkout the [getting-started](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest#/getting-started), [storybook](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest#/examples) or the [API documentation](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest).
-
-## One minute Quick-start
-
-[Read the code](./getting-started) or [try it online](https://ui-predicate.fgribreau.com/ui-predicate-vue3/latest#/getting-started).
 
 ## Installation
 
-```bash
+``` bash
 # npm
 npm install ui-predicate-vue3 -S
 ```
 
-```bash
+``` bash
 # yarn
 yarn add ui-predicate-vue3
 ```
 
+
 # Setup
 
 ```js
-import { createApp } from 'vue';
+import { createApp } from 'vue'
 
-import UIPredicate from 'ui-predicate-vue3';
+import UIPredicate from 'ui-predicate-vue3'
 
 const app = createApp({
-  /* root component options */
-});
+    /* root component options */
+})
 
-app.use(UIPredicate);
+app.use(UIPredicate)
 
-app.mount('#app');
+app.mount('#app')
 ```
+
 
 # Usage
 
@@ -275,11 +263,24 @@ export default {
     };
   },
   methods: {
-    onChange(diff) {
+    onChange (diff) {
       this.predicate = diff;
     },
+    onInitialized (ctrl) {
+        console.log('UIPredicate initialized', ctrl);
+    }
   },
 };
 </script>
 
 ```
+## Working Example
+
+<Canvas>
+  <Story of={PredicateStories} />
+</Canvas>
+## Inputs
+
+<Controls />
+
+

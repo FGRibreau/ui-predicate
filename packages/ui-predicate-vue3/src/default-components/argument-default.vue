@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  emits: ['change'],
   props: {
     value: {
       type: null,

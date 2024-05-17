@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import AppComp from "./simple.vue";
-import UIPredicateVue from "../modules/ui-predicate-vue3/src/index";
+import UIPredicateVue from "./../src/index";
 
 const app = createApp(AppComp);
 
