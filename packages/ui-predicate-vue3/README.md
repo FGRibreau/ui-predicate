@@ -56,7 +56,7 @@ app.mount('#app');
 <template>
   <div>
     <ui-predicate
-      :data="predicate"
+      v-model="predicate"
       :columns="columns"
       @change="onChange"
       @initialized="onInitialized"
@@ -164,7 +164,6 @@ const columns = {
 }
 
 const onChange = (data) => {
-  predicate.value = data
    console.log('Predicate changed', data);
 };
 
@@ -276,7 +275,7 @@ export default {
   },
   methods: {
     onChange(diff) {
-      this.predicate = diff;
+      console.log('Predicate changed', diff);
     },
   },
 };

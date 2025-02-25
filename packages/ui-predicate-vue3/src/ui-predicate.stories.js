@@ -29,14 +29,14 @@ export default {
 };
 
 const Template = (args) => ({
-  template: '<ui-predicate :columns="columns" :data="data" />',
+  template: '<ui-predicate :columns="columns" v-model="data" />',
   setup() {
     return { ...args };
   },
 });
 
 /**
-  \`<ui-predicate/>\` only requires a \`columns\` object.
+  \`<ui-predicate/>\` requires a \`columns\` object and predicate v-model.
   That's how you will pass your \`targets\`,\`operators\` , \`types\` and \`logicalTypes\`.
  */
 export const MinimalConfiguration = Template.bind({});
@@ -46,7 +46,7 @@ export const Events = {
     setup() {
       return { ...args };
     },
-    template: '<ui-predicate :columns="columns" :data="data" @change="onChange" @initialized="onInit"></ui-predicate>',
+    template: '<ui-predicate :columns="columns" v-model="data" @change="onChange" @initialized="onInit"></ui-predicate>',
   }),
   args: {
     onChange: action('`change` event'),
@@ -82,7 +82,7 @@ export const CustomizeDefaultUIComponents = {
     },
     template: `<ui-predicate
          :columns="columns"
-         :data="data"
+         v-model="data"
          :ui="ui"
          @change="onChange"
          @initialized="onInit"/>`,
@@ -153,7 +153,7 @@ export const CustomizeCSS = {
     template: `<ui-predicate
       class="custom-css"
       :columns="columns"
-      :data="data"
+      v-model="data"
       @change="onChange"
       @initialized="onInit"/>`,
   }),
