@@ -52,11 +52,20 @@ export default defineConfig(({ command, mode }) => {
     return {
       ...defaultConfig,
       build: {
+        manifest: true,
         lib: {
           entry: path.resolve(__dirname, 'src/index.js'),
           name: 'UIPredicateVue3',
           fileName: (format) => `ui-predicate-vue3.${format}.js`,
         },
+        rollupOptions: {
+          external: ['vue'],
+          output: {
+            globals: {
+              vue: 'Vue'
+            }
+          }
+        }
       }
     }
   }
