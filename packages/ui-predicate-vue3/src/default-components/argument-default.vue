@@ -1,18 +1,16 @@
 <template>
-  <input
-    type="text"
-    :value="value"
-    @change="$emit('change', $event.target.value)">
+  <div>
+    <input type="text" @change="$emit('change', $event.target.value)" :value="value" >
+  </div>
 </template>
 
-<script>
-export default {
-  emits: ['change'],
-  props: {
-    value: {
-      type: null,
-      required: true,
-    }
+<script setup>
+defineEmits(["change"])
+
+defineProps({
+  value: {
+    type: null,
+    required: true,
   },
-}
+});
 </script>

@@ -20,7 +20,8 @@ defineProps({
     <option
       v-for="target in columns.targets"
       :key="target.label"
-      :value="target.target_id">{{target.label}}
+      :value="target.target_id">
+      {{target.label}}
     </option>
   </select>
 </template>

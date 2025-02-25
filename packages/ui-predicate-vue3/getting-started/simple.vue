@@ -2,7 +2,7 @@
   <div>
     <div class="column">
       <ui-predicate
-        :data="predicate"
+        v-model="predicate"
         :columns="columns"
         @change="onChange"
         @initialized="onInitialized"
@@ -172,11 +172,11 @@ const columns = {
 }
 
 const onChange = (data) => {
-  predicate.value = data
+  console.log('UIPredicate onChange', data);
 };
 
 const onInitialized = (ctrl) => {
-  // console.log('UIPredicate initialized', ctrl);
+  console.log('UIPredicate initialized', ctrl);
 }
 </script>
 
