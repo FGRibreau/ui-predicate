@@ -1,28 +1,33 @@
 /* eslint no-console: "off"*/
 import UIPredicateCore, { UIPredicate } from '../src/';
+import { mount } from '@vue/test-utils';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { mount, createLocalVue /* , shallow*/ } from '@vue/test-utils';
-
-import DEFAULT_CONFIG from './__fixtures__';
+import { DEFAULT_CONFIG, DATASETS } from './__fixtures__';
 
 describe('<ui-predicate/>', () => {
   describe('minimal-configuration', () => {
-    // it('requires :config prop', () => {
-    //   expect(() => {
-    //     shallow(UIPredicate, { propsData: { config: DEFAULT_CONFIG } });
-    //   }).toThrow();
-    // });
-
-    it('works', () => {
-      const localVue = createLocalVue();
-      localVue.use(UIPredicateCore);
-      const wrapper = mount(UIPredicate, {
-        props: { config: DEFAULT_CONFIG },
-        // stubs: UIPredicateCore.components,
-        localVue,
+    it('works', async () => {
+      const wrapper = mount({
+        template: '<ui-predicate />',
+      }, {
+        props: {
+          columns: DEFAULT_CONFIG,
+          modelValue: DATASETS.simple,
+        },
+        global: {
+          plugins: [UIPredicateCore]
+        },
       });
 
-      //console.log(wrapper.text());
+      expect(wrapper.exists()).toBe(true);
+      expect(wrapper.find('.ui-predicate__main').exists()).toBe(true);
     });
+
+    // it('should have isCoreReady after initialization', async () => {
+      //   // expect(wrapper.vm.isCoreReady).toBe(true);
+    // });
+
+    // TODO: Add more tests
   });
 });

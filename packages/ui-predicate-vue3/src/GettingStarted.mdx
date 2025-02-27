@@ -263,7 +263,7 @@ export default {
   },
   methods: {
     onChange (diff) {
-      this.predicate = diff;
+        console.log('Predicate changed', diff);
     },
     onInitialized (ctrl) {
         console.log('UIPredicate initialized', ctrl);

@@ -48,6 +48,8 @@ provide('getAddCompoundMode', () => isInAddCompoundMode.value);
 provide('add', (predicate) => {
   return ctrl.value.add({
     // convert to plain object since ui-predicate-core doesn't handle js Proxies for now)
+    // As Vue 3 has moved to using Proxy instead of Object.defineProperty for its reactivity system.
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
     where: toRaw(predicate),
     how: 'after',
     type: isInAddCompoundMode.value ? 'CompoundPredicate' : 'ComparisonPredicate',
