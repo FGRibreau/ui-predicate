@@ -4,7 +4,7 @@
       <ui-predicate
         v-model="predicate"
         :columns="columns"
-        @change="onChange"
+        @changed="onChange"
         @initialized="onInitialized"
       />
     </div>

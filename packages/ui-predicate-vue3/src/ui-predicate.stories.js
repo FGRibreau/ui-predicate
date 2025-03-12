@@ -46,10 +46,10 @@ export const Events = {
     setup() {
       return { ...args };
     },
-    template: '<ui-predicate :columns="columns" v-model="data" @change="onChange" @initialized="onInit"></ui-predicate>',
+    template: '<ui-predicate :columns="columns" v-model="data" @changed="onChange" @initialized="onInit"></ui-predicate>',
   }),
   args: {
-    onChange: action('`change` event'),
+    onChanged: action('`changed` event'),
     onInit: action('`initialized` event'),
   },
 };
@@ -84,7 +84,7 @@ export const CustomizeDefaultUIComponents = {
          :columns="columns"
          v-model="data"
          :ui="ui"
-         @change="onChange"
+         @changed="onChange"
          @initialized="onInit"/>`,
   }),
   args: {
@@ -111,7 +111,7 @@ export const CustomizeDefaultUIComponents = {
             >
             <datalist
               id="targets-datalist"
-              @change="$emit('change', $event.target.value)">
+              @changed="$emit('changed', $event.target.value)">
               <option
                   v-for="target in columns.targets"
                   :key="target.target_id"
@@ -122,7 +122,7 @@ export const CustomizeDefaultUIComponents = {
         `,
       },
     },
-    onChange: action('`change` event'),
+    onChanged: action('`changed` event'),
     onInit: action('`initialized` event'),
   },
 };
@@ -154,11 +154,11 @@ export const CustomizeCSS = {
       class="custom-css"
       :columns="columns"
       v-model="data"
-      @change="onChange"
+      @changed="onChange"
       @initialized="onInit"/>`,
   }),
   args: {
-    onChange: action('`change` event'),
+    onChanged: action('`changed` event'),
     onInit: action('`initialized` event'),
   },
 };

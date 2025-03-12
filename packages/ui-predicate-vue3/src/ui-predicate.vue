@@ -34,7 +34,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['change', 'initialized', 'error', 'isInAddCompoundMode']);
+const emit = defineEmits([
+  'error',
+  'changed',
+  'initialized',
+  'isInAddCompoundMode',
+  'update:model-value'
+]);
 
 // Reactive state
 const isCoreReady = ref(false);
@@ -94,7 +100,7 @@ const triggerChanged = () => {
    * @event change
    * @type {Object}
   */
-  emit("change", jsonValue);
+  emit("changed", jsonValue);
   model.value = jsonValue;
 
    // A small hack (for now) to handle reactivity (since ui-predicate-core doesn't handle js Proxies for now)
@@ -127,7 +133,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (ctrl) {
+  if (ctrl.value) {
     ctrl.value.off();
   }
   window.removeEventListener('keyup', onAltReleased);
@@ -140,6 +146,7 @@ onBeforeUnmount(() => {
   display: flex;
 }
 .ui-predicate__row {
+  display: flex;
   flex-direction: row;
 }
 .ui-predicate__col {
