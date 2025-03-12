@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, ref, watch, markRaw, defineComponent } from "vue";
 
 export const DEFAULT_CONFIG = {
   // besides array list names, everything else follows convention https://github.com/FGRibreau/sql-convention
@@ -117,47 +117,55 @@ export const DEFAULT_CONFIG = {
       argumentType_id: 'colorpicker',
       component: getHTML5InputVueComponent('color'),
     },
-    // {
-    //   argumentType_id: 'daterangepicker',
-    //   component: Vue.component('daterangepicker-argument', {
-    //     props: {
-    //       value: {
-    //         type: null,
-    //         required: true,
-    //       },
-    //     },
-    //     data() {
-    //       return this._fromValue(this.value);
-    //     },
-    //     methods: {
-    //       _fromValue(value) {
-    //         const [start, end] = Array.isArray(value) ? value : [];
-    //         return {
-    //           start,
-    //           end,
-    //         };
-    //       },
-    //       _toValue() {
-    //         return [this.start, this.end];
-    //       },
-    //       _updated() {
-    //         this.$emit('change', this._toValue());
-    //       },
-    //       _onStartChange({ target: { value: newValue } }) {
-    //         this.start = newValue;
-    //         this._updated();
-    //       },
-    //       _onEndChange({ target: { value: newValue } }) {
-    //         this.end = newValue;
-    //         this._updated();
-    //       },
-    //     },
-    //     template: `<div style="display: flex;width: 260px;">
-    //       <input type="date" @change="_onStartChange" :value="start">
-    //       <span>and</span>
-    //       <input type="date" @change="_onEndChange" :value="end"></div>`,
-    //   }),
-    // },
+    {
+      argumentType_id: 'daterangepicker',
+      component: markRaw(
+        defineComponent({
+          name: "daterangepicker-argument",
+          props: {
+            value: {
+              type: null,
+              required: true,
+            },
+          },
+          emits: ["change"],
+          setup(props, { emit }) {
+            // Initialize start and end values
+            const start = ref(props.value?.[0] || "");
+            const end = ref(props.value?.[1] || "");
+
+            // Update emitted value when start or end changes
+            const emitUpdatedValue = () => {
+              emit("change", [start.value, end.value]);
+            };
+
+            // Watch for external prop changes and update local refs
+            watch(
+              () => props.value,
+              (newValue) => {
+                if (Array.isArray(newValue)) {
+                  start.value = newValue[0] || "";
+                  end.value = newValue[1] || "";
+                }
+              }
+            );
+
+            return {
+              start,
+              end,
+              emitUpdatedValue,
+            };
+          },
+          template: `
+          <div style="display: flex; width: 270px;">
+            <input type="date" @change="emitUpdatedValue" v-model="start">
+            <span>and</span>
+            <input type="date" @change="emitUpdatedValue" v-model="end">
+          </div>
+        `,
+        })
+      ),
+    },
     {
       argumentType_id: 'smallString',
       component: getHTML5InputVueComponent('text'),
@@ -223,19 +231,30 @@ export const DATASETS = {
 };
 
 function getHTML5InputVueComponent(type) {
-  return h('input', { type });
-  // return Vue.component(`${type}-argument`, {
-  //   methods: {
-  //     _onChange({ target: { value: newValue } }) {
-  //       this.$emit('change', newValue);
-  //     },
-  //   },
-  //   props: {
-  //     value: {
-  //       type: null,
-  //       required: true,
-  //     },
-  //   },
-  //   template: `<div><input type="${type}" @change="_onChange" :value="value"></div>`,
-  // });
+  return markRaw(
+    defineComponent({
+      name: `${type}-argument`,
+      props: {
+        value: {
+          type: null,
+          required: true,
+        },
+      },
+      emits: ["change"],
+      setup(props, { emit }) {
+        const onChange = (event) => {
+          emit("change", event.target.value);
+        };
+
+        return () =>
+          h("div", [
+            h("input", {
+              type: type,
+              value: props.value,
+              onChange: onChange,
+            }),
+          ]);
+      },
+    })
+  );
 }

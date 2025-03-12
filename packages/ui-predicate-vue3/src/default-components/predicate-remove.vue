@@ -8,5 +8,8 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  predicate: {
+    type: Object,
+  },
 });
 </script>

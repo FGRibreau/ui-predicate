@@ -2,9 +2,9 @@
   <div>
     <div class="column">
       <ui-predicate
-        :data="predicate"
+        v-model="predicate"
         :columns="columns"
-        @change="onChange"
+        @changed="onChange"
         @initialized="onInitialized"
       />
     </div>
@@ -36,6 +36,7 @@ import { ref } from 'vue';
 import ColorArgument from './ColorArgument.vue';
 import TextArgument from './TextArgument.vue';
 import DateArgument from './DateArgument.vue';
+import DateRangeArgument from './DateRangeArgument.vue';
 
 const predicate = ref({
   logicalType_id: 'all',
@@ -104,6 +105,11 @@ const columns = {
       argumentType_id: 'datepicker',
     },
     {
+      operator_id: 'isBetween_date',
+      label: 'is between',
+      argumentType_id: 'daterangepicker',
+    },
+    {
       operator_id: 'isBrighterThan',
       label: 'is brighter than',
       argumentType_id: 'colorpicker',
@@ -130,7 +136,7 @@ const columns = {
     },
     {
       type_id: 'datetime',
-      operator_ids: ['is_date'],
+      operator_ids: ['is_date', 'isBetween_date'],
     },
     {
       type_id: 'color',
@@ -157,6 +163,10 @@ const columns = {
       component: DateArgument,
     },
     {
+      argumentType_id: 'daterangepicker',
+      component: DateRangeArgument,
+    },
+    {
       argumentType_id: 'colorpicker',
       component: ColorArgument,
     },
@@ -172,11 +182,11 @@ const columns = {
 }
 
 const onChange = (data) => {
-  predicate.value = data
+  console.log('UIPredicate onChange', data);
 };
 
 const onInitialized = (ctrl) => {
-  // console.log('UIPredicate initialized', ctrl);
+  console.log('UIPredicate initialized', ctrl);
 }
 </script>
 

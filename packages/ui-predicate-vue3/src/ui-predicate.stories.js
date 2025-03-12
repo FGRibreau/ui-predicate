@@ -29,14 +29,14 @@ export default {
 };
 
 const Template = (args) => ({
-  template: '<ui-predicate :columns="columns" :data="data" />',
+  template: '<ui-predicate :columns="columns" v-model="data" />',
   setup() {
     return { ...args };
   },
 });
 
 /**
-  \`<ui-predicate/>\` only requires a \`columns\` object.
+  \`<ui-predicate/>\` requires a \`columns\` object and predicate v-model.
   That's how you will pass your \`targets\`,\`operators\` , \`types\` and \`logicalTypes\`.
  */
 export const MinimalConfiguration = Template.bind({});
@@ -46,10 +46,10 @@ export const Events = {
     setup() {
       return { ...args };
     },
-    template: '<ui-predicate :columns="columns" :data="data" @change="onChange" @initialized="onInit"></ui-predicate>',
+    template: '<ui-predicate :columns="columns" v-model="data" @changed="onChange" @initialized="onInit"></ui-predicate>',
   }),
   args: {
-    onChange: action('`change` event'),
+    onChanged: action('`changed` event'),
     onInit: action('`initialized` event'),
   },
 };
@@ -82,9 +82,9 @@ export const CustomizeDefaultUIComponents = {
     },
     template: `<ui-predicate
          :columns="columns"
-         :data="data"
+         v-model="data"
          :ui="ui"
-         @change="onChange"
+         @changed="onChange"
          @initialized="onInit"/>`,
   }),
   args: {
@@ -111,7 +111,7 @@ export const CustomizeDefaultUIComponents = {
             >
             <datalist
               id="targets-datalist"
-              @change="$emit('change', $event.target.value)">
+              @changed="$emit('changed', $event.target.value)">
               <option
                   v-for="target in columns.targets"
                   :key="target.target_id"
@@ -122,7 +122,7 @@ export const CustomizeDefaultUIComponents = {
         `,
       },
     },
-    onChange: action('`change` event'),
+    onChanged: action('`changed` event'),
     onInit: action('`initialized` event'),
   },
 };
@@ -153,12 +153,12 @@ export const CustomizeCSS = {
     template: `<ui-predicate
       class="custom-css"
       :columns="columns"
-      :data="data"
-      @change="onChange"
+      v-model="data"
+      @changed="onChange"
       @initialized="onInit"/>`,
   }),
   args: {
-    onChange: action('`change` event'),
+    onChanged: action('`changed` event'),
     onInit: action('`initialized` event'),
   },
 };

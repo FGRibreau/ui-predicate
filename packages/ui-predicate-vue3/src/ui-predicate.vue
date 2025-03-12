@@ -1,168 +1,157 @@
 <template>
   <div class="ui-predicate__main">
-    <ui-predicate-compound v-if="isCoreReady" :predicate="root" :key="compoundKey" :columns="columns" />
+    <ui-predicate-compound
+      v-if="isCoreReady"
+      :key="compoundKey"
+      :predicate="root"
+      :columns="columns"
+    />
   </div>
 </template>
 
-<script>
-import { UIPredicateCoreVue } from "./UIPredicateCoreVue";
+<script setup>
 import InitialisationFailed from "./errors";
-import { UITypes } from "ui-predicate-core";
-import { toRaw, isProxy } from "vue";
+import { UITypes } from 'ui-predicate-core';
+import _sampleSize from 'lodash/sampleSize';
+import { UIPredicateCoreVue } from './UIPredicateCoreVue';
+import { ref, toRaw, provide, onMounted, shallowRef, onBeforeUnmount } from 'vue';
+
 /**
 * ui-predicate-vue is a rules editor, predicates component, for Vue JS 3.
 * It aims to provide a clean, semantic and reusable component that make building your filtering or rules user interface a breeze.
 */
-export default {
-  name: "ui-predicate",
-  emits: ["initialized", "error", "change"],
-  props: {
-    data: {
-      type: Object,
-      default: () => ({}),
-    },
-    columns: {
-      type: Object,
-      required: true,
-    },
-    ui: {
-      type: Object,
-      required: false,
-    },
+
+const model = defineModel({ required: true });
+
+const props = defineProps({
+  columns: {
+    type: Object,
+    required: true,
   },
-  data() {
-    return {
-      isCoreReady: false,
-      root: {},
-      isInAddCompoundMode: false,
-      compoundKey: 0
-    };
+  ui: {
+    type: Object,
+    required: false,
   },
-  created() {
-    const vm = this;
-    window.addEventListener("keyup", this.onAltReleased);
-    window.addEventListener("keydown", this.onAltPressed);
+});
 
-    UIPredicateCoreVue({
-      data: this.data,
-      columns: this.columns,
-      ui: this.ui,
-    }).then(
-      (ctrl) => {
+const emit = defineEmits([
+  'error',
+  'changed',
+  'initialized',
+  'isInAddCompoundMode',
+  'update:model-value'
+]);
 
-        vm.ctrl = ctrl;
-        vm.root = ctrl.root;
+// Reactive state
+const isCoreReady = ref(false);
+const isInAddCompoundMode = ref(false);
+const compoundKey = ref(null);
+const ctrl = shallowRef(null);
+const root = shallowRef({});
 
-        ctrl.on("changed", vm.triggerChanged);
+provide('UITypes', UITypes);
+provide('getAddCompoundMode', () => isInAddCompoundMode.value);
+provide('add', (predicate) => {
+  return ctrl.value.add({
+    // convert to plain object since ui-predicate-core doesn't handle js Proxies for now)
+    // As Vue 3 has moved to using Proxy instead of Object.defineProperty for its reactivity system.
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+    where: toRaw(predicate),
+    how: 'after',
+    type: isInAddCompoundMode.value ? 'CompoundPredicate' : 'ComparisonPredicate',
+  });
+});
+provide('remove', (predicate) => ctrl.value.remove(toRaw(predicate)));
+provide('setPredicateLogicalType_id', (predicate, logicalType_id) =>
+  ctrl.value.setPredicateLogicalType_id(predicate, logicalType_id)
+);
+provide('setPredicateTarget_id', (predicate, target_id) =>
+  ctrl.value.setPredicateTarget_id(predicate, target_id)
+);
+provide('setPredicateOperator_id', (predicate, operator_id) =>
+  ctrl.value.setPredicateOperator_id(predicate, operator_id)
+);
+provide('getArgumentTypeComponentById', (argumentType_id) =>
+  ctrl.value.getArgumentTypeComponentById(argumentType_id)
+);
+provide('setArgumentValue', (predicate, value) => ctrl.value.setArgumentValue(predicate, value));
+provide('getUIComponent', (name) => ctrl.value.getUIComponent(name));
 
-        // Will allow to render root component when UiPredicateCore is ready.
-        vm.isCoreReady = true;
+const setIsInAddCompoundMode = (state) => {
+  isInAddCompoundMode.value = state;
 
-        vm.$emit("initialized", ctrl);
-      },
-      (err) => {
-        // wrap ui-predicate-core error in InitialisationFailed error
-        const initialisationFailedError = Object.assign(
-          new InitialisationFailed(),
-          { cause: err }
-        );
+  emit('isInAddCompoundMode', state);
+}
 
-        // prior to Vue 2.6, we should use emit error to notify that component initialisation failed
-        vm.$emit("error", initialisationFailedError);
+const onAltPressed = (event) => {
+  // If alt was pressed...
+  if (event.keyCode === 18) setIsInAddCompoundMode(true);
+}
 
-        // since Vue 2.6, Promise can be also returned from lifecycle hooks to notify error
-        return Promise.reject(initialisationFailedError);
-      }
-    );
-  },
-  methods: {
-    setIsInAddCompoundMode(state) {
-      this.isInAddCompoundMode = state;
-      this.$root.$emit("isInAddCompoundMode", state);
+const onAltReleased = (event) => {
+  // If alt was released...
+  if (event.keyCode === 18) setIsInAddCompoundMode(false);
+}
+
+const triggerChanged = () => {
+  const jsonValue = ctrl.value.toJSON();
+  /**
+   * Emitted when the predicate is changed.
+   * @event change
+   * @type {Object}
+  */
+  emit("changed", jsonValue);
+  model.value = jsonValue;
+
+   // A small hack (for now) to handle reactivity (since ui-predicate-core doesn't handle js Proxies for now)
+  compoundKey.value = _sampleSize('0123456789abcd', 8).join('');
+}
+
+onMounted(() => {
+  window.addEventListener('keyup', onAltReleased);
+  window.addEventListener('keydown', onAltPressed);
+
+  UIPredicateCoreVue({
+    data: model.value,
+    columns: props.columns,
+    ui: props.ui,
+  }).then(
+    (_ctrl) => {
+      ctrl.value = _ctrl;
+      root.value = _ctrl.root;
+      ctrl.value.on('changed', triggerChanged);
+      // Will allow to render root component when UiPredicateCore is ready.
+      isCoreReady.value = true;
+      emit('initialized', ctrl.value);
     },
-    onAltPressed(event) {
-      // If alt was pressed...
-      if (event.keyCode === 18) this.setIsInAddCompoundMode(true);
-    },
-    onAltReleased(event) {
-      // If alt was released...
-      if (event.keyCode === 18) this.setIsInAddCompoundMode(false);
-    },
-    triggerChanged(ctrl) {
-      const ctrlData =  ctrl.toJSON();
+    (err) => {
+      const initialisationFailedError = Object.assign(new InitialisationFailed(), { cause: err });
+      emit('error', initialisationFailedError);
+      return Promise.reject(initialisationFailedError);
+    }
+  );
+});
 
-      /**
-       * Emitted when the predicate is changed.
-       * @event change
-       * @type {Object}
-      */
-      this.$emit("change", ctrlData);
-
-      // A small hack (for now) to handle reactivity (since nested objects changes are not being detected)
-      this.compoundKey = this.root.predicates.length
-    },
-  },
-  provide() {
-    const vm = this;
-    return {
-      UITypes,
-      getAddCompoundMode() {
-        return vm.isInAddCompoundMode;
-      },
-      add(predicate) {
-        return vm.ctrl.add({
-          where: isProxy(predicate) ? toRaw(predicate) : predicate,
-          how: 'after',
-          type: vm.isInAddCompoundMode
-            ? 'CompoundPredicate'
-            : 'ComparisonPredicate',
-        });
-      },
-      remove(predicate) {
-        return vm.ctrl.remove(isProxy(predicate) ? toRaw(predicate) : predicate);
-      },
-      setPredicateLogicalType_id(predicate, logicalType_id) {
-        return vm.ctrl.setPredicateLogicalType_id(predicate, logicalType_id);
-      },
-      setPredicateTarget_id(predicate, target_id) {
-        return vm.ctrl.setPredicateTarget_id(predicate, target_id);
-      },
-      setPredicateOperator_id(predicate, operator_id) {
-        return vm.ctrl.setPredicateOperator_id(predicate, operator_id);
-      },
-      getArgumentTypeComponentById(argumentType_id) {
-        return vm.ctrl.getArgumentTypeComponentById(argumentType_id);
-      },
-      setArgumentValue(predicate, value) {
-        return vm.ctrl.setArgumentValue(predicate, value);
-      },
-      getUIComponent(name) {
-        return vm.ctrl.getUIComponent(name);
-      },
-    };
-  },
-  unmounted() {
-    if (this.ctrl) this.ctrl.off();
-
-    window.removeEventListener("keyup", this.onAltReleased);
-    window.removeEventListener("keydown", this.onAltPressed);
-  },
-};
+onBeforeUnmount(() => {
+  if (ctrl.value) {
+    ctrl.value.off();
+  }
+  window.removeEventListener('keyup', onAltReleased);
+  window.removeEventListener('keydown', onAltPressed);
+});
 </script>
 
 <style>
 .ui-predicate__main {
   display: flex;
 }
-
 .ui-predicate__row {
+  display: flex;
   flex-direction: row;
 }
-
 .ui-predicate__col {
   display: inline-block;
 }
-
 .ui-predicate__options {
   display: flex;
 }
