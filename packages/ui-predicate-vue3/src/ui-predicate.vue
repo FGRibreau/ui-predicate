@@ -14,7 +14,7 @@ import InitialisationFailed from "./errors";
 import { UITypes } from 'ui-predicate-core';
 import _sampleSize from 'lodash/sampleSize';
 import { UIPredicateCoreVue } from './UIPredicateCoreVue';
-import { ref, toRaw, provide, onMounted, shallowRef, onBeforeUnmount } from 'vue';
+import { ref, toRaw, provide, onMounted, shallowRef, onBeforeUnmount, watch } from 'vue';
 
 /**
 * ui-predicate-vue is a rules editor, predicates component, for Vue JS 3.
@@ -107,29 +107,40 @@ const triggerChanged = () => {
   compoundKey.value = _sampleSize('0123456789abcd', 8).join('');
 }
 
-onMounted(() => {
-  window.addEventListener('keyup', onAltReleased);
-  window.addEventListener('keydown', onAltPressed);
+watch(
+  model,
+  (newValue, oldValue) => {
+    if (JSON.stringify(newValue) === JSON.stringify(oldValue)) return;
 
-  UIPredicateCoreVue({
-    data: model.value,
-    columns: props.columns,
-    ui: props.ui,
-  }).then(
-    (_ctrl) => {
+    root.value = {};
+    isCoreReady.value = false;
+
+    UIPredicateCoreVue({
+      data: newValue,
+      columns: props.columns,
+      ui: props.ui,
+    }).then((_ctrl) => {
+
       ctrl.value = _ctrl;
       root.value = _ctrl.root;
       ctrl.value.on('changed', triggerChanged);
+      compoundKey.value = _sampleSize('0123456789abcd', 8).join('');
       // Will allow to render root component when UiPredicateCore is ready.
       isCoreReady.value = true;
       emit('initialized', ctrl.value);
+      },
+      (err) => {
+        const initialisationFailedError = Object.assign(new InitialisationFailed(), { cause: err });
+        emit('error', initialisationFailedError);
+        return Promise.reject(initialisationFailedError);
+      });
     },
-    (err) => {
-      const initialisationFailedError = Object.assign(new InitialisationFailed(), { cause: err });
-      emit('error', initialisationFailedError);
-      return Promise.reject(initialisationFailedError);
-    }
-  );
+  { deep: true, immediate: true }
+);
+
+onMounted(() => {
+  window.addEventListener('keyup', onAltReleased);
+  window.addEventListener('keydown', onAltPressed);
 });
 
 onBeforeUnmount(() => {
