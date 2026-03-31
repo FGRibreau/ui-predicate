@@ -12,3 +12,4 @@
 [build.environment]
   NODE_VERSION = "18"
   PYTHON_VERSION = "3.11"
+  NPM_FLAGS = "--ignore-scripts"
