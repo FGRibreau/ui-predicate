@@ -7,7 +7,7 @@
 
 [build]
   publish = "docs/packages"
-  command = "npm install --ignore-scripts && cd packages/ui-predicate-core && npm install --ignore-scripts && npm run build && npm run docs:build && cd ../ui-predicate-vue3 && npm install && npm run build && npm run docs:build && cd ../.. && node scripts/docs-build-index.js"
+  command = "echo '=== ROOT INSTALL ===' && npm install --ignore-scripts && echo '=== CORE INSTALL ===' && cd packages/ui-predicate-core && npm install --ignore-scripts && echo '=== CORE BUILD ===' && npm run build && echo '=== CORE DOCS ===' && npm run docs:build && echo '=== VUE3 INSTALL ===' && cd ../ui-predicate-vue3 && npm install && echo '=== VUE3 BUILD ===' && npm run build && echo '=== VUE3 DOCS ===' && npm run docs:build && echo '=== INDEX ===' && cd ../.. && node scripts/docs-build-index.js && echo '=== DONE ==='"
 
 [build.environment]
   NODE_VERSION = "18"
