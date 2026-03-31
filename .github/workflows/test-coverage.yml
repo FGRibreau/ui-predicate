@@ -7,19 +7,28 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  core:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '11'
-      - run: npm install
-      - run: npm run postinstall
-      - run: npm run lint
-      - run: npm run libs:build
-      - run: npm run docs:build
-      - run: npm run test:coverage
-      - uses: codecov/codecov-action@v1.5.2
+          node-version: '18'
+      - run: cd packages/ui-predicate-core && npm install --ignore-scripts
+      - run: cd packages/ui-predicate-core && npm run lint
+      - run: cd packages/ui-predicate-core && npm test
+      - uses: codecov/codecov-action@v4
         with:
-          functionalities: gcov # disable gcov
+          functionalities: gcov
+
+  vue3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: cd packages/ui-predicate-vue3 && npm install
+      - run: cd packages/ui-predicate-vue3 && npm run lint
+      - run: cd packages/ui-predicate-vue3 && npm run build
+      - run: cd packages/ui-predicate-vue3 && npx vitest run

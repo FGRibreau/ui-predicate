@@ -59,10 +59,14 @@ export default defineConfig(({ command, mode }) => {
           fileName: (format) => `ui-predicate-vue3.${format}.js`,
         },
         rollupOptions: {
-          external: ['vue'],
+          external: ['vue', 'lodash', 'ui-predicate-core', 'events'],
           output: {
+            exports: 'named',
             globals: {
-              vue: 'Vue'
+              vue: 'Vue',
+              lodash: '_',
+              'ui-predicate-core': 'UIPredicateCore',
+              events: 'Events'
             }
           }
         }

@@ -142,7 +142,7 @@ export const DEFAULT_CONFIG = {
             // Watch for external prop changes and update local refs
             watch(
               () => props.value,
-              (newValue) => {
+              newValue => {
                 if (Array.isArray(newValue)) {
                   start.value = newValue[0] || "";
                   end.value = newValue[1] || "";
@@ -242,16 +242,16 @@ function getHTML5InputVueComponent(type) {
       },
       emits: ["change"],
       setup(props, { emit }) {
-        const onChange = (event) => {
+        const onChange = event => {
           emit("change", event.target.value);
         };
 
         return () =>
           h("div", [
             h("input", {
-              type: type,
+              type,
               value: props.value,
-              onChange: onChange,
+              onChange,
             }),
           ]);
       },

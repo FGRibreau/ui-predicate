@@ -1,13 +1,13 @@
 /* eslint no-console: "off"*/
-import UIPredicateCore, { UIPredicate } from '../src/';
+import UIPredicateCore from '../src/';
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 import { DEFAULT_CONFIG, DATASETS } from './__fixtures__';
 
 describe('<ui-predicate/>', () => {
   describe('minimal-configuration', () => {
-    it('works', async () => {
+    it('works', () => {
       const wrapper = mount({
         template: '<ui-predicate />',
       }, {

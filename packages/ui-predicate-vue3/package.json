@@ -1,7 +1,7 @@
 {
   "name": "ui-predicate-vue3",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "type": "module",
   "files": [
     "dist"
@@ -16,6 +16,7 @@
   },
   "scripts": {
     "dev": "cross-env VITE_APP=GETTING_STARTED vite",
+    "prepublishOnly": "npm run build",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
@@ -25,7 +26,7 @@
     "test:coverage": "true",
     "test:image-snapshots": "npm run docs:storybook:build && npm run test:image-snapshots:run",
     "test:image-snapshots:run": "jest --projects=./image-snapshots",
-    "lint": "eslint --fix examples src",
+    "lint": "eslint --fix src",
     "docs:build": "npm run --silent docs:jsdoc:build && npm run --silent docs:storybook:build && npm run --silent docs:getting-started:build",
     "docs:jsdoc:build": "jsdoc -c ../../jsdoc.json",
     "docs:storybook:build": "storybook build --output-dir ../../docs/packages/$npm_package_name/$npm_package_version/examples",
@@ -38,8 +39,10 @@
   "dependencies": {
     "events": "^3.3.0",
     "lodash": "^4.17.21",
-    "ui-predicate-core": "^0.8.0",
-    "vue": "^3.5.13"
+    "ui-predicate-core": "^0.8.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",

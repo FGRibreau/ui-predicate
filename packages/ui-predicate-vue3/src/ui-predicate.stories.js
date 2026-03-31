@@ -28,7 +28,7 @@ export default {
   }
 };
 
-const Template = (args) => ({
+const Template = args => ({
   template: '<ui-predicate :columns="columns" v-model="data" />',
   setup() {
     return { ...args };
@@ -42,7 +42,7 @@ const Template = (args) => ({
 export const MinimalConfiguration = Template.bind({});
 
 export const Events = {
-  render: (args) => ({
+  render: args => ({
     setup() {
       return { ...args };
     },
@@ -76,7 +76,7 @@ const UI_OVERRIDES = {
  */
 
 export const CustomizeDefaultUIComponents = {
-  render: (args) => ({
+  render: args => ({
     setup() {
       return { ...args };
     },
@@ -146,7 +146,7 @@ export const CustomizeDefaultUIComponents = {
  */
 
 export const CustomizeCSS = {
-  render: (args) => ({
+  render: args => ({
     setup() {
       return { ...args };
     },
